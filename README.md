@@ -1,6 +1,6 @@
 # InstaTouch
 
-![npm](https://img.shields.io/npm/v/instascrapebuddy.svg?style=for-the-badge) ![NPM](https://img.shields.io/npm/l/instascrapebuddy.svg?style=for-the-badge)
+!![NPM](https://img.shields.io/npm/l/instatouch.svg?style=for-the-badge) ![npm](https://img.shields.io/npm/v/instatouch.svg?style=for-the-badge)
 
 Scrape instagram media posts from the username, hashtag or location pages.
 ##### No login or password are required.
