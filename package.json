@@ -1,5 +1,5 @@
 {
-  "name": "instascrapebuddy",
+  "name": "instatouch",
   "version": "1.0.0",
   "description": "Scrape instagram posts from Username, Hashtag or Location pages. Download media and save them to a ZIP archive. Create JSON/CSV files with a post information. No login required",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/drawrowfly/instaScrapeBuddy.git"
+    "url": "git+ssh://git@github.com/drawrowfly/instaTouch.git"
   },
   "keywords": [
     "instagram",
@@ -21,9 +21,9 @@
   "author": "drawRowFly",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/drawrowfly/instaScrapeBuddy/issues"
+    "url": "https://github.com/drawrowfly/instaTouch/issues"
   },
-  "homepage": "https://github.com/drawrowfly/instaScrapeBuddy#readme",
+  "homepage": "https://github.com/drawrowfly/instaTouch#readme",
   "dependencies": {
     "archiver": "^3.0.0",
     "json2csv": "^4.3.5",
