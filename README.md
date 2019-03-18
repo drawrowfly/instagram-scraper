@@ -28,7 +28,7 @@ instatouch requires [Node.js](https://nodejs.org/) v8.6.0+ to run.
 Install from NPM.
 
 ```sh
-npm install -g instamancer
+npm install -g instatouch
 ```
 
 ## USAGE
