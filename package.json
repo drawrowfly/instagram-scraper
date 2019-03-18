@@ -1,0 +1,33 @@
+{
+  "name": "instascrapebuddy",
+  "version": "1.0.0",
+  "description": "Scrape instagram posts from Username, Hashtag or Location pages. Download media and save them to a ZIP archive. Create JSON/CSV files with a post information. No login required",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/drawrowfly/instaScrapeBuddy.git"
+  },
+  "keywords": [
+    "instagram",
+    "instagram scraping",
+    "instagram api",
+    "data mining",
+    "scraping",
+    "collecting"
+  ],
+  "author": "drawRowFly",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/drawrowfly/instaScrapeBuddy/issues"
+  },
+  "homepage": "https://github.com/drawrowfly/instaScrapeBuddy#readme",
+  "dependencies": {
+    "archiver": "^3.0.0",
+    "json2csv": "^4.3.5",
+    "request-promise": "^4.2.4",
+    "yargs": "^13.2.2"
+  }
+}
