@@ -1,8 +1,9 @@
+#!/usr/bin/env node
 `use strict`
 
 const os = require('os');
 
-const instagramScrape = require('./src/instance')
+const instagramScrape = require('../lib/instance')
 
 const startScraper = (argv) => {
     argv.scrapeType = argv._[0];
