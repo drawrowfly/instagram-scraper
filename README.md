@@ -23,7 +23,7 @@ Scrape instagram media posts from the username, hashtag or location pages.
   - Thumbnail url
 
 ## Installation
-InstaScrapeBuddy requires [Node.js](https://nodejs.org/) v8.6.0+ to run.
+instatouch requires [Node.js](https://nodejs.org/) v8.6.0+ to run.
 
 Install from NPM.
 
@@ -33,12 +33,12 @@ npm install -g instamancer
 
 ## USAGE
 ```sh
-$ node instascrapebuddy --help
+$ node instatouch --help
 
 Commands:
-  instascrapebuddy user [id]      scrape posts from username
-  instascrapebuddy hashtag [id]   scrape posts from hashtag
-  instascrapebuddy location [id]  scrape posts from location
+  instatouch user [id]      scrape posts from username
+  instatouch hashtag [id]   scrape posts from hashtag
+  instatouch location [id]  scrape posts from location
 
 Options:
   --help                  Show help                                    [boolean]
@@ -59,7 +59,7 @@ Options:
 #### Example 1:
 Scrape 50 video posts from hashtag summer. Save post info in to a JSON file (by default) 
 ```sh
-$ instascrapebuddy hashtag summer --count 50 --mediaType video  
+$ instatouch hashtag summer --count 50 --mediaType video  
 
 Output:
 JSON path: /Users/boddy/Downloads/summer_1552945544582.json
@@ -68,7 +68,7 @@ JSON path: /Users/boddy/Downloads/summer_1552945544582.json
 #### Example 2:
 Scrape 100 posts from user natgeo, download and save them to a ZIP archive. Save post info in to a JSON and CSV files (--filetype both)
 ```
-instascrapebuddy user natgeo --count 100 --download true --filetype both
+instatouch user natgeo --count 100 --download true --filetype both
 
 Output:
 ZIP path: /Users/boddy/Downloads/natgeo_1552945659138.zip
@@ -79,7 +79,7 @@ CSV path: /Users/boddy/Downloads/natgeo_1552945659138.csv
 #### Example 3:
 Scrape 50 posts from user natgeo, download and save them to a ZIP archive. Save post info in to a JSON and CSV files (--filetype both). Save all files to a custom path (--filepath /custom/path/to/save/files)
 ```
-instascrapebuddy user natgeo --count 50 --download true --filetype both --filepath /custom/path/to/save/files
+instatouch user natgeo --count 50 --download true --filetype both --filepath /custom/path/to/save/files
 
 Output:
 ZIP path: /custom/path/to/save/files/natgeo_1552945659138.zip
