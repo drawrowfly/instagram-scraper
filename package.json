@@ -27,6 +27,7 @@
   "dependencies": {
     "archiver": "^3.0.0",
     "json2csv": "^4.3.5",
+    "request": "^2.88.0",
     "request-promise": "^4.2.4",
     "yargs": "^13.2.2"
   }
