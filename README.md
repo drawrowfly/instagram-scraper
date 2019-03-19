@@ -25,17 +25,21 @@ Scrape instagram media posts from username, hashtag or location pages.
 ## Installation
 instatouch requires [Node.js](https://nodejs.org/) v8.6.0+ to run.
 
-Install from NPM.
-
+Install from NPM
 ```sh
-npm install -g instatouch
+$npm install -g instatouch
+```
+
+Install from YARN
+```sh
+$ yarn global add instatouch
 ```
 
 ## USAGE
 
 ### Terminal
 ```sh
-$instatouch --help
+$ instatouch --help
 
 Commands:
   instatouch user [id]      scrape posts from username
