@@ -27,7 +27,7 @@ instatouch requires [Node.js](https://nodejs.org/) v8.6.0+ to run.
 
 Install from NPM
 ```sh
-$npm install -g instatouch
+$ npm i -g instatouch
 ```
 
 Install from YARN
