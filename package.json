@@ -2,8 +2,9 @@
   "name": "instatouch",
   "version": "1.0.6",
   "description": "Scrape instagram posts from Username, Hashtag or Location pages. Download media and save them to a ZIP archive. Create JSON/CSV files with a post information. No login required",
+  "main": "index.js",
   "bin": {
-    "instatouch": "bin/index.js"
+    "instatouch": "bin/cli.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

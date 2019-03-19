@@ -2,7 +2,7 @@
 
 ![NPM](https://img.shields.io/npm/l/instatouch.svg?style=for-the-badge) ![npm](https://img.shields.io/npm/v/instatouch.svg?style=for-the-badge)
 
-Scrape instagram media posts from the username, hashtag or location pages.
+Scrape instagram media posts from username, hashtag or location pages.
 ##### No login or password are required.
 ##### This is not an official API support and etc. This is just a scraper that is using instagram web api to scrape media 
 
