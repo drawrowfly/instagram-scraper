@@ -32,6 +32,8 @@ npm install -g instatouch
 ```
 
 ## USAGE
+
+### Terminal
 ```sh
 $ node instatouch --help
 
@@ -85,6 +87,49 @@ Output:
 ZIP path: /custom/path/to/save/files/natgeo_1552945659138.zip
 JSON path: /custom/path/to/save/files/natgeo_1552945659138.json
 CSV path: /custom/path/to/save/files/natgeo_1552945659138.csv
+```
+
+### Module
+```
+const instaTouch = require('instatouch');
+
+let options = {
+    count: 5,
+    download: true,
+    mediaType: "all",
+    filetype: "both"
+};
+
+(async () => {
+    let hashtag;
+    try{
+        hashtag = await instaTouch.hashtag("natgeo", options);
+        //location = await instaTouch.location(123231, options);
+        //user = await instaTouch.user("natgeo", options);
+    } catch(error){
+        console.log(error.message)
+    }
+    console.log(hashtag)
+})()
+```
+Result will contain a bunch of data
+```
+instaTouch {
+    _url: 'https://www.instagram.com/explore/tags/natgeo/',
+    _download: true,
+    _filepath: '/Users/jackass/Downloads',
+    _filename: 'natgeo',
+    _filetype: 'both',
+    _id: 'natgeo',
+    _scrapeType: 'hashtag',
+    _collector:[]
+    count: 15568853,
+    //Files are below
+    zip: '/Users/jackass/Downloads/natgeo_1552963581094.zip',
+    json: '/Users/jackass/Downloads/natgeo_1552963581094.json',
+    csv: '/Users/jackass/Downloads/natgeo_1552963581094.csv' 
+    ...
+}
 ```
 
 License

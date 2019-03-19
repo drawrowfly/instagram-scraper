@@ -2,7 +2,7 @@
 
 const os = require('os');
 
-const instagramScrape = require('./lib/instance');
+const instaTouch = require('./lib/instance');
 
 let INIT_OPTIONS = {
     id: "",
@@ -16,67 +16,93 @@ let INIT_OPTIONS = {
 };
 
 const startScraper = ( options ) => {
-    if (!options.filepath)
-        options.filepath = INIT_OPTIONS.filepath;
+    return new Promise( async (resolve, reject) => {
+        let magic;
+        if (!options.filepath)
+            options.filepath = INIT_OPTIONS.filepath;
 
-    if (!options.filetype)
-        options.filetype = INIT_OPTIONS.filetype;
+        if (!options.filetype)
+            options.filetype = INIT_OPTIONS.filetype;
 
-    if (!options.mediaType)
-        options.mediaType = INIT_OPTIONS.mediaType;
+        if (!options.mediaType)
+            options.mediaType = INIT_OPTIONS.mediaType;
 
-    if (!options.filename)
-        options.filename = INIT_OPTIONS.filename;
+        if (!options.filename)
+            options.filename = INIT_OPTIONS.filename;
 
-    let instaGrab = instagramScrape(options)
+        let instaGrab = instaTouch(options)
 
-    instaGrab.getPosts()
-    .then(that =>{
-        if (that._download)
-            console.log(`ZIP path: ${that._filepath}/${that._filename}_${that._date}.zip`);
+        try{
+            magic = await instaGrab.getPosts()
+        } catch(error){
+            return reject(error);
+        }
 
-        switch(that._filetype){
+        if (magic._download)
+            magic.zip = `${magic._filepath}/${magic._filename}_${magic._date}.zip`;
+
+        switch(magic._filetype){
             case 'json':
-                console.log(`JSON path: ${that._filepath}/${that._filename}_${that._date}.json`);
+                magic.json = `${magic._filepath}/${magic._filename}_${magic._date}.json`;
                 break;
             case 'csv':
-                console.log(`CSV path: ${that._filepath}/${that._filename}_${that._date}.csv`);
+                magic.csv = `${magic._filepath}/${magic._filename}_${magic._date}.csv`;
                 break;
             default:
-                console.log(`JSON path: ${that._filepath}/${that._filename}_${that._date}.json`);
-                console.log(`CSV path: ${that._filepath}/${that._filename}_${that._date}.csv`);
+                magic.json = `${magic._filepath}/${magic._filename}_${magic._date}.json`;
+                magic.csv = `${magic._filepath}/${magic._filename}_${magic._date}.csv`;
                 break;
         }
-    })
-    .catch(error =>{
-        console.log(error.message);
+        return resolve(magic);
     })
 }
 
 exports.hashtag = ( id, options = INIT_OPTIONS ) => {
-    if (typeof(options) !== 'object' )
-        throw new Error("Object is expected")
-    options.scrapeType = "hashtag";
-    options.id = id;
+    return new Promise( async (resolve, reject) => {
+        if (typeof(options) !== 'object' )
+            throw new Error("Object is expected");
 
-    startScraper(options)
+        options.scrapeType = "hashtag";
+        options.id = id;
+
+        try{
+            return resolve(await startScraper(options))
+        }catch(error){
+            return reject(error);
+        }
+
+    })
 }
 
 exports.location = ( id, options = INIT_OPTIONS ) => {
-    if (typeof(options) !== 'object' )
-        throw new Error("Object is expected")
-    options.scrapeType = "location";
-    options.id = id;
+    return new Promise( async(resolve, reject) => {
+        if (typeof(options) !== 'object' )
+            throw new Error("Object is expected");
 
-    startScraper(options)
+        options.scrapeType = "location";
+        options.id = id;
+
+        try{
+            return resolve(await startScraper(options));
+        }catch(error){
+            return reject(error);
+        }
+    })
 }
 
 exports.user = ( id, options = INIT_OPTIONS ) => {
-    if (typeof(options) !== 'object' )
-        throw new Error("Object is expected")
-    options.scrapeType = "user";
-    options.id = id;
+    return new Promise( async (resolve, reject) => {
+        if (typeof(options) !== 'object' )
+            throw new Error("Object is expected");
 
-    startScraper(options)
+        options.scrapeType = "user";
+        options.id = id;
+
+        try{
+            return resolve(await startScraper(options));
+        }catch(error){
+            return reject(error);
+        }
+    })
 }
 
