@@ -35,7 +35,7 @@ npm install -g instatouch
 
 ### Terminal
 ```sh
-$ node instatouch --help
+$instatouch --help
 
 Commands:
   instatouch user [id]      scrape posts from username
@@ -155,7 +155,7 @@ instaTouch {
     _filetype: 'both',
     _id: 'natgeo',
     _scrapeType: 'hashtag',
-    _collector:[]
+    _collector:[ARRAY_OF_ALL_POSTS]
     count: 15568853,
     //Files are below
     zip: '/Users/jackass/Downloads/natgeo_1552963581094.zip',
