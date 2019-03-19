@@ -90,6 +90,7 @@ CSV path: /custom/path/to/save/files/natgeo_1552945659138.csv
 ```
 
 ### Module
+
 ```
 const instaTouch = require('instatouch');
 
@@ -104,15 +105,47 @@ let options = {
     let hashtag;
     try{
         hashtag = await instaTouch.hashtag("natgeo", options);
-        //location = await instaTouch.location(123231, options);
-        //user = await instaTouch.user("natgeo", options);
     } catch(error){
         console.log(error.message)
     }
     console.log(hashtag)
 })()
 ```
-Result will contain a bunch of data
+
+#### Functions
+```
+instaTouch.user(id, options) //Scrape user posts
+instaTouch.hashtag(id, options) //Scrape hashtag posts
+instaTouch.location(id, options) //Scrape location posts
+```
+
+#### options
+```
+let options = {
+    //Number of posts to scrape: int default: 0
+    count: 0,
+
+    //Download posts or not: boolean default: false. If true ZIP archive in [filepath] will be created
+    download: false,
+
+    //Media type to scrape: ["image", "video", "all"] default: "all"
+    mediaType: "all",
+
+    //Set proxy, example: 127.0.0.1:8080 default: ""
+    proxy: "",
+
+    //File name that will be used to save data to, default: "[id]"
+    filename: "[id]",
+
+    //File path where all files will be saved, default: USER_HOME_DIR/Downloads
+    filepath: `USER_HOME_DIR/Downloads`,
+
+    //File types to save post data to: ["json", "csv", "both"] default: "json"
+    filetype: "json",
+};
+```
+
+#### Result will contain a bunch of data
 ```
 instaTouch {
     _url: 'https://www.instagram.com/explore/tags/natgeo/',
