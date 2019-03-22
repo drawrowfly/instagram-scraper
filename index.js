@@ -8,6 +8,7 @@ let INIT_OPTIONS = {
     id: "",
     count: 0,
     download: false,
+    asyncDownload: 5,
     mediaType: "all",
     proxy: "",
     filename: "[id]",
@@ -29,6 +30,9 @@ const startScraper = ( options ) => {
 
         if (!options.filename)
             options.filename = INIT_OPTIONS.filename;
+
+        if (!options.asyncDownload)
+            options.asyncDownload = INIT_OPTIONS.asyncDownload;
 
         let instaGrab = instaTouch(options)
 

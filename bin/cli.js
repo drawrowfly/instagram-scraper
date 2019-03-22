@@ -77,6 +77,10 @@ require('yargs')
             default: false,
             describe: "Download and archive all scraped posts to a ZIP file"
         },
+        'asyncDownload': {
+            default: 5,
+            describe: "How many posts should be downloaded at the same time"
+        },
         'filename':{
             alias: ["file", "f"],
             default: "[id]",

@@ -29,6 +29,7 @@
   "homepage": "https://github.com/drawrowfly/instaTouch#readme",
   "dependencies": {
     "archiver": "^3.0.0",
+    "async": "^2.6.2",
     "json2csv": "^4.3.5",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",

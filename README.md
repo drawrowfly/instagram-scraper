@@ -55,6 +55,8 @@ Options:
   --proxy, -p             Set proxy                                [default: ""]
   --download              Download and archive all scraped posts to a ZIP file
                                                       [boolean] [default: false]
+  --asyncDownload         How many posts should be downloaded at the same time
+                                                                    [default: 5]
   --filename, --file, -f  Name of the output file              [default: "[id]"]
   --filepath              Directory to save file
                                            [default: "/Users/jackass/Downloads"]
@@ -131,6 +133,9 @@ let options = {
 
     //Download posts or not: boolean default: false. If true ZIP archive in [filepath] will be created
     download: false,
+
+    //How many post should be downloaded asynchronously
+    asyncDownload: 5,
 
     //Media type to scrape: ["image", "video", "all"] default: "all"
     mediaType: "all",
