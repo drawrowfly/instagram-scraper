@@ -1,4 +1,7 @@
 # InstaTouch
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/90a681f45f36488cac33970ab024d84c)](https://app.codacy.com/app/drawrowfly/instaTouch?utm_source=github.com&utm_medium=referral&utm_content=drawrowfly/instaTouch&utm_campaign=Badge_Grade_Dashboard)
+
  
 ![NPM](https://img.shields.io/npm/l/instatouch.svg?style=for-the-badge) ![npm](https://img.shields.io/npm/v/instatouch.svg?style=for-the-badge)
 
