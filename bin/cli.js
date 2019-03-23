@@ -3,13 +3,13 @@
 
 const os = require("os");
 
-const instagramScrape = require("../lib/instance")
+const instagramScrape = require("../lib/instance");
 
 const startScraper = (argv) => {
     argv.scrapeType = argv._[0];
     let instaGrab = instagramScrape(argv);
     instaGrab.getPosts()
-    .then(that =>{
+    .then((that) =>{
         if (that._download){
             console.log(`ZIP path: ${that._filepath}/${that._filename}_${that._date}.zip`);
         }
@@ -27,7 +27,7 @@ const startScraper = (argv) => {
                 break;
         }
     })
-    .catch(error =>{
+    .catch((error) =>{
         console.log(error.message);
     })
 }
@@ -38,7 +38,7 @@ require("yargs")
         "scrape posts from username", 
         {}, 
         (argv) => {
-            startScraper(argv)
+            startScraper(argv);
         }
     )
     .command(
@@ -46,7 +46,7 @@ require("yargs")
         "scrape posts from hashtag", 
         {}, 
         (argv) => {
-            startScraper(argv)
+            startScraper(argv);
         }
     )
     .command(
@@ -54,7 +54,7 @@ require("yargs")
         "scrape posts from location", 
         {}, 
         (argv) => {
-            startScraper(argv)
+            startScraper(argv);
         }
     )
     .options({
@@ -95,7 +95,7 @@ require("yargs")
             alias: ["type", "t"],
             default: "json",
             choices: ["csv", "json", "both"],
-            describe: "Type of output file ",
+            describe: "Type of output file",
         },
     })
     .argv
