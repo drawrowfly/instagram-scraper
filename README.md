@@ -22,6 +22,9 @@ No login or password are required. This is not an official API support and etc. 
 *   Direct url to a media(jpeg, mp4)
 *   Thumbnail url
 
+**Possible errors from instagram API**
+*   Rate Limit - Instagram API temporarily blocked your IP, you can wait a little or try to use a proxy
+
 ## Installation
 instatouch requires [Node.js](https://nodejs.org/) v8.6.0+ to run.
 
