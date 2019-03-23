@@ -3,27 +3,28 @@
  
 ![NPM](https://img.shields.io/npm/l/instatouch.svg?style=for-the-badge) ![npm](https://img.shields.io/npm/v/instatouch.svg?style=for-the-badge) ![Codacy grade](https://img.shields.io/codacy/grade/037f8049f7e048a2b03a95fda8863f39.svg?style=for-the-badge)
 
-# Scrape instagram media posts from username, hashtag or location pages.
+**Scrape instagram media posts from username, hashtag or location pages**
 
-## No login or password are required
+***No login or password are required***
 
-## This is not an official API support and etc. This is just a scraper that is using instagram web api to scrape media
+***This is not an official API support and etc. This is just a scraper that is using instagram web api to scrape media***
 
 ## Features
- -  Scrape media posts from username, hashtag or location
- -  Download and save media to a ZIP archive
- -  Create JSON/CSV files with a post information
 
-## JSON/CSV output:
-   -  Media ID
-   -  Post owner ID
-   -  Post owner Username
-   -  Post shortcode
-   -  Is video or not
-   -  Taken at timestamp
-   -  Like, Comment, View counters
-   -  Direct url to a media(jpeg, mp4)
-   -  Thumbnail url
+ - Scrape media posts from username, hashtag or location
+ - Download and save media to a ZIP archive
+ - Create JSON/CSV files with a post information
+
+**JSON/CSV output:**
+ - Media ID
+ - Post owner ID
+ - Post owner Username
+ - Post shortcode
+ - Is video or not
+ - Taken at timestamp
+ - Like, Comment, View counters
+ - Direct url to a media(jpeg, mp4)
+ - Thumbnail url
 
 ## Installation
 instatouch requires [Node.js](https://nodejs.org/) v8.6.0+ to run.
