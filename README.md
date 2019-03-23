@@ -4,7 +4,7 @@
 ![NPM](https://img.shields.io/npm/l/instatouch.svg?style=for-the-badge) ![npm](https://img.shields.io/npm/v/instatouch.svg?style=for-the-badge) ![Codacy grade](https://img.shields.io/codacy/grade/037f8049f7e048a2b03a95fda8863f39.svg?style=for-the-badge)
 
 Scrape instagram media posts from username, hashtag or location pages.
- No login or password are required. This is not an official API support and etc. This is just a scraper that is using instagram web api to scrape media
+No login or password are required. This is not an official API support and etc. This is just a scraper that is using instagram web api to scrape media
 
 ## Features
 * Scrape media posts from username, hashtag or location
@@ -12,12 +12,12 @@ Scrape instagram media posts from username, hashtag or location pages.
 * Create JSON/CSV files with a post information
 
 **JSON/CSV output:**
-* Media ID
-* Post owner ID
-* Post owner Username
-* Post shortcode
-* Is video or not
-* Taken at timestamp
+*   Media ID
+*   Post owner ID
+*   Post owner Username
+*   Post shortcode
+*   Is video or not
+*   Taken at timestamp
 * Like, Comment, View counters
 * Direct url to a media(jpeg, mp4)
 * Thumbnail url
