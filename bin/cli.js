@@ -1,23 +1,24 @@
 #!/usr/bin/env node
 `use strict`
 
-const os = require('os');
+const os = require("os");
 
-const instagramScrape = require('../lib/instance')
+const instagramScrape = require("../lib/instance")
 
 const startScraper = (argv) => {
     argv.scrapeType = argv._[0];
-    let instaGrab = instagramScrape(argv)
+    let instaGrab = instagramScrape(argv);
     instaGrab.getPosts()
     .then(that =>{
-        if (that._download)
+        if (that._download){
             console.log(`ZIP path: ${that._filepath}/${that._filename}_${that._date}.zip`);
+        }
 
         switch(that._filetype){
-            case 'json':
+            case "json":
                 console.log(`JSON path: ${that._filepath}/${that._filename}_${that._date}.json`);
                 break;
-            case 'csv':
+            case "csv":
                 console.log(`CSV path: ${that._filepath}/${that._filename}_${that._date}.csv`);
                 break;
             default:
@@ -31,66 +32,66 @@ const startScraper = (argv) => {
     })
 }
 
-require('yargs')
+require("yargs")
     .command(
-        'user [id]', 
-        'scrape posts from username', 
+        "user [id]", 
+        "scrape posts from username", 
         {}, 
         (argv) => {
             startScraper(argv)
         }
     )
     .command(
-        'hashtag [id]', 
-        'scrape posts from hashtag', 
+        "hashtag [id]", 
+        "scrape posts from hashtag", 
         {}, 
         (argv) => {
             startScraper(argv)
         }
     )
     .command(
-        'location [id]', 
-        'scrape posts from location', 
+        "location [id]", 
+        "scrape posts from location", 
         {}, 
         (argv) => {
             startScraper(argv)
         }
     )
     .options({
-        'count': {
+        "count": {
             alias: "c",
             default: 0,
             describe: "Number of post to scrape"
         },
-        'mediaType': {
+        "mediaType": {
             default: "all",
             choices: ["image", "video", "all"],
             describe: "Media type to scrape"
         },
-        'proxy': {
+        "proxy": {
             alias: "p",
-            default: '',
+            default: "",
             describe: "Set proxy"
         },
-        'download': {
+        "download": {
             boolean: true,
             default: false,
             describe: "Download and archive all scraped posts to a ZIP file"
         },
-        'asyncDownload': {
+        "asyncDownload": {
             default: 5,
             describe: "How many posts should be downloaded at the same time"
         },
-        'filename':{
+        "filename":{
             alias: ["file", "f"],
             default: "[id]",
             describe: "Name of the output file",
         },
-        'filepath':{
+        "filepath":{
             default: `${os.homedir()}/Downloads`,
             describe: "Directory to save file",
         },
-        'filetype': {
+        "filetype": {
             alias: ["type", "t"],
             default: "json",
             choices: ["csv", "json", "both"],

@@ -3,24 +3,24 @@
 ![NPM](https://img.shields.io/npm/l/instatouch.svg?style=for-the-badge) ![npm](https://img.shields.io/npm/v/instatouch.svg?style=for-the-badge)
 
 Scrape instagram media posts from username, hashtag or location pages.
-##### No login or password are required.
-##### This is not an official API support and etc. This is just a scraper that is using instagram web api to scrape media 
+**No login or password are required**
+**This is not an official API support and etc. This is just a scraper that is using instagram web api to scrape media**
 
-## Features!
-  - Scrape media posts from username, hashtag or location
-  - Download and save media to a ZIP archive
-  - Create JSON/CSV files with a post information
+## Features
+- Scrape media posts from username, hashtag or location
+- Download and save media to a ZIP archive
+- Create JSON/CSV files with a post information
 
 ## JSON/CSV output:
-  - Media ID
-  - Post owner ID
-  - Post owner Username
-  - Post shortcode
-  - Is video or not
-  - Taken at timestamp
-  - Like, Comment, View counters
-  - Direct url to a media(jpeg, mp4)
-  - Thumbnail url
+- Media ID
+- Post owner ID
+- Post owner Username
+- Post shortcode
+- Is video or not
+- Taken at timestamp
+- Like, Comment, View counters
+- Direct url to a media(jpeg, mp4)
+- Thumbnail url
 
 ## Installation
 instatouch requires [Node.js](https://nodejs.org/) v8.6.0+ to run.
@@ -64,7 +64,7 @@ Options:
                               [choices: "csv", "json", "both"] [default: "json"]
 ```
 
-#### Example 1:
+**Example 1**
 Scrape 50 video posts from hashtag summer. Save post info in to a JSON file (by default) 
 ```sh
 $ instatouch hashtag summer --count 50 --mediaType video  
@@ -73,7 +73,7 @@ Output:
 JSON path: /Users/boddy/Downloads/summer_1552945544582.json
 ```
 
-#### Example 2:
+**Example 2**
 Scrape 100 posts from user natgeo, download and save them to a ZIP archive. Save post info in to a JSON and CSV files (--filetype both)
 ```
 $ instatouch user natgeo --count 100 --download true --filetype both
@@ -84,7 +84,7 @@ JSON path: /Users/boddy/Downloads/natgeo_1552945659138.json
 CSV path: /Users/boddy/Downloads/natgeo_1552945659138.csv
 ```
 
-#### Example 3:
+**Example 3**
 Scrape 50 posts from user natgeo, download and save them to a ZIP archive. Save post info in to a JSON and CSV files (--filetype both). Save all files to a custom path (--filepath /custom/path/to/save/files)
 ```
 $ instatouch user natgeo --count 50 --download true --filetype both --filepath /custom/path/to/save/files
