@@ -103,20 +103,20 @@ CSV path: /custom/path/to/save/files/natgeo_1552945659138.csv
 const instaTouch = require('instatouch');
 
 let options = {
-    count: 5,
+    count: 100,
     download: true,
     mediaType: "all",
     filetype: "both"
 };
 
 (async () => {
-    let hashtag;
+    let user;
     try{
-        hashtag = await instaTouch.hashtag("natgeo", options);
+        user = await instaTouch.user("natgeo", options);
+        console.log(user)
     } catch(error){
-        console.log(error.message)
+        console.log(error)
     }
-    console.log(hashtag)
 })()
 ```
 
