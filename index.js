@@ -104,7 +104,7 @@ exports.location = ( id, options = INIT_OPTIONS ) => {
 
 exports.user = ( id, options = INIT_OPTIONS ) => {
     return new Promise( async (resolve, reject) => {
-        if (typeof(options) !== 'object' ){
+        if (typeof(options) !== "object" ){
             throw new Error("Object is expected");
         }
 
