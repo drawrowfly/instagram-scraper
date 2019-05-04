@@ -11,6 +11,10 @@ No login or password are required. This is not an official API support and etc. 
 *   Download and save media to a ZIP archive
 *   Create JSON/CSV files with a post information
 
+**Note:**
+*   If you need to download all user posts then do not specify count or set it to 0(zero)
+*   location and hashtag should always have count >0
+
 **JSON/CSV output:**
 *   Media ID
 *   Post owner ID
