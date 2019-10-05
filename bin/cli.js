@@ -33,6 +33,7 @@ const startScraper = (argv) => {
 }
 
 require("yargs")
+    .usage('Usage: $0 <command> [options]')
     .command(
         "user [id]", 
         "scrape posts from username", 
@@ -58,12 +59,17 @@ require("yargs")
         }
     )
     .options({
+        "help": {
+            alias: "h",
+            describe: "help"
+        },
         "count": {
             alias: "c",
             default: 0,
             describe: "Number of post to scrape"
         },
         "mediaType": {
+            alias: "m",
             default: "all",
             choices: ["image", "video", "all"],
             describe: "Media type to scrape"
@@ -74,11 +80,13 @@ require("yargs")
             describe: "Set proxy"
         },
         "download": {
+            alias: "d",
             boolean: true,
             default: false,
             describe: "Download and archive all scraped posts to a ZIP file"
         },
         "asyncDownload": {
+            alias: "a",
             default: 2,
             describe: "How many posts should be downloaded at the same time. Try not to set more then 5 "
         },
@@ -103,4 +111,5 @@ require("yargs")
             describe: "Type of output file",
         },
     })
+    .demandCommand()
     .argv
