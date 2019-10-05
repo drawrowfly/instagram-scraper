@@ -65,6 +65,7 @@ Options:
                                                       [boolean] [default: false]
   --asyncDownload         How many posts should be downloaded at the same time
                                                                     [default: 5]
+  --progress              Show progress in terminal    [boolean] [default: true]
   --filename, --file, -f  Name of the output file              [default: "[id]"]
   --filepath              Directory to save file
                                            [default: "/Users/jackass/Downloads"]
@@ -105,7 +106,20 @@ ZIP path: /custom/path/to/save/files/natgeo_1552945659138.zip
 JSON path: /custom/path/to/save/files/natgeo_1552945659138.json
 CSV path: /custom/path/to/save/files/natgeo_1552945659138.csv
 ```
-
+**To make it look better, download progress will be shown in terminal**
+```
+Downloading VIDEO B3PmkisgjSx [==============================] 100%
+Downloading PHOTO B3Pmme3ASuY [==============================] 100%
+Downloading PHOTO B3PmmLHjE4s [==============================] 100%
+Downloading VIDEO B3PmiL0HxG3 [==============================] 100%
+Downloading PHOTO B3PmmJFAWVI [==============================] 100%
+Downloading PHOTO B3Pml8PFg3i [==============================] 100%
+Downloading PHOTO B3Pml-hJyvc [==============================] 100%
+Downloading PHOTO B3Pml2lnS0B [==============================] 100%
+Downloading PHOTO B3PmltPiTDi [==============================] 100%
+Downloading PHOTO B3Pml05osiU [==============================] 100%
+Downloading PHOTO B3Pmlmficxo [==============================] 100%
+```
 **Module**
 ```
 const instaTouch = require('instatouch');
