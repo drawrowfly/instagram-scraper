@@ -2,7 +2,7 @@
 "use strict";
 
 const os = require("os");
-
+ 
 const instagramScrape = require("../lib/instance");
 
 const startScraper = (argv) => {
@@ -79,8 +79,13 @@ require("yargs")
             describe: "Download and archive all scraped posts to a ZIP file"
         },
         "asyncDownload": {
-            default: 5,
-            describe: "How many posts should be downloaded at the same time"
+            default: 2,
+            describe: "How many posts should be downloaded at the same time. Try not to set more then 5 "
+        },
+        "progress": {
+            boolean: true,
+            default: true,
+            describe: "Show progress in terminal"
         },
         "filename":{
             alias: ["file", "f"],

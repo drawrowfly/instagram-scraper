@@ -8,12 +8,13 @@ let INIT_OPTIONS = {
     id: "",
     count: 0,
     download: false,
-    asyncDownload: 5,
+    asyncDownload: 2,
     mediaType: "all",
     proxy: "",
     filename: "[id]",
     filepath: `${os.homedir()}/Downloads`,
     filetype: "json",
+    progress: false,
 };
 
 const startScraper = ( options ) => {
@@ -33,7 +34,7 @@ const startScraper = ( options ) => {
 
         if (!options.filename){
             options.filename = INIT_OPTIONS.filename;
-        }
+        } 
 
         if (!options.asyncDownload){
             options.asyncDownload = INIT_OPTIONS.asyncDownload;
@@ -67,11 +68,13 @@ const startScraper = ( options ) => {
     })
 }
 
-exports.hashtag = ( id, options = INIT_OPTIONS ) => {
+exports.hashtag = ( id, options ) => {
     return new Promise( async (resolve, reject) => {
         if (typeof(options) !== 'object' ){
             throw new Error("Object is expected");
         }
+
+        options = Object.assign(INIT_OPTIONS, options)
 
         options.scrapeType = "hashtag";
         options.id = id;
@@ -85,11 +88,13 @@ exports.hashtag = ( id, options = INIT_OPTIONS ) => {
     })
 }
 
-exports.location = ( id, options = INIT_OPTIONS ) => {
+exports.location = ( id, options ) => {
     return new Promise( async(resolve, reject) => {
         if (typeof(options) !== 'object' ){
             throw new Error("Object is expected");
         }
+
+        options = Object.assign(INIT_OPTIONS, options)
 
         options.scrapeType = "location";
         options.id = id;
@@ -102,11 +107,13 @@ exports.location = ( id, options = INIT_OPTIONS ) => {
     })
 }
 
-exports.user = ( id, options = INIT_OPTIONS ) => {
+exports.user = ( id, options ) => {
     return new Promise( async (resolve, reject) => {
         if (typeof(options) !== "object" ){
             throw new Error("Object is expected");
         }
+
+        options = Object.assign(INIT_OPTIONS, options)
 
         options.scrapeType = "user";
         options.id = id;
