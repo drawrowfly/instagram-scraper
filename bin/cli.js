@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-"use strict";
+"use strict"; 
 
 const os = require("os");
  
@@ -7,6 +7,7 @@ const instagramScrape = require("../lib/instance");
 
 const startScraper = (argv) => {
     argv.scrapeType = argv._[0];
+    argv.cli = true;
     let instaGrab = instagramScrape(argv);
     instaGrab.getPosts()
     .then((that) =>{
@@ -87,7 +88,7 @@ require("yargs")
         },
         "asyncDownload": {
             alias: "a",
-            default: 2,
+            default: 5,
             describe: "How many posts should be downloaded at the same time. Try not to set more then 5 "
         },
         "progress": {
