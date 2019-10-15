@@ -1,0 +1,441 @@
+# The configurations that used for the recording, feel free to edit them
+config:
+
+  # Specify a command to be executed
+  # like `/bin/bash -l`, `ls`, or any other commands
+  # the default is bash for Linux
+  # or powershell.exe for Windows
+  command: bash -l
+  
+  # Specify the current working directory path
+  # the default is the current working directory path
+  cwd: /Users/jackass/Documents/lang/NodeJs/instatouch
+  
+  # Export additional ENV variables
+  env:
+    recording: true
+  
+  # Explicitly set the number of columns
+  # or use `auto` to take the current
+  # number of columns of your shell
+  cols: 181
+  
+  # Explicitly set the number of rows
+  # or use `auto` to take the current
+  # number of rows of your shell
+  rows: 54
+  
+  # Amount of times to repeat GIF
+  # If value is -1, play once
+  # If value is 0, loop indefinitely
+  # If value is a positive number, loop n times
+  repeat: 0
+  
+  # Quality
+  # 1 - 100
+  quality: 100
+  
+  # Delay between frames in ms
+  # If the value is `auto` use the actual recording delays
+  frameDelay: auto
+  
+  # Maximum delay between frames in ms
+  # Ignored if the `frameDelay` isn't set to `auto`
+  # Set to `auto` to prevent limiting the max idle time
+  maxIdleTime: 2000
+  
+  # The surrounding frame box
+  # The `type` can be null, window, floating, or solid`
+  # To hide the title use the value null
+  # Don't forget to add a backgroundColor style with a null as type
+  frameBox:
+    type: floating
+    title: Terminalizer
+    style:
+      border: 0px black solid
+      # boxShadow: none
+      # margin: 0px
+  
+  # Add a watermark image to the rendered gif
+  # You need to specify an absolute path for
+  # the image on your machine or a URL, and you can also
+  # add your own CSS styles
+  watermark:
+    imagePath: null
+    style:
+      position: absolute
+      right: 15px
+      bottom: 15px
+      width: 100px
+      opacity: 0.9
+  
+  # Cursor style can be one of
+  # `block`, `underline`, or `bar`
+  cursorStyle: block
+  
+  # Font family
+  # You can use any font that is installed on your machine
+  # in CSS-like syntax
+  fontFamily: "Monaco, Lucida Console, Ubuntu Mono, Monospace"
+  
+  # The size of the font
+  fontSize: 12
+  
+  # The height of lines
+  lineHeight: 1
+  
+  # The spacing between letters
+  letterSpacing: 0
+  
+  # Theme
+  theme:
+    background: "transparent"
+    foreground: "#afafaf"
+    cursor: "#c7c7c7"
+    black: "#232628"
+    red: "#fc4384"
+    green: "#b3e33b"
+    yellow: "#ffa727"
+    blue: "#75dff2"
+    magenta: "#ae89fe"
+    cyan: "#708387"
+    white: "#d5d5d0"
+    brightBlack: "#626566"
+    brightRed: "#ff7fac"
+    brightGreen: "#c8ed71"
+    brightYellow: "#ebdf86"
+    brightBlue: "#75dff2"
+    brightMagenta: "#ae89fe"
+    brightCyan: "#b1c6ca"
+    brightWhite: "#f9f9f4"
+  
+# Records, feel free to edit them
+records:
+  - delay: 565
+    content: "Restored session: Tue Oct 15 23:01:58 CEST 2019\r\n"
+  - delay: 13
+    content: "\e]7;file://JACKASSs-MacBook-Pro.local/Users/jackass/Documents/lang/nodejs/instatouch\a\e[?1034hJACKASSs-MacBook-Pro:instatouch jackass$ "
+  - delay: 417
+    content: i
+  - delay: 208
+    content: 'n'
+  - delay: 168
+    content: s
+  - delay: 224
+    content: t
+  - delay: 176
+    content: a
+  - delay: 144
+    content: t
+  - delay: 48
+    content: o
+  - delay: 192
+    content: u
+  - delay: 120
+    content: c
+  - delay: 104
+    content: h
+  - delay: 272
+    content: "\r\n"
+  - delay: 495
+    content: "Usage: instatouch <command> [options]\r\n\r\nCommands:\r\n  instatouch user [id]      scrape posts from username\r\n  instatouch hashtag [id]   scrape posts from hashtag\r\n  instatouch location [id]  scrape posts from location\r\n\r\nOptions:\r\n  --help, -h              help                                         [boolean]\r\n  --version               Show version number                          [boolean]\r\n  --count, -c             Number of post to scrape                  [default: 0]\r\n  --mediaType, -m         Media type to scrape\r\n                             [choices: \"image\", \"video\", \"all\"] [default: \"all\"]\r\n  --proxy, -p             Set proxy                                [default: \"\"]\r\n  --download, -d          Download and archive all scraped posts to a ZIP file\r\n                                                      [boolean] [default: false]\r\n  --asyncDownload, -a     How many posts should be downloaded at the same time.\r\n                          Try not to set more then 5                [default: 5]\r\n  --progress              Show progress in terminal    [boolean] [default: true]\r\n  --filename, --file, -f  Name of the output file              [default: \"[id]\"]\r\n  --filepath              Directory to save file\r\n                                           [default: \"/Users/jackass/Downloads\"]\r\n  --filetype, --type, -t  Type of output file\r\n                              [choices: \"csv\", \"json\", \"both\"] [default: \"json\"]\r\n\r\nNot enough non-option arguments: got 0, need at least 1\r\n"
+  - delay: 5
+    content: "\e]7;file://JACKASSs-MacBook-Pro.local/Users/jackass/Documents/lang/nodejs/instatouch\aJACKASSs-MacBook-Pro:instatouch jackass$ "
+  - delay: 563
+    content: i
+  - delay: 207
+    content: 'n'
+  - delay: 112
+    content: s
+  - delay: 192
+    content: t
+  - delay: 184
+    content: a
+  - delay: 144
+    content: t
+  - delay: 72
+    content: o
+  - delay: 184
+    content: u
+  - delay: 96
+    content: c
+  - delay: 128
+    content: h
+  - delay: 96
+    content: ' '
+  - delay: 160
+    content: u
+  - delay: 120
+    content: s
+  - delay: 160
+    content: e
+  - delay: 168
+    content: r
+  - delay: 56
+    content: ' '
+  - delay: 128
+    content: i
+  - delay: 208
+    content: 'n'
+  - delay: 112
+    content: s
+  - delay: 200
+    content: t
+  - delay: 176
+    content: a
+  - delay: 192
+    content: g
+  - delay: 168
+    content: r
+  - delay: 144
+    content: a
+  - delay: 280
+    content: m
+  - delay: 280
+    content: ' '
+  - delay: 264
+    content: '-'
+  - delay: 456
+    content: d
+  - delay: 169
+    content: ' '
+  - delay: 727
+    content: '-'
+  - delay: 408
+    content: m
+  - delay: 168
+    content: ' '
+  - delay: 192
+    content: i
+  - delay: 184
+    content: m
+  - delay: 88
+    content: a
+  - delay: 184
+    content: g
+  - delay: 232
+    content: e
+  - delay: 128
+    content: ' '
+  - delay: 200
+    content: '-'
+  - delay: 344
+    content: c
+  - delay: 152
+    content: ' '
+  - delay: 264
+    content: '1'
+  - delay: 400
+    content: "\b\e[K"
+  - delay: 72
+    content: '2'
+  - delay: 968
+    content: '5'
+  - delay: 1496
+    content: "\r\n"
+  - delay: 467
+    content: "\e[?25l\e[36m⠋\e[39m Instagram Scraper Started"
+  - delay: 85
+    content: "\e[2K\e[1G\e[36m⠙\e[39m Instagram Scraper Started"
+  - delay: 78
+    content: "\e[2K\e[1G\e[36m⠹\e[39m Instagram Scraper Started"
+  - delay: 85
+    content: "\e[2K\e[1G\e[36m⠸\e[39m Instagram Scraper Started"
+  - delay: 82
+    content: "\e[2K\e[1G\e[36m⠼\e[39m Instagram Scraper Started"
+  - delay: 85
+    content: "\e[2K\e[1G\e[36m⠴\e[39m Instagram Scraper Started"
+  - delay: 82
+    content: "\e[2K\e[1G\e[36m⠦\e[39m Instagram Scraper Started"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠧\e[39m Instagram Scraper Started"
+  - delay: 85
+    content: "\e[2K\e[1G\e[36m⠇\e[39m Instagram Scraper Started"
+  - delay: 85
+    content: "\e[2K\e[1G\e[36m⠏\e[39m Instagram Scraper Started"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠋\e[39m Instagram Scraper Started"
+  - delay: 85
+    content: "\e[2K\e[1G\e[36m⠙\e[39m Instagram Scraper Started"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠹\e[39m Instagram Scraper Started"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠸\e[39m Instagram Scraper Started"
+  - delay: 79
+    content: "\e[2K\e[1G\e[36m⠼\e[39m Instagram Scraper Started"
+  - delay: 85
+    content: "\e[2K\e[1G\e[36m⠴\e[39m Instagram Scraper Started"
+  - delay: 85
+    content: "\e[2K\e[1G\e[36m⠦\e[39m Instagram Scraper Started"
+  - delay: 82
+    content: "\e[2K\e[1G\e[36m⠧\e[39m Instagram Scraper Started"
+  - delay: 85
+    content: "\e[2K\e[1G\e[36m⠇\e[39m Instagram Scraper Started"
+  - delay: 84
+    content: "\e[2K\e[1G\e[36m⠏\e[39m Instagram Scraper Started"
+  - delay: 85
+    content: "\e[2K\e[1G\e[36m⠋\e[39m Instagram Scraper Started"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠙\e[39m Instagram Scraper Started"
+  - delay: 84
+    content: "\e[2K\e[1G\e[36m⠹\e[39m Instagram Scraper Started"
+  - delay: 86
+    content: "\e[2K\e[1G\e[36m⠸\e[39m Instagram Scraper Started"
+  - delay: 82
+    content: "\e[2K\e[1G\e[36m⠼\e[39m Instagram Scraper Started"
+  - delay: 83
+    content: "\e[2K\e[1G\e[36m⠴\e[39m Instagram Scraper Started"
+  - delay: 85
+    content: "\e[2K\e[1G\e[36m⠦\e[39m Instagram Scraper Started"
+  - delay: 85
+    content: "\e[2K\e[1G\e[36m⠧\e[39m Instagram Scraper Started"
+  - delay: 83
+    content: "\e[2K\e[1G\e[36m⠇\e[39m Instagram Scraper Started"
+  - delay: 84
+    content: "\e[2K\e[1G\e[36m⠏\e[39m Instagram Scraper Started"
+  - delay: 83
+    content: "\e[2K\e[1G\e[36m⠋\e[39m Instagram Scraper Started"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠙\e[39m Instagram Scraper Started"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠹\e[39m Instagram Scraper Started"
+  - delay: 19
+    content: "\e[2K\e[1G\e[?25h"
+  - delay: 97
+    content: "\e[1A\r\n\e[1A\e[1GDownloading PHOTO B3m7bfLBmfZ [                              ] 0%\e[0K"
+  - delay: 7
+    content: "\e[1B\r\n\e[1A\e[1GDownloading PHOTO B3pSGtbg1sl [                              ] 0%\e[0K\e[1A\e[1B"
+  - delay: 7
+    content: "\e[1B\r\n\e[1A\e[1GDownloading PHOTO B3mteptAJWE [                              ] 0%\e[0K"
+  - delay: 5
+    content: "\e[2A\e[1GDownloading PHOTO B3m7bfLBmfZ [========                      ] 26%\e[0K"
+  - delay: 5
+    content: "\e[2B\e[1B\r\n\r\n\e[5A\e[3B\e[1GDownloading PHOTO B3hywPlgdQ_ [                              ] 0%\e[0K\e[1B\e[1GDownloading PHOTO B3kwCXrA8xt [                              ] 0%\e[0K"
+  - delay: 5
+    content: "\e[4A\e[1GDownloading PHOTO B3m7bfLBmfZ [============                  ] 41%\e[0K\e[4B\e[1A\e[3A\e[4B\e[1A\e[3A\e[4B\e[1A\e[1GDownloading PHOTO B3hywPlgdQ_ [=======                       ] 23%\e[0K\e[3A\e[4B\e[1GDownloading PHOTO B3kwCXrA8xt [======                        ] 18%\e[0K\e[1A\e[1B\e[4A\e[1GDownloading PHOTO B3m7bfLBmfZ [================              ] 54%\e[0K\e[1B\e[1GDownloading PHOTO B3pSGtbg1sl [====                          ] 13%\e[0K\e[1A\e[1B\e[1A\e[1B\e[1A\e[1B\e[1A\e[1B\e[1GDownloading PHOTO B3pSGtbg1sl [========                      ] 28%\e[0K"
+  - delay: 8
+    content: "\e[1B\e[1GDownloading PHOTO B3mteptAJWE [===========                   ] 37%\e[0K\e[1A\e[1A\e[1GDownloading PHOTO B3m7bfLBmfZ [========================      ] 78%\e[0K\e[2B"
+  - delay: 12
+    content: "\e[2A\e[1GDownloading PHOTO B3m7bfLBmfZ [==========================    ] 86%\e[0K\e[2B\e[1GDownloading PHOTO B3mteptAJWE [==========================    ] 86%\e[0K\e[2A"
+  - delay: 7
+    content: "\e[1GDownloading PHOTO B3m7bfLBmfZ [==============================] 100%\e[0K"
+  - delay: 19
+    content: "\e[1B\e[1GDownloading PHOTO B3pSGtbg1sl [=============                 ] 42%\e[0K"
+  - delay: 10
+    content: "\e[1B\e[1GDownloading PHOTO B3mteptAJWE [============================  ] 92%\e[0K\e[1GDownloading PHOTO B3mteptAJWE [==============================] 100%\e[0K\e[1A\e[2B\e[1GDownloading PHOTO B3hywPlgdQ_ [==========                    ] 33%\e[0K"
+  - delay: 6
+    content: "\e[1B\e[1GDownloading PHOTO B3kwCXrA8xt [========                      ] 26%\e[0K\e[1A\e[1B\e[3A\e[1GDownloading PHOTO B3pSGtbg1sl [=====================         ] 69%\e[0K\e[2B\e[2A"
+  - delay: 8
+    content: "\e[3B\e[1GDownloading PHOTO B3kwCXrA8xt [=======================       ] 75%\e[0K\e[3A"
+  - delay: 5
+    content: "\e[1GDownloading PHOTO B3pSGtbg1sl [============================  ] 93%\e[0K\e[2B\e[1GDownloading PHOTO B3hywPlgdQ_ [==========================    ] 87%\e[0K\e[1B\e[1A\e[1B\e[1A\e[1GDownloading PHOTO B3hywPlgdQ_ [==============================] 100%\e[0K\e[1B\e[1GDownloading PHOTO B3kwCXrA8xt [===========================   ] 90%\e[0K\e[1GDownloading PHOTO B3kwCXrA8xt [==============================] 100%\e[0K\e[3A\e[1GDownloading PHOTO B3pSGtbg1sl [============================= ] 97%\e[0K"
+  - delay: 5
+    content: "\e[1GDownloading PHOTO B3pSGtbg1sl [==============================] 100%\e[0K\e[4B\e[2K\e[1G"
+  - delay: 34
+    content: "\r\n\e[1A\e[1GDownloading PHOTO B3cPrUCiOlY [                              ] 0%\e[0K"
+  - delay: 6
+    content: "\e[1B\r\n\e[1A\e[1GDownloading PHOTO B3fQDlIAxki [                              ] 0%\e[0K\e[1A\e[1B\e[1A"
+  - delay: 5
+    content: "\e[1GDownloading PHOTO B3cPrUCiOlY [=============                 ] 42%\e[0K"
+  - delay: 6
+    content: "\e[1B\e[1GDownloading PHOTO B3fQDlIAxki [========================      ] 80%\e[0K\e[1A\e[1B\e[1B\r\n\e[1A\e[1GDownloading PHOTO B3Z4FWLBZ_i [                              ] 0%\e[0K\e[2A\e[1B\e[1GDownloading PHOTO B3fQDlIAxki [==============================] 100%\e[0K\e[1B\e[2A\e[1GDownloading PHOTO B3cPrUCiOlY [===================           ] 64%\e[0K\e[2B\e[2A\e[3B\r\n\e[1A\e[1GDownloading PHOTO B3XPst_A98M [                              ] 0%\e[0K\e[1A\e[1GDownloading PHOTO B3Z4FWLBZ_i [======                        ] 19%\e[0K\e[1B\e[3A\e[4B\r\n\e[2A\e[1B\e[1GDownloading PHOTO B3Xh0_9B9Et [                              ] 0%\e[0K\e[4A\e[1GDownloading PHOTO B3cPrUCiOlY [==========================    ] 85%\e[0K\e[4B\e[4A\e[4B\e[4A\e[4B\e[4A\e[1GDownloading PHOTO B3cPrUCiOlY [==============================] 100%\e[0K"
+  - delay: 7
+    content: "\e[2B\e[1GDownloading PHOTO B3Z4FWLBZ_i [=======                       ] 22%\e[0K"
+  - delay: 5
+    content: "\e[1B\e[1GDownloading PHOTO B3XPst_A98M [=======                       ] 23%\e[0K\e[1A\e[1B\e[1A\e[1B\e[1A\e[1B"
+  - delay: 7
+    content: "\e[1B\e[1GDownloading PHOTO B3Xh0_9B9Et [==========                    ] 33%\e[0K\e[1A\e[1GDownloading PHOTO B3XPst_A98M [===============               ] 51%\e[0K\e[1B"
+  - delay: 11
+    content: "\e[2A\e[1GDownloading PHOTO B3Z4FWLBZ_i [===================           ] 63%\e[0K\e[2B\e[1GDownloading PHOTO B3Xh0_9B9Et [=========================     ] 84%\e[0K\e[2A\e[1B\e[1GDownloading PHOTO B3XPst_A98M [=================             ] 55%\e[0K\e[1A"
+  - delay: 5
+    content: "\e[1B\e[1A\e[1B\e[1A\e[1GDownloading PHOTO B3Z4FWLBZ_i [============================= ] 96%\e[0K\e[1GDownloading PHOTO B3Z4FWLBZ_i [==============================] 100%\e[0K\e[1B\e[1GDownloading PHOTO B3XPst_A98M [=======================       ] 75%\e[0K\e[1B\e[1GDownloading PHOTO B3Xh0_9B9Et [===========================   ] 89%\e[0K\e[1A\e[1B\e[1A\e[1B\e[1GDownloading PHOTO B3Xh0_9B9Et [==============================] 100%\e[0K\e[1A\e[1GDownloading PHOTO B3XPst_A98M [==============================] 100%\e[0K\e[2B\e[2K\e[1G"
+  - delay: 24
+    content: "\r\n\e[1A\e[1GDownloading PHOTO B3SBgNhgUMB [                              ] 0%\e[0K"
+  - delay: 7
+    content: "\e[1B\r\n\e[1A\e[1GDownloading PHOTO B3UnUPWgYWz [                              ] 0%\e[0K\e[1A\e[1B\e[1A\e[1GDownloading PHOTO B3SBgNhgUMB [============                  ] 40%\e[0K\e[1B\e[1A\e[1B\e[1GDownloading PHOTO B3UnUPWgYWz [=======                       ] 24%\e[0K\e[1A\e[1B\e[1A\e[1B\e[1A\e[1GDownloading PHOTO B3SBgNhgUMB [====================          ] 67%\e[0K"
+  - delay: 5
+    content: "\e[1B\e[1A\e[1B\e[1GDownloading PHOTO B3UnUPWgYWz [===========                   ] 35%\e[0K\e[1A"
+  - delay: 5
+    content: "\e[2B\r\n\e[1A\e[1GDownloading PHOTO B3Pe28WAeUy [                              ] 0%\e[0K\e[2A\e[2B\e[2A\e[1GDownloading PHOTO B3SBgNhgUMB [==============================] 98%\e[0K\e[1GDownloading PHOTO B3SBgNhgUMB [==============================] 100%\e[0K\e[2B\e[1A\e[1GDownloading PHOTO B3UnUPWgYWz [============                  ] 39%\e[0K\e[2B\r\n\r\n\e[1A\e[1GDownloading PHOTO B3NJejWghTt [                              ] 0%\e[0K\e[3A\e[3B\e[1A\e[1GDownloading PHOTO B3KylTIgx_b [                              ] 0%\e[0K\e[2A\e[3B\e[1A\e[2A\e[3B\e[1A\e[2A\e[1GDownloading PHOTO B3UnUPWgYWz [===============               ] 48%\e[0K\e[3B\e[1A\e[2A\e[3B\e[1GDownloading PHOTO B3NJejWghTt [============                  ] 38%\e[0K\e[3A\e[2B\e[1GDownloading PHOTO B3KylTIgx_b [====                          ] 14%\e[0K\e[2A"
+  - delay: 7
+    content: "\e[1GDownloading PHOTO B3UnUPWgYWz [==================            ] 61%\e[0K\e[1B\e[1GDownloading PHOTO B3Pe28WAeUy [=================             ] 55%\e[0K"
+  - delay: 8
+    content: "\e[1GDownloading PHOTO B3Pe28WAeUy [==============================] 100%\e[0K\e[1A"
+  - delay: 5
+    content: "\e[1GDownloading PHOTO B3UnUPWgYWz [=====================         ] 70%\e[0K\e[2B\e[1GDownloading PHOTO B3KylTIgx_b [=====                         ] 17%\e[0K\e[1B\e[1GDownloading PHOTO B3NJejWghTt [=============                 ] 44%\e[0K\e[1A\e[2A"
+  - delay: 5
+    content: "\e[3B\e[1A\e[2A\e[2B\e[1B\e[1A\e[1GDownloading PHOTO B3KylTIgx_b [=========                     ] 29%\e[0K\e[2A\e[1GDownloading PHOTO B3UnUPWgYWz [========================      ] 79%\e[0K\e[3B\e[1GDownloading PHOTO B3NJejWghTt [======================        ] 71%\e[0K\e[1A\e[1B\e[3A\e[3B\e[3A"
+  - delay: 5
+    content: "\e[2B\e[1GDownloading PHOTO B3KylTIgx_b [============                  ] 41%\e[0K\e[2A\e[1GDownloading PHOTO B3UnUPWgYWz [==========================    ] 85%\e[0K"
+  - delay: 7
+    content: "\e[2B\e[1B\e[1GDownloading PHOTO B3NJejWghTt [============================= ] 97%\e[0K\e[1GDownloading PHOTO B3NJejWghTt [==============================] 100%\e[0K\e[3A"
+  - delay: 5
+    content: "\e[1GDownloading PHOTO B3UnUPWgYWz [============================= ] 96%\e[0K\e[2B\e[1GDownloading PHOTO B3KylTIgx_b [===============               ] 50%\e[0K\e[2A\e[2B\e[2A\e[2B\e[2A\e[1GDownloading PHOTO B3UnUPWgYWz [==============================] 100%\e[0K\e[2B\e[1GDownloading PHOTO B3KylTIgx_b [===========================   ] 88%\e[0K"
+  - delay: 5
+    content: "\e[1GDownloading PHOTO B3KylTIgx_b [==============================] 100%\e[0K\e[2B\e[2K\e[1G\r\n\e[1A\e[1GDownloading PHOTO B3KJ5YpgXG6 [                              ] 0%\e[0K"
+  - delay: 20
+    content: "\e[1GDownloading PHOTO B3KJ5YpgXG6 [====                          ] 13%\e[0K\e[1B\r\n\e[1A\e[1GDownloading PHOTO B3IImVihiA- [                              ] 0%\e[0K\e[1A\e[1B\e[1A"
+  - delay: 6
+    content: "\e[1B\e[1A"
+  - delay: 7
+    content: "\e[1B\e[1GDownloading PHOTO B3IImVihiA- [======                        ] 18%\e[0K\e[1A\e[1GDownloading PHOTO B3KJ5YpgXG6 [=============                 ] 42%\e[0K\e[1B\e[1A\e[1B\e[1A\e[1B\e[1A\e[1B\e[1A\e[1GDownloading PHOTO B3KJ5YpgXG6 [===================           ] 61%\e[0K\e[1B\e[1GDownloading PHOTO B3IImVihiA- [==========                    ] 34%\e[0K\e[1A\e[2B\r\n\e[1A\e[1GDownloading PHOTO B3HxmZrB_1G [                              ] 0%\e[0K"
+  - delay: 9
+    content: "\e[2A\e[1B\e[1A\e[1GDownloading PHOTO B3KJ5YpgXG6 [=====================         ] 71%\e[0K\e[1B\e[1GDownloading PHOTO B3IImVihiA- [=============                 ] 43%\e[0K\e[1A\e[1B\e[1A"
+  - delay: 5
+    content: "\e[3B\r\n\e[1A\e[1GDownloading PHOTO B3FyS4Uhhns [                              ] 0%\e[0K\e[3A\e[1GDownloading PHOTO B3KJ5YpgXG6 [==========================    ] 85%\e[0K\e[3B\e[3A\e[1B\e[1GDownloading PHOTO B3IImVihiA- [================              ] 53%\e[0K\e[1A\e[3B\e[3A\e[1B\e[2B\e[3A\e[1B\e[1A\e[1GDownloading PHOTO B3KJ5YpgXG6 [==============================] 99%\e[0K\e[1GDownloading PHOTO B3KJ5YpgXG6 [==============================] 100%\e[0K\e[1B\e[1GDownloading PHOTO B3IImVihiA- [====================          ] 66%\e[0K\e[1B\e[1GDownloading PHOTO B3HxmZrB_1G [=======                       ] 21%\e[0K\e[1A\e[1B\e[2B\r\n\e[1A\e[1GDownloading PHOTO B3Fh27OBxmY [                              ] 0%\e[0K\e[2A\e[2B"
+  - delay: 8
+    content: "\e[2A\e[1GDownloading PHOTO B3HxmZrB_1G [===========                   ] 35%\e[0K\e[2B\e[2A"
+  - delay: 10
+    content: "\e[1A\e[1GDownloading PHOTO B3IImVihiA- [=======================       ] 75%\e[0K\e[2B\e[1GDownloading PHOTO B3FyS4Uhhns [======                        ] 20%\e[0K"
+  - delay: 8
+    content: "\e[2A\e[1GDownloading PHOTO B3IImVihiA- [==============================] 100%\e[0K\e[2B"
+  - delay: 5
+    content: "\e[1A\e[1GDownloading PHOTO B3HxmZrB_1G [===================           ] 63%\e[0K\e[2B\e[1GDownloading PHOTO B3Fh27OBxmY [======                        ] 21%\e[0K\e[2A\e[2B"
+  - delay: 5
+    content: "\e[2A\e[2B\e[2A\e[2B\e[2A\e[1GDownloading PHOTO B3HxmZrB_1G [============================  ] 92%\e[0K\e[2B\e[1GDownloading PHOTO B3Fh27OBxmY [=============                 ] 42%\e[0K"
+  - delay: 5
+    content: "\e[2A"
+  - delay: 10
+    content: "\e[1GDownloading PHOTO B3HxmZrB_1G [==============================] 100%\e[0K"
+  - delay: 5
+    content: "\e[1B\e[1GDownloading PHOTO B3FyS4Uhhns [===============               ] 50%\e[0K"
+  - delay: 5
+    content: "\e[1B\e[1GDownloading PHOTO B3Fh27OBxmY [=================             ] 56%\e[0K"
+  - delay: 14
+    content: "\e[1A\e[1GDownloading PHOTO B3FyS4Uhhns [==========================    ] 85%\e[0K\e[1B\e[1GDownloading PHOTO B3Fh27OBxmY [==============================] 100%\e[0K\e[1A\e[1GDownloading PHOTO B3FyS4Uhhns [==============================] 100%\e[0K\e[2B\e[2K\e[1G"
+  - delay: 19
+    content: "\r\n\e[1A\e[1GDownloading PHOTO B3C0pbChOXA [                              ] 0%\e[0K"
+  - delay: 9
+    content: "\e[1B\r\n\e[1A\e[1GDownloading PHOTO B3FPDUNBeDk [                              ] 0%\e[0K\e[1A\e[1B\e[1A\e[1B\e[1A\e[1GDownloading PHOTO B3C0pbChOXA [========                      ] 26%\e[0K\e[1B\e[1A"
+  - delay: 7
+    content: "\e[1B\e[1GDownloading PHOTO B3FPDUNBeDk [================              ] 52%\e[0K"
+  - delay: 7
+    content: "\e[1A\e[1GDownloading PHOTO B3C0pbChOXA [===============               ] 51%\e[0K\e[1B\e[1B\r\n\e[1A\e[1GDownloading PHOTO B3CrffjBLDm [                              ] 0%\e[0K\e[2A\e[2B\e[1A\e[1A\e[2B\e[1A\e[1GDownloading PHOTO B3FPDUNBeDk [=======================       ] 77%\e[0K\e[1A\e[1B\e[1B\e[2A\e[1B\e[1A\e[1GDownloading PHOTO B3C0pbChOXA [====================          ] 65%\e[0K\e[2B\e[1GDownloading PHOTO B3CrffjBLDm [===                           ] 9%\e[0K\e[2A\e[1B\e[1A"
+  - delay: 7
+    content: "\e[1B\e[1GDownloading PHOTO B3FPDUNBeDk [============================= ] 97%\e[0K\e[1GDownloading PHOTO B3FPDUNBeDk [==============================] 100%\e[0K\e[1A\e[1GDownloading PHOTO B3C0pbChOXA [============================= ] 96%\e[0K\e[1GDownloading PHOTO B3C0pbChOXA [==============================] 100%\e[0K"
+  - delay: 8
+    content: "\e[3B\r\n\e[1A\e[1GDownloading PHOTO B266PunAyX7 [                              ] 0%\e[0K\e[1A\e[1GDownloading PHOTO B3CrffjBLDm [====                          ] 11%\e[0K\e[1B\e[1A\e[1B\e[1A"
+  - delay: 11
+    content: "\e[2B\r\n\e[1A\e[1GDownloading PHOTO B3ANeCkASiI [                              ] 0%\e[0K"
+  - delay: 6
+    content: "\e[1A\e[1GDownloading PHOTO B266PunAyX7 [=========                     ] 29%\e[0K\e[1B\e[1A\e[1A\e[1GDownloading PHOTO B3CrffjBLDm [==========                    ] 34%\e[0K"
+  - delay: 5
+    content: "\e[1B\e[1A\e[1B\e[1A\e[1B\e[1GDownloading PHOTO B266PunAyX7 [=====================         ] 70%\e[0K\e[1A\e[1B\e[1A\e[1B\e[1A\e[1GDownloading PHOTO B3CrffjBLDm [===============               ] 50%\e[0K\e[1B\e[1A"
+  - delay: 9
+    content: "\e[2B\e[1GDownloading PHOTO B3ANeCkASiI [=====================         ] 71%\e[0K\e[2A\e[2B\e[1GDownloading PHOTO B3ANeCkASiI [==============================] 100%\e[0K\e[1A\e[1GDownloading PHOTO B266PunAyX7 [===========================   ] 90%\e[0K\e[1GDownloading PHOTO B266PunAyX7 [==============================] 100%\e[0K\e[1A\e[1GDownloading PHOTO B3CrffjBLDm [====================          ] 67%\e[0K"
+  - delay: 16
+    content: "\e[1GDownloading PHOTO B3CrffjBLDm [============================  ] 93%\e[0K"
+  - delay: 5
+    content: "\e[1GDownloading PHOTO B3CrffjBLDm [==============================] 100%\e[0K\e[3B\e[2K\e[1G"
+  - delay: 38
+    content: "\e[?25hZIP path: /Users/jackass/Downloads/instagram_1571173653219.zip\r\nJSON path: /Users/jackass/Downloads/instagram_1571173653219.json\r\n"
+  - delay: 9
+    content: "\e[?25h"
+  - delay: 10
+    content: "\e]7;file://JACKASSs-MacBook-Pro.local/Users/jackass/Documents/lang/nodejs/instatouch\aJACKASSs-MacBook-Pro:instatouch jackass$ "
+  - delay: 3080
+    content: "logout\r\nSaving session..."
+  - delay: 21
+    content: "\r\n...saving history..."
+  - delay: 13
+    content: "truncating history files...\r\n...completed.\r\n"
