@@ -203,8 +203,11 @@ user.on('error', (error) => {
 **Functions**
 
 instaTouch.user(id, options) //Scrape user posts
+
 instaTouch.hashtag(id, options) //Scrape hashtag posts
+
 ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) instaTouch.location(id, options) // Currently not working due to recent changes
+
 instaTouch.comments(id, options) //Scrape location posts
 
 **Options**
