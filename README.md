@@ -4,7 +4,9 @@
 ![NPM](https://img.shields.io/npm/l/instatouch.svg?style=for-the-badge) ![npm](https://img.shields.io/npm/v/instatouch.svg?style=for-the-badge) ![Codacy grade](https://img.shields.io/codacy/grade/037f8049f7e048a2b03a95fda8863f39.svg?style=for-the-badge)
 
 Scrape useful information from instagram.
+
 **No login or password are required.**
+
 This is not an official API support and etc. This is just a scraper that is using instagram graph api to scrape media.
 
 ## Demo
@@ -204,8 +206,11 @@ user.on('error', (error) => {
 **Functions**
 
 instaTouch.user(id, options) //Scrape user posts
+
 instaTouch.hashtag(id, options) //Scrape hashtag posts
+
 ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) instaTouch.location(id, options) // Currently not working due to recent changes
+
 instaTouch.comments(id, options) //Scrape location posts
 
 **Options**
