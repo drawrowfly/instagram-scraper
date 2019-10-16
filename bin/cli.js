@@ -1,43 +1,34 @@
 #!/usr/bin/env node
 "use strict"; 
-
-const os = require("os");
  
 const instagramScrape = require("../lib/instance");
 
-const startScraper = (argv) => {
-    argv.scrapeType = argv._[0];
-    argv.cli = true;
-    let instaGrab = instagramScrape(argv);
-    instaGrab.getPosts()
-    .then((that) =>{
-        if (that._download){
-            console.log(`ZIP path: ${that._filepath}/${that._filename}_${that._date}.zip`);
+const startScraper = async (argv) => {
+    try{
+        argv.scrapeType = argv._[0];
+        argv.cli = true;
+        let scraper = await instagramScrape(argv).getPosts();
+
+        if (scraper.zip){
+            console.log(`ZIP path: ${scraper.zip}`);
+        }
+        if (scraper.json){
+            console.log(`JSON path: ${scraper.json}`);
+        }
+        if (scraper.csv){
+            console.log(`CSV path: ${scraper.csv}`);
         }
 
-        switch(that._filetype){
-            case "json":
-                console.log(`JSON path: ${that._filepath}/${that._filename}_${that._date}.json`);
-                break;
-            case "csv":
-                console.log(`CSV path: ${that._filepath}/${that._filename}_${that._date}.csv`);
-                break;
-            default:
-                console.log(`JSON path: ${that._filepath}/${that._filename}_${that._date}.json`);
-                console.log(`CSV path: ${that._filepath}/${that._filename}_${that._date}.csv`);
-                break;
-        }
-    })
-    .catch((error) =>{
+    }catch(error){
         console.log(error.message);
-    })
+    }
 }
 
 require("yargs")
     .usage('Usage: $0 <command> [options]')
     .command(
         "user [id]", 
-        "scrape posts from username", 
+        "Scrape posts from username. Enter only username", 
         {}, 
         (argv) => {
             startScraper(argv);
@@ -45,7 +36,7 @@ require("yargs")
     )
     .command(
         "hashtag [id]", 
-        "scrape posts from hashtag", 
+        "Scrape posts from hashtag. Enter hashtag without #", 
         {}, 
         (argv) => {
             startScraper(argv);
@@ -53,7 +44,15 @@ require("yargs")
     )
     .command(
         "location [id]", 
-        "scrape posts from location", 
+        "Scrape posts from location. Enter location id", 
+        {}, 
+        (argv) => {
+            startScraper(argv);
+        }
+    )
+    .command(
+        "comments [id]", 
+        "Scrape comments from a post. Enter post url or post id", 
         {}, 
         (argv) => {
             startScraper(argv);
@@ -80,6 +79,10 @@ require("yargs")
             default: "",
             describe: "Set proxy"
         },
+        "timeout": {
+            default: 0,
+            describe: "If you will receive error saying 'rate limit', you can try to set timeout. Timeout is in mls: 1000 mls = 1 second"
+        },
         "download": {
             alias: "d",
             boolean: true,
@@ -102,14 +105,14 @@ require("yargs")
             describe: "Name of the output file",
         },
         "filepath":{
-            default: `${os.homedir()}/Downloads`,
-            describe: "Directory to save file",
+            default: process.cwd(), //${os.homedir()}
+            describe: "Directory to save all output files.",
         },
         "filetype": {
             alias: ["type", "t"],
-            default: "json",
-            choices: ["csv", "json", "both"],
-            describe: "Type of output file",
+            default: "csv",
+            choices: ["csv", "json", "all"],
+            describe: "Type of output file where post information will be saved. 'all' - save information about all posts to a 'json' and 'csv' ",
         },
     })
     .demandCommand()
