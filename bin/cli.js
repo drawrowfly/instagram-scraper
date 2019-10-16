@@ -43,14 +43,6 @@ require("yargs")
         }
     )
     .command(
-        "location [id]", 
-        "Scrape posts from location. Enter location id", 
-        {}, 
-        (argv) => {
-            startScraper(argv);
-        }
-    )
-    .command(
         "comments [id]", 
         "Scrape comments from a post. Enter post url or post id", 
         {}, 
