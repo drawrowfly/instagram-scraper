@@ -8,7 +8,7 @@ Scrape useful information from instagram.
 This is not an official API support and etc. This is just a scraper that is using instagram graph api to scrape media.
 
 ## Demo
-![Demo](https://i.imgur.com/EkPdorH.gif)
+![Demo](https://i.imgur.com/DDRmH2y.gif)
 
 ## Features
 *   Scrape media posts from username, hashtag or location
