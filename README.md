@@ -15,6 +15,7 @@ This is not an official API support and etc. This is just a scraper that is usin
 ## Features
 *   Scrape media posts from username, hashtag or location
 *   Scrape comments from a specific instagram post
+*   Scrape users who liked specific post
 *   Download and save media to a ZIP archive
 *   Create JSON/CSV files with a post information
 
