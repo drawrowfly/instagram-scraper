@@ -44,7 +44,7 @@ This is not an official API support and etc. This is just a scraper that is usin
     comments: 11,
     views: 0,
 ```
-
+![Demo](https://i.imgur.com/D9sH95B.png)
 **Comments - JSON/CSV output:**
 ```
     id: '12312312312',
@@ -57,6 +57,20 @@ This is not an official API support and etc. This is just a scraper that is usin
     owner_is_verified: false,
     likes: 0,
 ```
+![Demo](https://i.imgur.com/C5EravY.png)
+
+**Likers - JSON/CSV output:**
+```
+    user_id: '12312312312',
+    username: 'bob',
+    full_name: 'sam',
+    profile_pic_url: 'URL',
+    is_private: false,
+    is_verified: true,
+    followed_by_viewer: false,
+    requested_by_viewer: false,
+```
+![Demo](https://i.imgur.com/NEqVfzB.png)
 
 **Possible errors from instagram API**
 *   Rate Limit - Instagram API temporarily blocked your IP, you can wait a little, try to use a proxy or set a {timeout}
@@ -85,6 +99,7 @@ Commands:
   instatouch user [id]      Scrape posts from username. Enter only username
   instatouch hashtag [id]   Scrape posts from hashtag. Enter hashtag without
   instatouch comments [id]  Scrape comments from a post. Enter post url or post id
+  instatouch likers [id]    Scrape users who liked a post. Enter post url or post id
 
 Options:
   --help                  Show help                                    [boolean]
@@ -140,6 +155,15 @@ CSV path: /custom/path/to/save/files/natgeo_1552945659138.csv
 Scrape 200 comments from this post https://www.instagram.com/p/B3XPst_A98M/. Save comment data in to a CSV file
 ```
 $ instatouch comments https://www.instagram.com/p/B3XPst_A98M/ --count 50
+
+Output:
+CSV path: /{CURRENT_PATH}/B3XPst_A98M_1552945659138.csv
+```
+
+**Example 5:**
+Scrape 200 users who liked this post https://www.instagram.com/p/B3XPst_A98M/. Save comment data in to a CSV file
+```
+$ instatouch likers https://www.instagram.com/p/B3XPst_A98M/ --count 200
 
 Output:
 CSV path: /{CURRENT_PATH}/B3XPst_A98M_1552945659138.csv
@@ -204,14 +228,13 @@ user.on('error', (error) => {
 ```
 
 **Functions**
-
-instaTouch.user(id, options) //Scrape user posts
-
-instaTouch.hashtag(id, options) //Scrape hashtag posts
-
-![#f03c15](https://placehold.it/15/f03c15/000000?text=+) instaTouch.location(id, options) // Currently not working due to recent changes
-
-instaTouch.comments(id, options) //Scrape location posts
+```
+.user(id, options) //Scrape user posts
+.hashtag(id, options) //Scrape hashtag posts
+.comments(id, options) //Scrape location posts
+.likers(id, options) //Scrape users who liked specific post
+.location() // not supported due to recent changes
+```
 
 **Options**
 ```

@@ -50,6 +50,14 @@ require("yargs")
             startScraper(argv);
         }
     )
+    .command(
+        "likers [id]", 
+        "Scrape users who liked a post. Enter post url or post id", 
+        {}, 
+        (argv) => {
+            startScraper(argv);
+        }
+    )
     .options({
         "help": {
             alias: "h",

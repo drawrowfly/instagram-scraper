@@ -136,3 +136,26 @@ exports.comments = ( id, options ) => {
         })
     }
 }
+
+
+exports.likers = ( id, options ) => {
+    if (typeof(options) !== "object" ){
+        throw new Error("Object is expected");
+    }
+    options = Object.assign(INIT_OPTIONS, options)
+
+    options.scrapeType = "likers";
+    options.id = id;
+
+    if (options.event){
+        return instaTouch(options);
+    }else{
+        return new Promise( async (resolve, reject) => {
+                try{
+                    return resolve(await startScraper(options));
+                }catch(error){
+                    return reject(error);
+                }
+        })
+    }
+}
