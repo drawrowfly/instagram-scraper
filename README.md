@@ -232,9 +232,9 @@ user.on('error', (error) => {
 ```
 .user(id, options) //Scrape user posts
 .hashtag(id, options) //Scrape hashtag posts
+.location() // Scrape posts from a specific location
 .comments(id, options) //Scrape location posts
 .likers(id, options) //Scrape users who liked specific post
-.location() // not supported due to recent changes
 ```
 
 **Options**
