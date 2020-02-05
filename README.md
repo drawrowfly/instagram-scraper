@@ -16,8 +16,11 @@ This is not an official API support and etc. This is just a scraper that is usin
 *   Scrape media posts from username, hashtag or location
 *   Scrape comments from a specific instagram post
 *   Scrape users who liked specific post
+*   Scrape followers **`REQUIRES AN ACTIVE SESSION`**
+*   Scrape following **`REQUIRES AN ACTIVE SESSION`**
 *   Download and save media to a ZIP archive
 *   Create JSON/CSV files with a post information
+
 
 **Note:**
 *   If you need to download all user posts or comments then do not specify count or set it to 0(zero)
@@ -187,35 +190,114 @@ Downloading PHOTO B3Pmlmficxo [==============================] 100%
 ## Module
 
 ### Promise
-```
+```javascript
 const instaTouch = require('instatouch');
 
-let options = {
-    count: 100,
-    mediaType: "all",
-};
-
+// Scrape posts from a user profile
 (async () => {
-    try{
-        let user = await instaTouch.user("natgeo", options);
-        console.log(user)
-    } catch(error){
-        console.log(error)
+    let options = { count: 100, mediaType: 'image', download: true, filepath: process.cwd() }
+    try {
+        let user = await instaTouch.user('natgeo', options);
+        console.log(user);
+    } catch (error) {
+        console.log(error);
     }
-})()
+})();
+
+// Scrape posts from the hashtag page
+(async () => {
+    let options = { count: 100, mediaType: 'image', download: true, filepath: process.cwd() }
+    try {
+        let hashtag = await instaTouch.hashtag('summer', options);
+        console.log(user);
+    } catch (error) {
+        console.log(error);
+    }
+})();
+
+// Scrape posts from the location page
+// For example from this location https://www.instagram.com/explore/locations/213359469/munich-germany/
+// In this example location id will be 213359469
+(async () => {
+    let options = { count: 100, mediaType: 'image', download: true, filepath: process.cwd() }
+    try {
+        let location = await instaTouch.location('213359469', options);
+        console.log(user);
+    } catch (error) {
+        console.log(error);
+    }
+})();
+
+// Scrape comments from a post
+// For example from this post https://www.instagram.com/p/B7wOyffArc5/
+// In this example post id will be B7wOyffArc5
+(async () => {
+    let options = { count: 100, download: true, filepath: process.cwd() }
+    try {
+        let comments = await instaTouch.comments('B7wOyffArc5', options);
+        console.log(comments);
+    } catch (error) {
+        console.log(error);
+    }
+})();
+
+// Scrape users who liked a post
+// For example from this post https://www.instagram.com/p/B7wOyffArc5/
+// In this example post id will be B7wOyffArc5
+(async () => {
+    let options = { count: 100, download: true, filepath: process.cwd() }
+    try {
+        let likers = await instaTouch.likers('B7wOyffArc5', options);
+        console.log(likers);
+    } catch (error) {
+        console.log(error);
+    }
+})();
+
+// Scrape Followers Data from a specific user
+// For example from this profile page https://www.instagram.com/natgeo/
+// In this example username will be natgeo
+// NOTE: in order for you to scrape Followers Data you need an Active Session ID.
+// You can login to your IG profile in Google Chrome. 
+// Open "Inspector" and extract sessionId value from cookies
+(async () => {
+    let options = { count: 100, download: true, filepath: process.cwd(), sessionId:'' }
+    try {
+        let followers = await instaTouch.followers('natgeo', options);
+        console.log(followers);
+    } catch (error) {
+        console.log(error);
+    }
+})();
+
+// Scrape Following Data from a specific user
+// For example from this profile page https://www.instagram.com/natgeo/
+// In this example username will be natgeo
+// NOTE: in order for you to scrape Following Data you need an Active Session ID.
+// You can login to your IG profile in Google Chrome. 
+// Open "Inspector" and extract sessionId value from cookies
+(async () => {
+    let options = { count: 100, download: true, filepath: process.cwd(), sessionId:'' }
+    try {
+        let followers = await instaTouch.following('natgeo', options);
+        console.log(following);
+    } catch (error) {
+        console.log(error);
+    }
+})();
 ```
 
 ### Event
-```
+```javascript
 const instaTouch = require('instatouch');
 
-let options = {
+const options = {
     count: 100,
     mediaType: "all",
     event: true, // Enable event listener, you won't be able to use promises
 };
 
-let user = instaTouch.user("natgeo", options);
+const user = instaTouch.user("natgeo", options);
 
 user.getPosts();
 
@@ -229,16 +311,18 @@ user.on('error', (error) => {
 ```
 
 **Functions**
-```
+```diff
 .user(id, options) //Scrape user posts
 .hashtag(id, options) //Scrape hashtag posts
 .location() // Scrape posts from a specific location
 .comments(id, options) //Scrape location posts
 .likers(id, options) //Scrape users who liked specific post
+- .followers(id, options) //Scrape Followers data.-> REQUIRES AN ACTIVE SESSION
+- .following(id, options) //Scrape Following data.-> REQUIRES AN ACTIVE SESSION
 ```
 
 **Options**
-```
+```javascript
 let options = {
     // Number of posts to scrape: {int default: 0}
     count: 0,
