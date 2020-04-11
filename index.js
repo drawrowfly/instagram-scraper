@@ -3,6 +3,7 @@
 const os = require('os');
 
 const instaTouch = require('./lib/instance');
+const instaTouchClass = require('./lib/instaTouch');
 
 let INIT_OPTIONS = {
     id: '',
@@ -17,7 +18,7 @@ let INIT_OPTIONS = {
     progress: false,
 };
 
-const startScraper = options => {
+const startScraper = (options) => {
     return new Promise(async (resolve, reject) => {
         if (!options.filepath) {
             options.filepath = INIT_OPTIONS.filepath;
@@ -206,4 +207,17 @@ exports.following = (id, options) => {
             }
         });
     }
+};
+
+exports.getUserMeta = async (id, options) => {
+    if (typeof options !== 'object') {
+        throw new Error('Object is expected');
+    }
+    options = Object.assign(INIT_OPTIONS, options);
+
+    options.scrapeType = 'user_meta';
+    options.id = id;
+
+    const instagram = new instaTouchClass(options);
+    return await instagram.getUserMeta();
 };
