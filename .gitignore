@@ -1,6 +1,12 @@
 node_modules/
+build/
+coverage/
+garbage/
+
 .DS_Store
-test.js
 *.csv
 *.zip
-*.json
+test.js
+test.ts
+proxy
+bulk

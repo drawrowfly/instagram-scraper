@@ -1,14 +1,38 @@
 #!/usr/bin/env node
-'use strict';
+/* eslint-disable no-console */
+/* eslint-disable no-unused-expressions */
+/* eslint-disable prefer-destructuring */
+/* eslint-disable no-param-reassign */
 
-const instagramScrape = require('../lib/instance');
+const yargs = require('yargs');
+const { tmpdir } = require('os');
+const IGScraper = require('../build');
+const CONST = require('../build/constant');
 
-const startScraper = async argv => {
+const startScraper = async (argv) => {
     try {
         argv.scrapeType = argv._[0];
+        argv.input = argv.id;
         argv.cli = true;
+        argv.store_history = argv.store;
+        if (argv.filename) {
+            argv.fileName = argv.filename;
+        }
 
-        let scraper = await instagramScrape(argv).getPosts();
+        if (argv.historypath) {
+            argv.historyPath = argv.historypath;
+        }
+        if (argv.file) {
+            argv.input = argv.file;
+        }
+        if (argv.scrapeType.indexOf('-') > -1) {
+            argv.scrapeType = argv.scrapeType.replace('-', '');
+        }
+
+        if (argv.async) {
+            argv.asyncBulk = argv.async;
+        }
+        const scraper = await IGScraper[argv.scrapeType](argv.input, argv);
 
         if (scraper.zip) {
             console.log(`ZIP path: ${scraper.zip}`);
@@ -19,26 +43,41 @@ const startScraper = async argv => {
         if (scraper.csv) {
             console.log(`CSV path: ${scraper.csv}`);
         }
+        if (scraper.message) {
+            console.log(scraper.message);
+        }
+        if (scraper.table) {
+            console.table(scraper.table);
+        }
     } catch (error) {
-        console.log(error.message);
+        console.log(error);
     }
 };
 
-require('yargs')
+yargs
     .usage('Usage: $0 <command> [options]')
-    .command('user [id]', 'Scrape posts from username. Enter only username', {}, argv => {
+    .command('user [id]', 'Scrape posts from username. Enter only username', {}, (argv) => {
         startScraper(argv);
     })
-    .command('hashtag [id]', 'Scrape posts from hashtag. Enter hashtag without #', {}, argv => {
+    .command('hashtag [id]', 'Scrape posts from hashtag. Enter hashtag without #', {}, (argv) => {
         startScraper(argv);
     })
-    .command('location [id]', 'Scrape posts from a specific location. Enter location ID', {}, argv => {
+    .command('location [id]', 'Scrape posts from a specific location. Enter location ID', {}, (argv) => {
         startScraper(argv);
     })
-    .command('comments [id]', 'Scrape comments from a post. Enter post url or post id', {}, argv => {
+    .command('comments [id]', 'Scrape comments from a post. Enter post url or post id', {}, (argv) => {
         startScraper(argv);
     })
-    .command('likers [id]', 'Scrape users who liked a post. Enter post url or post id', {}, argv => {
+    .command('likers [id]', 'Scrape users who liked a post. Enter post url or post id', {}, (argv) => {
+        startScraper(argv);
+    })
+    .command('history', 'View previous download history', {}, (argv) => {
+        startScraper(argv);
+    })
+    .command('from-file [file] [async]', 'Scrape users, hashtags, music, videos mentioned in a file. 1 value per 1 lin', {}, (argv) => {
+        startScraper(argv);
+    })
+    .command('history', 'View previous download history', {}, (argv) => {
         startScraper(argv);
     })
     .options({
@@ -60,7 +99,11 @@ require('yargs')
         proxy: {
             alias: 'p',
             default: '',
-            describe: 'Set proxy',
+            describe: 'Set single proxy',
+        },
+        'proxy-file': {
+            default: '',
+            describe: 'Use proxies from a file. Scraper will use random proxies from the file per each request. 1 line 1 proxy.',
         },
         timeout: {
             default: 0,
@@ -77,18 +120,13 @@ require('yargs')
             default: 5,
             describe: 'How many posts should be downloaded at the same time. Try not to set more then 5 ',
         },
-        progress: {
-            boolean: true,
-            default: true,
-            describe: 'Show progress in terminal',
-        },
         filename: {
-            alias: ['file', 'f'],
-            default: '[id]',
-            describe: 'Name of the output file',
+            alias: ['f'],
+            default: '',
+            describe: 'Set custom filename for the output files',
         },
         filepath: {
-            default: process.cwd(),
+            default: process.env.SCRAPING_FROM_DOCKER ? '' : process.cwd(),
             describe: 'Directory to save all output files.',
         },
         filetype: {
@@ -97,5 +135,61 @@ require('yargs')
             choices: ['csv', 'json', 'all'],
             describe: "Type of output file where post information will be saved. 'all' - save information about all posts to a 'json' and 'csv' ",
         },
+        store: {
+            alias: ['s'],
+            boolean: true,
+            default: false,
+            describe:
+                'Scraper will save the progress in the OS TMP or Custom folder and in the future usage will only download new videos avoiding duplicates',
+        },
+        historypath: {
+            default: process.env.SCRAPING_FROM_DOCKER ? '' : tmpdir(),
+            describe: 'Set custom path where history file/files will be stored',
+        },
+        remove: {
+            alias: ['r'],
+            default: '',
+            describe: 'Delete the history record by entering "TYPE:INPUT" or "all" to clean all the history. For example: user:bob',
+        },
     })
-    .demandCommand().argv;
+    .check((argv) => {
+        if (CONST.scrapeType.indexOf(argv._[0]) === -1) {
+            throw new Error('Wrong command');
+        }
+
+        if (argv.store) {
+            if (!argv.download) {
+                throw new Error('--store, -s flag is only working in combination with the download flag. Add -d to your command');
+            }
+        }
+
+        if (argv._[0] === 'from-file') {
+            const async = parseInt(argv.async, 10);
+            if (!async) {
+                throw new Error('You need to set number of task that should be executed at the same time');
+            }
+        }
+
+        if (process.env.SCRAPING_FROM_DOCKER && (argv.historypath || argv.filepath)) {
+            throw new Error(`Can't set custom path when running from Docker`);
+        }
+        if (argv.remove) {
+            if (argv.remove.indexOf(':') === -1) {
+                argv.remove = `${argv.remove}:`;
+            }
+            const split = argv.remove.split(':');
+            const type = split[0];
+            const input = split[1];
+
+            if (type !== 'all' && CONST.history.indexOf(type) === -1) {
+                throw new Error(`--remove, -r list of allowed types: ${CONST.history}`);
+            }
+            if (!input && type !== 'trend' && type !== 'all') {
+                throw new Error('--remove, -r to remove the specific history record you need to enter "TYPE:INPUT". For example: user:bob');
+            }
+        }
+
+        return true;
+    })
+    .demandCommand()
+    .help().argv;

@@ -1,43 +1,69 @@
 {
-  "name": "instatouch",
-  "version": "2.1.9",
-  "description": "Scrape instagram posts from Username, Hashtag or Location pages. Download media and save them to a ZIP archive. Create JSON/CSV files with a post information. No login required",
-  "main": "index.js",
-  "bin": {
-    "instatouch": "bin/cli.js"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/drawrowfly/instagram-scraper.git"
-  },
-  "keywords": [
-    "instagram",
-    "post",
-    "scraper",
-    "media",
-    "api",
-    "data mining",
-    "scraping",
-    "collecting"
-  ],
-  "author": "drawRowFly",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/drawrowfly/instagram-scraper/issues"
-  },
-  "homepage": "https://github.com/drawrowfly/instagram-scraper#readme",
-  "dependencies": {
-    "archiver": "^3.1.1",
-    "async": "^3.1.0",
-    "bluebird": "^3.7.1",
-    "json2csv": "^4.5.3",
-    "ora": "^4.0.2",
-    "progress": "^2.0.3",
-    "request": "^2.88.0",
-    "request-promise": "^4.2.4",
-    "yargs": "^14.0.0"
-  }
+    "name": "instatouch",
+    "version": "2.1.9",
+    "description": "Scrape instagram posts from Username, Hashtag or Location pages. Download media and save them to a ZIP archive. Create JSON/CSV files with a post information. No login required",
+    "main": "index.js",
+    "bin": {
+        "instatouch": "bin/cli.js"
+    },
+    "scripts": {
+        "build": "rimraf build && tsc",
+        "docker:build": "tsc",
+        "format": "prettier --config ./.prettierrc.js --write './src/**/*.ts'",
+        "lint": "eslint ./src/**/*.ts"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+ssh://git@github.com/drawrowfly/instagram-scraper.git"
+    },
+    "keywords": [
+        "instagram",
+        "post",
+        "scraper",
+        "media",
+        "api",
+        "data mining",
+        "scraping",
+        "collecting"
+    ],
+    "author": "drawRowFly",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/drawrowfly/instagram-scraper/issues"
+    },
+    "homepage": "https://github.com/drawrowfly/instagram-scraper#readme",
+    "dependencies": {
+        "archiver": "^3.1.1",
+        "async": "^3.1.0",
+        "bluebird": "^3.7.1",
+        "json2csv": "4.5.1",
+        "ora": "^4.0.2",
+        "progress": "^2.0.3",
+        "request": "^2.88.0",
+        "request-promise": "^4.2.4",
+        "socks-proxy-agent": "^5.0.0",
+        "yargs": "^14.0.0"
+    },
+    "devDependencies": {
+        "@types/archiver": "^3.1.0",
+        "@types/async": "^3.2.0",
+        "@types/bluebird": "^3.5.30",
+        "@types/json2csv": "4.5.1",
+        "@types/ora": "^3.2.0",
+        "@types/progress": "^2.0.3",
+        "@types/request": "^2.48.4",
+        "@types/request-promise": "^4.1.46",
+        "@typescript-eslint/eslint-plugin": "^2.27.0",
+        "@typescript-eslint/parser": "^2.27.0",
+        "eslint": "^6.8.0",
+        "eslint-config-airbnb-base": "^14.1.0",
+        "eslint-config-prettier": "^6.10.1",
+        "eslint-plugin-import": "^2.20.2",
+        "eslint-plugin-prettier": "^3.1.2",
+        "jest": "^25.3.0",
+        "prettier": "^2.0.4",
+        "ts-jest": "^25.3.1",
+        "ts-node": "^8.8.2",
+        "typescript": "^3.8.3"
+    }
 }
