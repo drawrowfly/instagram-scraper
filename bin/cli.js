@@ -115,6 +115,12 @@ yargs
             default: false,
             describe: 'Download and archive all scraped posts to a ZIP file',
         },
+        zip: {
+            alias: 'z',
+            boolean: true,
+            default: false,
+            describe: 'ZIP all downloaded posts',
+        },
         asyncDownload: {
             alias: 'a',
             default: 5,
@@ -130,7 +136,7 @@ yargs
             describe: 'Directory to save all output files.',
         },
         filetype: {
-            alias: ['type', 't'],
+            alias: ['t'],
             default: 'csv',
             choices: ['csv', 'json', 'all'],
             describe: "Type of output file where post information will be saved. 'all' - save information about all posts to a 'json' and 'csv' ",
@@ -155,6 +161,12 @@ yargs
     .check((argv) => {
         if (CONST.scrapeType.indexOf(argv._[0]) === -1) {
             throw new Error('Wrong command');
+        }
+
+        if (!argv.download) {
+            if (argv.cli && !argv.zip && !argv.type) {
+                throw new Error(`Pointless commands. Try again but with the correct set of commands`);
+            }
         }
 
         if (argv.store) {

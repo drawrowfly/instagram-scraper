@@ -9,8 +9,9 @@ export interface DownloaderConstructor {
 }
 
 export interface ZipValues {
+    zip: boolean;
+    folder: string;
     collector: PostCollector[];
-    filepath: string;
     fileName: string;
     asyncDownload: number;
 }

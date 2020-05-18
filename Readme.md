@@ -8,6 +8,30 @@ Scrape useful information from instagram.
 
 This is not an official API support and etc. This is just a scraper that is using instagram graph api to scrape media.
 
+---
+
+<a href="https://www.buymeacoffee.com/Usom2qC" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-blue.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+
+---
+
+## Content
+- [Demo](#demo)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+	- [In Terminal](#in-terminal)
+	    - [Terminal Examples](https://github.com/drawrowfly/instagram-scraper/tree/master/examples/CLI/Examples.md)
+	    - [Manage Download History](https://github.com/drawrowfly/instagram-scraper/tree/master/examples/CLI/DownloadHistory.md)
+	    - [Scrape and Download in Batch](https://github.com/drawrowfly/instagram-scraper/tree/master/examples/CLI/BatchDownload.md)
+	    - [Output File Example](#output-file-example)
+	- [Module](#docker)
+	    - [Methods](#methods)
+	    - [Options](#options)
+	    - [Use with Promises](https://github.com/drawrowfly/instagram-scraper/tree/master/examples/Module/Examples.md)
+	    - [Output Example](#json-output-example)
+	        - [User, Hashtag, Location Feeds](#feed)
+	        - [comments](#comments)
+	        - [likers](#likers)
 ## Demo
 
 ![Demo](https://i.imgur.com/DDRmH2y.gif)
@@ -21,67 +45,6 @@ This is not an official API support and etc. This is just a scraper that is usin
 -   Scrape following **`REQUIRES AN ACTIVE SESSION`**
 -   Download and save media to a ZIP archive
 -   Create JSON/CSV files with a post information
-
-**Note:**
-
--   If you need to download all user posts or comments then do not specify count or set it to 0(zero)
--   location and hashtag should always have count >0
-
-**Posts - JSON/CSV output:**
-
-```
-    id: '454535345435345',
-    isVideo: false,
-    shortcode: 'B1SkSkdjskA',
-    takenAtTimestamp: 23123123,
-    commentsDisabled: false,
-    location:{
-        id: '12312312312',
-        has_public_page: true,
-        name: 'Eiffel Tower, Paris',
-        slug: 'eiffel-tower-paris'
-    },
-    thumbnailSrc: 'THUMNAIL_URL',
-    displayUrl:'PREVIEW_URL',
-    url:'MAIN_URL_SRC',
-    ownerId: '1321313',
-    ownerUsername: 'bobobobobo',
-    likes: 232,
-    comments: 11,
-    views: 0,
-```
-
-![Demo](https://i.imgur.com/D9sH95B.png)
-**Comments - JSON/CSV output:**
-
-```
-    id: '12312312312',
-    text: 'Beautiful',
-    created_at: 1271249682,
-    did_report_as_spam: false,
-    viewer_has_liked: false,
-    owner_id: '11582747922',
-    owner_username: 'dasdasdasd',
-    owner_is_verified: false,
-    likes: 0,
-```
-
-![Demo](https://i.imgur.com/C5EravY.png)
-
-**Likers - JSON/CSV output:**
-
-```
-    user_id: '12312312312',
-    username: 'bob',
-    full_name: 'sam',
-    profile_pic_url: 'URL',
-    is_private: false,
-    is_verified: true,
-    followed_by_viewer: false,
-    requested_by_viewer: false,
-```
-
-![Demo](https://i.imgur.com/NEqVfzB.png)
 
 **Possible errors from instagram API**
 
@@ -134,223 +97,42 @@ Options:
   --filetype, --type, -t  Type of output file
                               [choices: "csv", "json", "both"] [default: "json"]
 ```
+- [Terminal Examples](https://github.com/drawrowfly/instagram-scraper/tree/master/examples/CLI/Examples.md)
+- [Manage Download History](https://github.com/drawrowfly/instagram-scraper/tree/master/examples/CLI/DownloadHistory.md)
+- [Scrape and Download in Batch](https://github.com/drawrowfly/instagram-scraper/tree/master/examples/CLI/BatchDownload.md)
 
-**Example 1:**
-Scrape 50 video posts from hashtag summer. Save post info in to a CSV file (by default)
+### Output File Example
 
-```sh
-$ instatouch hashtag summer --count 50 --mediaType video
-
-Output:
-JSON path: /{CURRENT_PATH}/summer_1552945544582.csv
-```
-
-**Example 2:**
-Scrape 100 posts from user natgeo, download and save them to a ZIP archive. Save post info in to a JSON and CSV files (--filetype all)
-
-```
-$ instatouch user natgeo --count 100 --download true --filetype all
-
-Output:
-ZIP path: /{CURRENT_PATH}/natgeo_1552945659138.zip
-JSON path: /{CURRENT_PATH}/natgeo_1552945659138.json
-CSV path: /{CURRENT_PATH}/natgeo_1552945659138.csv
-```
-
-**Example 3:**
-Scrape 50 posts from user natgeo, download and save them to a ZIP archive. Save post info in to a JSON and CSV files (--filetype all). Save all files to a custom path (--filepath /custom/path/to/save/files)
-
-```
-$ instatouch user natgeo --count 50 --download true --filetype all --filepath /custom/path/to/save/files
-
-Output:
-ZIP path: /custom/path/to/save/files/natgeo_1552945659138.zip
-JSON path: /custom/path/to/save/files/natgeo_1552945659138.json
-CSV path: /custom/path/to/save/files/natgeo_1552945659138.csv
-```
-
-**Example 4:**
-Scrape 200 comments from this post https://www.instagram.com/p/B3XPst_A98M/. Save comment data in to a CSV file
-
-```
-$ instatouch comments https://www.instagram.com/p/B3XPst_A98M/ --count 50
-
-Output:
-CSV path: /{CURRENT_PATH}/B3XPst_A98M_1552945659138.csv
-```
-
-**Example 5:**
-Scrape 200 users who liked this post https://www.instagram.com/p/B3XPst_A98M/. Save comment data in to a CSV file
-
-```
-$ instatouch likers https://www.instagram.com/p/B3XPst_A98M/ --count 200
-
-Output:
-CSV path: /{CURRENT_PATH}/B3XPst_A98M_1552945659138.csv
-```
-
-**To make it look better, when downloading posts the progress will be shown in terminal**
-
-```
-Downloading VIDEO B3PmkisgjSx [==============================] 100%
-Downloading PHOTO B3Pmme3ASuY [==============================] 100%
-Downloading PHOTO B3PmmLHjE4s [==============================] 100%
-Downloading VIDEO B3PmiL0HxG3 [==============================] 100%
-Downloading PHOTO B3PmmJFAWVI [==============================] 100%
-Downloading PHOTO B3Pml8PFg3i [==============================] 100%
-Downloading PHOTO B3Pml-hJyvc [==============================] 100%
-Downloading PHOTO B3Pml2lnS0B [==============================] 100%
-Downloading PHOTO B3PmltPiTDi [==============================] 100%
-Downloading PHOTO B3Pml05osiU [==============================] 100%
-Downloading PHOTO B3Pmlmficxo [==============================] 100%
-```
+![Demo](https://i.imgur.com/D9sH95B.png)
 
 ## Module
 
-### Promise
+### Methods
 
 ```javascript
-const instaTouch = require('instatouch');
+.user('tiktok', options) // User feed
+.hashtag('summer', options) // Hashtag feed
+.location('', options) // Location feed
+.comments('https://www.instagram.com/p/CATMghXnGrg/', options) // Post comments
+.likers('https://www.instagram.com/p/CATMghXnGrg/', options) // People who liked post
 
-// Scrape posts from a user profile
-(async () => {
-    let options = { count: 100, mediaType: 'image', download: true, filepath: process.cwd() };
-    try {
-        let user = await instaTouch.user('natgeo', options);
-        console.log(user);
-    } catch (error) {
-        console.log(error);
-    }
-})();
-
-// Scrape posts from the hashtag page
-(async () => {
-    let options = { count: 100, mediaType: 'image', download: true, filepath: process.cwd() };
-    try {
-        let hashtag = await instaTouch.hashtag('summer', options);
-        console.log(user);
-    } catch (error) {
-        console.log(error);
-    }
-})();
-
-// Scrape posts from the location page
-// For example from this location https://www.instagram.com/explore/locations/213359469/munich-germany/
-// In this example location id will be 213359469
-(async () => {
-    let options = { count: 100, mediaType: 'image', download: true, filepath: process.cwd() };
-    try {
-        let location = await instaTouch.location('213359469', options);
-        console.log(user);
-    } catch (error) {
-        console.log(error);
-    }
-})();
-
-// Scrape comments from a post
-// For example from this post https://www.instagram.com/p/B7wOyffArc5/
-// In this example post id will be B7wOyffArc5
-(async () => {
-    let options = { count: 100, download: true, filepath: process.cwd() };
-    try {
-        let comments = await instaTouch.comments('B7wOyffArc5', options);
-        console.log(comments);
-    } catch (error) {
-        console.log(error);
-    }
-})();
-
-// Scrape users who liked a post
-// For example from this post https://www.instagram.com/p/B7wOyffArc5/
-// In this example post id will be B7wOyffArc5
-(async () => {
-    let options = { count: 100, download: true, filepath: process.cwd() };
-    try {
-        let likers = await instaTouch.likers('B7wOyffArc5', options);
-        console.log(likers);
-    } catch (error) {
-        console.log(error);
-    }
-})();
-
-// Scrape Followers Data from a specific user
-// For example from this profile page https://www.instagram.com/natgeo/
-// In this example username will be natgeo
-// NOTE: in order for you to scrape Followers Data you need an Active Session ID.
-// You can login to your IG profile in Google Chrome.
-// Open "Inspector" and extract sessionId value from cookies
-(async () => {
-    let options = { count: 100, download: true, filepath: process.cwd(), sessionId: '' };
-    try {
-        let followers = await instaTouch.followers('natgeo', options);
-        console.log(followers);
-    } catch (error) {
-        console.log(error);
-    }
-})();
-
-// Scrape Following Data from a specific user
-// For example from this profile page https://www.instagram.com/natgeo/
-// In this example username will be natgeo
-// NOTE: in order for you to scrape Following Data you need an Active Session ID.
-// You can login to your IG profile in Google Chrome.
-// Open "Inspector" and extract sessionId value from cookies
-(async () => {
-    let options = { count: 100, download: true, filepath: process.cwd(), sessionId: '' };
-    try {
-        let followers = await instaTouch.following('natgeo', options);
-        console.log(following);
-    } catch (error) {
-        console.log(error);
-    }
-})();
+.getUserMeta('USERNAME', options) // Get user metadata
+.getPostMeta('https://www.instagram.com/p/CATMghXnGrg/', options) // Get post metadata
 ```
 
-### Event
+### Options
 
 ```javascript
-const instaTouch = require('instatouch');
-
 const options = {
-    count: 100,
-    mediaType: 'all',
-    event: true, // Enable event listener, you won't be able to use promises
-};
-
-const user = instaTouch.user('natgeo', options);
-
-user.getPosts();
-
-user.on('data', (json) => {
-    //data in JSON format
-});
-
-user.on('error', (error) => {
-    //error message
-});
-```
-
-**Functions**
-
-```diff
-.user(id, options) //Scrape user posts
-.hashtag(id, options) //Scrape hashtag posts
-.location() // Scrape posts from a specific location
-.comments(id, options) //Scrape location posts
-.likers(id, options) //Scrape users who liked specific post
-- .followers(id, options) //Scrape Followers data.-> REQUIRES AN ACTIVE SESSION
-- .following(id, options) //Scrape Following data.-> REQUIRES AN ACTIVE SESSION
-```
-
-**Options**
-
-```javascript
-let options = {
     // Number of posts to scrape: {int default: 0}
     count: 0,
 
-    // Download posts or not. If true ZIP archive in {filepath} will be created: {boolean default: false}
+    // Download posts or not. {boolean default: false}
     download: false,
+    
+    // Archive downloaded posts. {boolean default: false}
+    // If set to {false} then posts will be saved in the newly created folder
+    zip: false
 
     // How many post should be downloaded asynchronously. Only if {download:true}: {int default: 5}
     asyncDownload: 5,
@@ -358,7 +140,10 @@ let options = {
     // Media type to scrape: ["image", "video", "all"]: {string default: 'all'}
     mediaType: 'all',
 
-    // Set proxy, example: 127.0.0.1:8080: {string default: ''}
+    // Set proxy {string[] | string default: ''}
+    // http proxy: 127.0.0.1:8080
+    // socks proxy: socks5://127.0.0.1:8080
+    // You can pass proxies as an array and scraper will randomly select a proxy from the array to execute the requests
     proxy: '',
 
     // File name that will be used to save data to: {string default: '[id]'}
@@ -367,16 +152,22 @@ let options = {
     // File path where all files will be saved: {string default: 'USER_HOME_DIR'}
     filepath: `USER_HOME_DIR`,
 
-    // File types to save post data to: ['json', 'csv', 'all', 'na']: {string default: 'na'}
-    filetype: 'na',
-
-    // Enable or Disable events. If true then you can accept data through events: {boolean default: false}
-    event: false,
+    // Output with information can be saved to a CSV or JSON files: {string default: 'na'}
+    // 'csv' to save in csv
+    // 'json' to save in json
+    // 'all' to save in json and csv
+    // 'na' to skip this step
+    filetype: `na`,
+    
+    // Set initial cursor value to start pagination over the feed from the specific point: {string default: ''}
+    endCursor: ''
 
     // Timeout between requests. If error 'rate limit' received then this option can be useful: {int default: 0}
     timeout: 0,
 };
 ```
+
+- [Promise Examples](https://github.com/drawrowfly/instagram-scraper/tree/master/examples/Module/Examples.md)
 
 **Result will contain a bunch of data**
 
@@ -390,11 +181,70 @@ instaTouch {
 }
 ```
 
----
+### Json Output Example
 
-<a href="https://www.buymeacoffee.com/Usom2qC" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-blue.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+##### Feed
+Example output for the methods: **user, hashtag, location**
 
----
+```javascript
+{
+    id: '2311886241697642614',
+    shortcode: 'CAVeEm1gDh2',
+    type: 'GraphSidecar',
+    is_video: false,
+    dimension: { height: 1080, width: 1080 },
+    display_url:
+        'https://scontent-hel2-1.cdninstagram.com/v/t51.2885-15/e35/97212979_112497166934732_8766432510789477700_n.jpg?_nc_ht=scontent-hel2-1.cdninstagram.com&_nc_cat=1&_nc_ohc=4jd1cuOMYrkAX_y6CK2&oh=2aa0b339cdf653dac916a64a70c81e31&oe=5EEB5E07',
+    thumbnail_src:
+        'https://scontent-hel2-1.cdninstagram.com/v/t51.2885-15/sh0.08/e35/s640x640/97212979_112497166934732_8766432510789477700_n.jpg?_nc_ht=scontent-hel2-1.cdninstagram.com&_nc_cat=1&_nc_ohc=4jd1cuOMYrkAX_y6CK2&oh=af5440bdf071108b7e74b1524c358e66&oe=5EED8CE4',
+    owner: { id: '25025320', username: 'instagram' },
+    description:
+        'FernandoMagalhães’(@mglhs_com)ever-evolvingfuturisticbeingsliveintheGenesisHumanProject.Alpha,acomputer-generatedworldhedreamedupattheendof2018.TheLondon-basedBrazilianartistusesproceduralmodeling,aprogrammingtechniquethatcreates3Dmodelsandtextures.⁣\n⁣\n“I’monlyabletoseethem[hischaracters]oncetherenderisdone—soit’skindoflikemeetingsomebodyforthefirsttime,”explainsFernando.“Ilovetoseethemandtrytounderstand,tofeelfromwheretheycamefrom,whotheyare,whattheydoandsoon.”⁣\n⁣\n“TodayI’mworkinginthisuniversethatIcreated,butmymindgoesmuchfurtherthanthat.Throughmywork,Ihopepeopleunderstandthatartgoesbeyondwhatweknowasart,there’sdifferentpaths,approachesandpossibilities.”#ThisWeekOnInstagram⁣\n⁣\nDigitalimagesby@mglhs_com',
+    comments: 5050,
+    likes: 412657,
+    comments_disabled: false,
+    taken_at_timestamp: 1589818338,
+    location: { id: '213385402', has_public_page: true, name: 'London,UnitedKingdom', slug: 'london-united-kingdom' },
+    hashtags: ['#ThisWeekOnInstagram'],
+    mentions: ['@mglhs_com', '@mglhs_com'],
+};
+```
+
+##### Comments
+Example output for the methods: **comments**
+
+```javascript
+{
+    id: '17854856327003928',
+    text: 'Böyle şeytani figürleri yayınlamak mi zorundasınız. Euzu billahi mineşşeytanirracim Bismillahirrahmanirrahim.',
+    created_at: 1589837238,
+    did_report_as_spam: false,
+    owner: {
+        id: '13492154487',
+        is_verified: false,
+        profile_pic_url:
+            'https://scontent-hel2-1.cdninstagram.com/v/t51.2885-19/s150x150/89832595_142698410416916_7218363900150939648_n.jpg?_nc_ht=scontent-hel2-1.cdninstagram.com&_nc_ohc=dIhkVzLiHVUAX-o8Vx6&oh=d516c43b444dc3409ac3f0cca145f9ca&oe=5EEBA851',
+        username: 'hasan_dede4809',
+    },
+    likes: 0,
+    comments: 0,
+};
+```
+
+##### Likers
+Example output for the methods: **likers**
+
+```javascript
+{
+    id: '27165506664',
+    username: 'josedhl_priv',
+    full_name: 'José David',
+    profile_pic_url:
+        'https://scontent-hel2-1.cdninstagram.com/v/t51.2885-19/s150x150/80568189_848308822340996_1519415041114243072_n.jpg?_nc_ht=scontent-hel2-1.cdninstagram.com&_nc_ohc=Kgmrwidffj0AX99RC-n&oh=a4e999c7ec74630c9a4a468272fc22c8&oe=5EEE2A91',
+    is_private: true,
+    is_verified: false,
+};
+```
 
 ## License
 

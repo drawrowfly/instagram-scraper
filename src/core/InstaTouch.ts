@@ -7,10 +7,9 @@ import { Parser } from 'json2csv';
 import { forEachLimit } from 'async';
 import ora, { Ora } from 'ora';
 import { tmpdir } from 'os';
-import { EventEmitter } from 'events';
 import { SocksProxyAgent } from 'socks-proxy-agent';
 import { fromCallback } from 'bluebird';
-import { writeFile, readFile } from 'fs';
+import { writeFile, readFile, mkdir } from 'fs';
 
 /**
  * Helper
@@ -45,7 +44,7 @@ import {
     Edges,
 } from '../types';
 
-export class InstaTouch extends EventEmitter {
+export class InstaTouch {
     private url: string;
 
     private download: boolean;
@@ -54,7 +53,7 @@ export class InstaTouch extends EventEmitter {
 
     private filetype: string;
 
-    private fileName: () => string;
+    private fileName: string;
 
     private storeHistory: boolean;
 
@@ -71,8 +70,6 @@ export class InstaTouch extends EventEmitter {
     private asyncDownload: number;
 
     private cli: boolean;
-
-    private event: boolean;
 
     private proxy: string[] | string;
 
@@ -106,11 +103,13 @@ export class InstaTouch extends EventEmitter {
 
     private originalBehaivor: boolean;
 
+    private zip: boolean;
+
     constructor({
         url,
-        download,
-        filepath,
-        filename,
+        download = false,
+        filepath = '',
+        filename = '',
         filetype,
         input,
         count,
@@ -124,31 +123,18 @@ export class InstaTouch extends EventEmitter {
         store_history = false,
         timeout,
         cli,
-        event,
         endCursor,
         bulk = false,
         historyPath,
         originalBehaivor = false,
+        zip = false,
     }: Constructor) {
-        super();
+        this.zip = zip;
         this.originalBehaivor = originalBehaivor;
         this.url = url;
         this.download = download;
-        this.filepath = filepath || '';
-        this.fileName = (): string => {
-            if (filename) {
-                return filename;
-            }
-            switch (scrapeType) {
-                case 'user':
-                case 'hashtag':
-                case 'followers':
-                case 'following':
-                    return `${this.input}_${this.scrapeType}_${Date.now()}`;
-                default:
-                    return `${this.scrapeType}_${Date.now()}`;
-            }
-        };
+        this.filepath = process.env.SCRAPING_FROM_DOCKER ? '/usr/app/files' : filepath || '';
+        this.fileName = filename;
         this.filetype = filetype;
         this.storeValue = `${scrapeType}_${input}`;
         this.input = input;
@@ -174,7 +160,6 @@ export class InstaTouch extends EventEmitter {
         });
         this.timeout = timeout;
         this.cli = cli;
-        this.event = event;
         // Important!!! If you change user agents, hash keys will be invalid
         this.userAgent = CONST.userAgent;
         this.id = '';
@@ -269,10 +254,22 @@ export class InstaTouch extends EventEmitter {
         if (this.cli && !this.bulk) {
             this.spinner.stop();
         }
-        if (this.event) {
-            this.emit('error', error);
-        } else {
-            throw error;
+        throw error;
+    }
+
+    /**
+     * Get folder destination, where all downloaded posts will be saved
+     */
+    private get folderDestination(): string {
+        switch (this.scrapeType) {
+            case 'user':
+                return this.filepath ? `${this.filepath}/${this.input}` : this.input;
+            case 'hashtag':
+                return this.filepath ? `${this.filepath}/#${this.input}` : `#${this.input}`;
+            case 'location':
+                return this.filepath ? `${this.filepath}/location:${this.input}` : `location:${this.input}`;
+            default:
+                throw new TypeError(`${this.scrapeType} is not supported`);
         }
     }
 
@@ -282,6 +279,14 @@ export class InstaTouch extends EventEmitter {
     public async startScraper(): Promise<Result | any> {
         if (this.cli && !this.bulk) {
             this.spinner.start();
+        }
+
+        if (this.download && !this.zip) {
+            try {
+                await fromCallback((cb) => mkdir(this.folderDestination, { recursive: true }, cb));
+            } catch (error) {
+                return this.returnInitError(error.message);
+            }
         }
 
         if (!this.scrapeType || CONST.scrapeType.indexOf(this.scrapeType) === -1) {
@@ -319,6 +324,23 @@ export class InstaTouch extends EventEmitter {
     }
 
     /**
+     * Get file destination(csv, zip, json)
+     */
+    private get fileDestination(): string {
+        if (this.fileName) {
+            return this.filepath ? `${this.filepath}/${this.fileName}` : this.fileName;
+        }
+        switch (this.scrapeType) {
+            case 'user':
+            case 'hashtag':
+            case 'location':
+                return this.filepath ? `${this.filepath}/${this.input}_${Date.now()}` : `${this.input}_${Date.now()}`;
+            default:
+                return this.filepath ? `${this.filepath}/${this.scrapeType}_${Date.now()}` : `${this.scrapeType}_${Date.now()}`;
+        }
+    }
+
+    /**
      * Store collector data in the CSV and/or JSON files
      */
     private async saveCollectorData(): Promise<string[]> {
@@ -327,10 +349,11 @@ export class InstaTouch extends EventEmitter {
                 this.spinner.stop();
             }
             if (this.collector.length) {
-                await this.Downloader.zipIt({
+                await this.Downloader.downloadPosts({
+                    zip: this.zip,
+                    folder: this.folderDestination,
                     collector: this.collector,
-                    filepath: this.filepath,
-                    fileName: this.fileName(),
+                    fileName: this.fileDestination,
                     asyncDownload: this.asyncDownload,
                 });
             }
@@ -339,8 +362,8 @@ export class InstaTouch extends EventEmitter {
         let csv = '';
 
         if (this.collector.length) {
-            json = this.filepath ? `${this.filepath}/${this.fileName()}.json` : `${this.fileName()}.json`;
-            csv = this.filepath ? `${this.filepath}/${this.fileName()}.csv` : `${this.fileName()}.csv`;
+            json = `${this.fileDestination}.json`;
+            csv = `${this.fileDestination}.csv`;
 
             if (this.collector.length) {
                 switch (this.filetype) {
@@ -758,12 +781,7 @@ export class InstaTouch extends EventEmitter {
         } else if (this.mediaType === 'video' && !item.is_video) {
             cb(null);
         } else {
-            if (this.event) {
-                this.emit('data', item);
-                this.collector.push({} as PostCollector);
-            } else {
-                this.collector.push(item);
-            }
+            this.collector.push(item);
             cb(null);
         }
     }

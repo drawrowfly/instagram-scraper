@@ -18,11 +18,11 @@ export interface Constructor {
     session: string[] | string;
     asyncDownload: number;
     cli: boolean;
-    event: boolean;
     progress?: boolean;
     bulk?: boolean;
     input: string;
     count: number;
+    zip?: boolean;
     scrapeType: ScrapeType;
     by_user_id?: boolean;
     store_history?: boolean;
@@ -47,7 +47,6 @@ export interface Options {
     proxyFile?: string;
     proxy?: string[] | string;
     session?: string[] | string;
-    event?: boolean;
     mediaType?: MediaType;
     download?: boolean;
     asyncDownload?: number;

@@ -2,10 +2,11 @@
 /* eslint-disable consistent-return */
 import request from 'request';
 import { Agent } from 'http';
-import { createWriteStream } from 'fs';
+import { createWriteStream, writeFile } from 'fs';
 import archiver from 'archiver';
 import { SocksProxyAgent } from 'socks-proxy-agent';
 import { forEachLimit } from 'async';
+import { fromCallback } from 'bluebird';
 
 import { MultipleBar } from '../helpers';
 import { DownloaderConstructor, PostCollector, ZipValues, Proxy } from '../types';
@@ -120,27 +121,35 @@ export class Downloader {
     /**
      * Download and ZIP video files
      */
-    public zipIt({ collector, filepath, fileName, asyncDownload }: ZipValues) {
+    public downloadPosts({ zip, folder, collector, fileName, asyncDownload }: ZipValues) {
         return new Promise((resolve, reject) => {
-            const zip = filepath ? `${filepath}/${fileName}.zip` : `${fileName}.zip`;
-            const output = createWriteStream(zip);
+            const saveDestination = zip ? `${fileName}.zip` : folder;
             const archive = archiver('zip', {
                 gzip: true,
                 zlib: { level: 9 },
             });
-            archive.pipe(output);
+            if (zip) {
+                const output = createWriteStream(saveDestination);
+                archive.pipe(output);
+            }
 
             forEachLimit(
                 collector,
                 asyncDownload,
                 (item: PostCollector, cb) => {
                     this.toBuffer(item)
-                        .then((buffer) => {
+                        .then(async (buffer) => {
                             item.downloaded = true;
-                            if (item.is_video) {
-                                archive.append(buffer, { name: `${item.shortcode}.mp4` });
+                            if (zip) {
+                                archive.append(buffer, { name: `${item.is_video ? `${item.shortcode}.mp4` : `${item.shortcode}.jpeg`}` });
                             } else {
-                                archive.append(buffer, { name: `${item.shortcode}.jpeg` });
+                                await fromCallback((cback) =>
+                                    writeFile(
+                                        `${saveDestination}/${item.is_video ? `${item.shortcode}.mp4` : `${item.shortcode}.jpeg`}`,
+                                        buffer,
+                                        cback,
+                                    ),
+                                );
                             }
                             cb(null);
                         })
@@ -154,8 +163,12 @@ export class Downloader {
                         return reject(error);
                     }
 
-                    archive.finalize();
-                    archive.on('end', () => resolve());
+                    if (zip) {
+                        archive.finalize();
+                        archive.on('end', () => resolve());
+                    } else {
+                        resolve();
+                    }
                 },
             );
         });

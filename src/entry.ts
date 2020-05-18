@@ -25,10 +25,10 @@ const INIT_OPTIONS = {
     queryHash: '',
     url: '',
     cli: false,
-    event: false,
     timeout: 0,
     endCursor: '',
     originalBehaivor: false,
+    zip: false,
 };
 
 /**
