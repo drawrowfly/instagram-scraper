@@ -27,7 +27,6 @@ const INIT_OPTIONS = {
     cli: false,
     timeout: 0,
     endCursor: '',
-    originalBehaivor: false,
     zip: false,
 };
 

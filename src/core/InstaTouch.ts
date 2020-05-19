@@ -79,8 +79,6 @@ export class InstaTouch {
 
     private collector: PostCollector[];
 
-    private originalOutput: Edges;
-
     private spinner: Ora;
 
     private userAgent: string;
@@ -101,9 +99,9 @@ export class InstaTouch {
 
     private bulk: boolean;
 
-    private originalBehaivor: boolean;
-
     private zip: boolean;
+
+    private itemCount: number;
 
     constructor({
         url,
@@ -126,11 +124,9 @@ export class InstaTouch {
         endCursor,
         bulk = false,
         historyPath,
-        originalBehaivor = false,
         zip = false,
     }: Constructor) {
         this.zip = zip;
-        this.originalBehaivor = originalBehaivor;
         this.url = url;
         this.download = download;
         this.filepath = process.env.SCRAPING_FROM_DOCKER ? '/usr/app/files' : filepath || '';
@@ -147,7 +143,7 @@ export class InstaTouch {
         this.scrapeType = scrapeType;
         this.asyncDownload = asyncDownload;
         this.collector = [];
-        this.originalOutput = {} as Edges;
+        this.itemCount = 0;
         this.spinner = ora('InstaTouch Scraper Started');
         this.historyPath = process.env.SCRAPING_FROM_DOCKER ? '/usr/app/files' : historyPath || tmpdir();
         this.bulk = bulk;
@@ -318,8 +314,10 @@ export class InstaTouch {
         const [json, csv] = await this.saveCollectorData();
 
         return {
+            count: this.itemCount,
+            has_more: this.hasNextPage,
+            end_cursor: this.endCursor,
             collector: this.collector,
-            original: this.originalOutput,
             ...(this.filetype === 'all' ? { json, csv } : {}),
             ...(this.filetype === 'json' ? { json } : {}),
             ...(this.filetype === 'csv' ? { csv } : {}),
@@ -481,14 +479,9 @@ export class InstaTouch {
                 default:
                     break;
             }
+            this.itemCount = graphData.count;
 
-            console.log('asdasdasdasdasdasdadasdas');
-            if (!this.originalBehaivor) {
-                await this.collectPosts(graphData.edges);
-            } else {
-                this.originalOutput = graphData;
-                throw new Error('Done');
-            }
+            await this.collectPosts(graphData.edges);
 
             if (this.collector.length >= this.toCollect) {
                 throw new Error('Done');
@@ -532,8 +525,23 @@ export class InstaTouch {
         }
     }
 
+    private async extractDataHelper(edges: Post[], count: number) {
+        if (edges.length > this.toCollect) {
+            edges.splice(this.toCollect);
+        }
+
+        if (this.toCollect > count) {
+            this.toCollect = count;
+        }
+        this.itemCount = count;
+        if (!this.endCursor) {
+            await this.collectPosts(edges);
+        }
+    }
+
     /**
-     * Extracting data from different page types
+     * In order to start scraping user, hashtag, location and comments
+     * We need to extract ID's that are required to send graphQL request
      */
     private async extractData(): Promise<any> {
         switch (this.scrapeType) {
@@ -544,17 +552,9 @@ export class InstaTouch {
                     const { edges, count } = result.entry_data.ProfilePage[0].graphql.user.edge_owner_to_timeline_media;
                     this.id = result.entry_data.ProfilePage[0].graphql.user.id;
                     this.hasNextPage = result.entry_data.ProfilePage[0].graphql.user.edge_owner_to_timeline_media.page_info.has_next_page;
-                    this.endCursor = result.entry_data.ProfilePage[0].graphql.user.edge_owner_to_timeline_media.page_info.end_cursor;
-
-                    if (edges.length > this.toCollect) {
-                        edges.splice(this.toCollect);
-                    }
-
-                    if (this.toCollect > count) {
-                        this.toCollect = count;
-                    }
-
-                    await this.collectPosts(edges);
+                    await this.extractDataHelper(edges, count);
+                    this.endCursor =
+                        this.endCursor || result.entry_data.ProfilePage[0].graphql.user.edge_owner_to_timeline_media.page_info.end_cursor;
                 } catch (error) {
                     throw new Error(`Can't scrape date. Please try again or submit issue to the github`);
                 }
@@ -566,16 +566,8 @@ export class InstaTouch {
                     const { edges, count } = result.entry_data.TagPage[0].graphql.hashtag.edge_hashtag_to_media;
                     this.id = result.entry_data.TagPage[0].graphql.hashtag.name;
                     this.hasNextPage = result.entry_data.TagPage[0].graphql.hashtag.edge_hashtag_to_media.page_info.has_next_page;
-                    this.endCursor = result.entry_data.TagPage[0].graphql.hashtag.edge_hashtag_to_media.page_info.end_cursor;
-                    if (edges.length > this.toCollect) {
-                        edges.splice(this.toCollect);
-                    }
-
-                    if (this.toCollect > count) {
-                        this.toCollect = count;
-                    }
-
-                    await this.collectPosts(edges);
+                    await this.extractDataHelper(edges, count);
+                    this.endCursor = this.endCursor || result.entry_data.TagPage[0].graphql.hashtag.edge_hashtag_to_media.page_info.end_cursor;
                 } catch (error) {
                     throw new Error(`Can't scrape date. Please try again or submit issue to the github`);
                 }
@@ -586,17 +578,9 @@ export class InstaTouch {
                 try {
                     const { edges, count } = result.entry_data.LocationsPage[0].graphql.location.edge_location_to_media;
                     this.hasNextPage = result.entry_data.LocationsPage[0].graphql.location.edge_location_to_media.page_info.has_next_page;
-                    this.endCursor = result.entry_data.LocationsPage[0].graphql.location.edge_location_to_media.page_info.end_cursor;
-
-                    if (edges.length > this.toCollect) {
-                        edges.splice(this.toCollect);
-                    }
-
-                    if (this.toCollect > count) {
-                        this.toCollect = count;
-                    }
-
-                    await this.collectPosts(edges);
+                    await this.extractDataHelper(edges, count);
+                    this.endCursor =
+                        this.endCursor || result.entry_data.LocationsPage[0].graphql.location.edge_location_to_media.page_info.end_cursor;
                 } catch (error) {
                     throw new Error(`Can't scrape date. Please try again or submit issue to the github`);
                 }
@@ -608,17 +592,9 @@ export class InstaTouch {
                     const { edges, count } = result.entry_data.PostPage[0].graphql.shortcode_media.edge_media_to_parent_comment;
                     this.id = result.entry_data.PostPage[0].graphql.shortcode_media.shortcode;
                     this.hasNextPage = result.entry_data.PostPage[0].graphql.shortcode_media.edge_media_to_parent_comment.page_info.has_next_page;
-                    this.endCursor = result.entry_data.PostPage[0].graphql.shortcode_media.edge_media_to_parent_comment.page_info.end_cursor;
-
-                    if (edges.length > this.toCollect) {
-                        edges.splice(this.toCollect);
-                    }
-
-                    if (this.toCollect > count) {
-                        this.toCollect = count;
-                    }
-
-                    await this.collectPosts(edges);
+                    await this.extractDataHelper(edges, count);
+                    this.endCursor =
+                        this.endCursor || result.entry_data.PostPage[0].graphql.shortcode_media.edge_media_to_parent_comment.page_info.end_cursor;
                 } catch (error) {
                     throw new Error(`Can't scrape date. Please try again or submit issue to the github`);
                 }

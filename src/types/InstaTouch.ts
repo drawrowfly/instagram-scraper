@@ -39,7 +39,6 @@ export interface Constructor {
     timeout: number;
     endCursor?: string;
     historyPath?: string;
-    originalBehaivor?: boolean;
 }
 
 export interface Options {
@@ -61,7 +60,6 @@ export interface Options {
     historyPath?: string;
     asyncBulk?: number;
     bulk?: boolean;
-    originalBehaivor?: boolean;
 }
 
 export interface PostCollector {
