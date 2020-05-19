@@ -482,6 +482,7 @@ export class InstaTouch {
                     break;
             }
 
+            console.log('asdasdasdasdasdasdadasdas');
             if (!this.originalBehaivor) {
                 await this.collectPosts(graphData.edges);
             } else {
@@ -795,7 +796,6 @@ export class InstaTouch {
      */
     private async storeDownlodProgress() {
         const historyType = `${this.scrapeType}_${this.input}`;
-        console.log(historyType);
         if (this.storeValue) {
             let history = {} as History;
 

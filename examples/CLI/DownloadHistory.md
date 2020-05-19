@@ -21,6 +21,8 @@ instatouch history -r TYPE:INPUT
 instatouch history -r user:tiktok
 instatouch history -r hashtag:summer
 instatouch history -r location:434343
+instatouch history -r likers:https://www.instagram.com/p/CAS6In0AU_K/
+instatouch history -r comments:https://www.instagram.com/p/CAS6In0AU_K/
 ```
 
 Set custom path where history files will be stored.

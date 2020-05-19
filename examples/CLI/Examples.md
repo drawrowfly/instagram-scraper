@@ -3,20 +3,20 @@
 ## Terminal Examples
 
 **Example 1:**
-Scrape 50 video posts from hashtag summer. Save post info in to a CSV file (by default)
+Scrape 50 **(-c 50)** video **(-m video)** posts from hashtag **summer**. Save post info in to a CSV file **(-t csv)**
 
 ```sh
-$ instatouch hashtag summer --count 50 --mediaType video
+$ instatouch hashtag summer -c 50 -m video -t csv
 
 Output:
 JSON path: /{CURRENT_PATH}/summer_1552945544582.csv
 ```
 
 **Example 2:**
-Scrape 100 posts from user natgeo, download and save them to a ZIP archive. Save post info in to a JSON and CSV files (--filetype all)
+Scrape 100 **(-c 100)** posts from user natgeo, download **(-d)** and save them to a ZIP **(--zip)** archive. Save post info in to a JSON and CSV files **(-t all)**
 
 ```
-$ instatouch user natgeo --count 100 --download true --filetype all
+$ instatouch user natgeo -c 100 -d --zip -t all
 
 Output:
 ZIP path: /{CURRENT_PATH}/natgeo_1552945659138.zip
@@ -25,10 +25,10 @@ CSV path: /{CURRENT_PATH}/natgeo_1552945659138.csv
 ```
 
 **Example 3:**
-Scrape 50 posts from user natgeo, download and save them to a ZIP archive. Save post info in to a JSON and CSV files (--filetype all). Save all files to a custom path (--filepath /custom/path/to/save/files)
+Scrape 50 **(-c 50)** posts from user natgeo, download **(-d)** and save them to a ZIP **(--zip)** archive. Save post info in to a JSON and CSV files **(-t all)**. Save all files to a custom path **(--filepath /custom/path/to/save/files)**
 
 ```
-$ instatouch user natgeo --count 50 --download true --filetype all --filepath /custom/path/to/save/files
+$ instatouch user natgeo -c 50 -d --zip -t all --filepath /custom/path/to/save/files
 
 Output:
 ZIP path: /custom/path/to/save/files/natgeo_1552945659138.zip
@@ -37,27 +37,27 @@ CSV path: /custom/path/to/save/files/natgeo_1552945659138.csv
 ```
 
 **Example 4:**
-Scrape 200 comments from this post https://www.instagram.com/p/B3XPst_A98M/. Save comment data in to a CSV file
+Scrape 200 **(-c 200)** comments from this post https://www.instagram.com/p/B3XPst_A98M/. Save comment data in to a CSV file **(-t csv)**
 
 ```
-$ instatouch comments https://www.instagram.com/p/B3XPst_A98M/ --count 50
+$ instatouch comments https://www.instagram.com/p/B3XPst_A98M/ -c 200 -t csv
 
 Output:
 CSV path: /{CURRENT_PATH}/B3XPst_A98M_1552945659138.csv
 ```
 
 **Example 5:**
-Scrape 200 users who liked this post https://www.instagram.com/p/B3XPst_A98M/. Save comment data in to a CSV file
+Scrape 200 **(-c 200)** users who liked this post https://www.instagram.com/p/B3XPst_A98M/. Save comment data in to a CSV file **(-t csv)**
 
 ```
-$ instatouch likers https://www.instagram.com/p/B3XPst_A98M/ --count 200
+$ instatouch likers https://www.instagram.com/p/B3XPst_A98M/ -c 200 -t csv
 
 Output:
 CSV path: /{CURRENT_PATH}/B3XPst_A98M_1552945659138.csv
 ```
 
 **Example 6:**
-Download(-d) 20 newest post from the user {USERNAME} and save the progress to avoid downloading the same posts in the future(-s)
+Download **(-d)** 20 **(-c 20)** newest post from the user {USERNAME} and save the progress to avoid downloading the same posts in the future **(-s)**
 
 -   When executing same command next time scraper will only download new posts that weren't downloaded before
 
