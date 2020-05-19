@@ -300,7 +300,7 @@ export class InstaTouch {
         }
 
         if (CONST.startFromWebApi.indexOf(this.scrapeType) > -1) {
-            const user = await this.getUserMeta(this.input);
+            const user = await this.getUserMeta(this.url);
             this.id = user.graphql.user.id;
         }
 

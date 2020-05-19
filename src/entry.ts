@@ -99,12 +99,13 @@ const promiseScraper = async (input: string, type: ScrapeType, options?: Options
                     throw 'This method is working only with the active session. Exampe: sessionid=1231231313';
                 }
             } else {
-                options!.session = [options!.session as string];
+                options!.session = options!.session && [options!.session as string];
             }
             if (!options?.session) {
                 throw 'This method is working only with the active session. Exampe: sessionid=1231231313';
             }
             validateFullProfileUrl(constructor, input);
+
             break;
         default:
             break;
