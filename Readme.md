@@ -73,29 +73,54 @@ $ yarn global add instatouch
 ```sh
 $ instatouch --help
 
+Usage: cli <command> [options]
+
 Commands:
-  instatouch user [id]      Scrape posts from username. Enter only username
-  instatouch hashtag [id]   Scrape posts from hashtag. Enter hashtag without
-  instatouch comments [id]  Scrape comments from a post. Enter post url or post id
-  instatouch likers [id]    Scrape users who liked a post. Enter post url or post id
+  instatouch user [id]                 Scrape posts from username. Enter only username
+  instatouch hashtag [id]              Scrape posts from hashtag. Enter hashtag without
+                                #
+  instatouch location [id]             Scrape posts from a specific location. Enter
+                                location ID
+  instatouch comments [id]             Scrape comments from a post. Enter post url or
+                                post id
+  instatouch likers [id]               Scrape users who liked a post. Enter post url or
+                                post id
+  instatouch history                   View previous download history
+  instatouch from-file [file] [async]  Scrape users, hashtags, music, videos mentioned
+                                in a file. 1 value per 1 line
 
 Options:
-  --help                  Show help                                    [boolean]
-  --version               Show version number                          [boolean]
-  --count, -c             Number of post to scrape                  [default: 0]
-  --mediaType             Media type to scrape
+  --version            Show version number                             [boolean]
+  --count, -c          Number of post to scrape                     [default: 0]
+  --mediaType, -m      Media type to scrape
                              [choices: "image", "video", "all"] [default: "all"]
-  --proxy, -p             Set proxy                                [default: ""]
-  --download              Download and archive all scraped posts to a ZIP file
-                                                      [boolean] [default: false]
-  --asyncDownload         How many posts should be downloaded at the same time
-                                                                    [default: 5]
-  --progress              Show progress in terminal    [boolean] [default: true]
-  --filename, --file, -f  Name of the output file              [default: "[id]"]
-  --filepath              Directory to save file
-                                           [default: "{CURRENT_PATH}"]
-  --filetype, --type, -t  Type of output file
-                              [choices: "csv", "json", "both"] [default: "json"]
+  --proxy, -p          Set single proxy                            [default: ""]
+  --proxy-file         Use proxies from a file. Scraper will use random proxies
+                       from the file per each request. 1 line 1 proxy.
+                                                                   [default: ""]
+  --timeout            If you will receive error saying 'rate limit', you can
+                       try to set timeout. Timeout is in mls: 1000 mls = 1
+                       second                                       [default: 0]
+  --download, -d       Download all scraped posts     [boolean] [default: false]
+  --zip, -z            ZIP all downloaded posts       [boolean] [default: false]
+  --asyncDownload, -a  How many posts should be downloaded at the same time.
+                       Try not to set more then 5                   [default: 5]
+  --filename, -f       Set custom filename for the output files    [default: ""]
+  --filepath           Directory to save all output files.
+   [default: "/Users/blah/blah"]
+  --filetype, -t       Type of output file where post information will be
+                       saved. 'all' - save information about all posts to a
+                       'json' and 'csv'
+                                [choices: "csv", "json", "all"] [default: "csv"]
+  --store, -s          Scraper will save the progress in the OS TMP or Custom
+                       folder and in the future usage will only download new
+                       posts avoiding duplicates     [boolean] [default: false]
+  --historypath        Set custom path where history file/files will be stored
+                   [default: "/var/folders/d5/fyh1_f2926q7c65g7skc0qh80000gn/T"]
+  --remove, -r         Delete the history record by entering "TYPE:INPUT" or
+                       "all" to clean all the history. For example: user:bob
+                                                                   [default: ""]
+  --help               Show help                                       [boolean]
 ```
 - [Terminal Examples](https://github.com/drawrowfly/instagram-scraper/tree/master/examples/CLI/Examples.md)
 - [Manage Download History](https://github.com/drawrowfly/instagram-scraper/tree/master/examples/CLI/DownloadHistory.md)

@@ -12,7 +12,7 @@ import CONST from './constant';
 
 const INIT_OPTIONS = {
     id: '',
-    count: 10,
+    count: 40,
     download: false,
     asyncDownload: 5,
     mediaType: 'all',
@@ -48,11 +48,17 @@ const proxyFromFile = async (file: string) => {
     }
 };
 
-const validateFullProfileUrl = (input: string): string => {
-    if (/^https:\/\/www.instagram.com\/[\w.+]+\/?$/.test(input)) {
-        return input;
+const validateFullProfileUrl = (constructor: Constructor, input: string) => {
+    if (!/^https:\/\/www.instagram.com\/[\w.+]+\/?$/.test(input)) {
+        if (input.indexOf('instagram.com/p/') > -1) {
+            constructor.url = `https://www.instagram.com/${input.split('instagram.com/')[1].split('/')[1]}/`;
+        } else {
+            constructor.url = `https://www.instagram.com/${input}/`;
+        }
+    } else {
+        constructor.url = input;
+        constructor.input = input.split('instagram.com/')[1].split('/')[0];
     }
-    return `https://www.instagram.com/${input}/`;
 };
 
 const validatePostUrl = (constructor: Constructor, input: string) => {
@@ -72,10 +78,10 @@ const promiseScraper = async (input: string, type: ScrapeType, options?: Options
     if (options && typeof options !== 'object') {
         throw new TypeError('Object is expected');
     }
-    const constructor: Constructor = { ...INIT_OPTIONS, ...{ scrapeType: type, input }, ...options };
+    const constructor: Constructor = { ...INIT_OPTIONS, ...options, ...{ scrapeType: type, input } };
     switch (type) {
         case 'user':
-            constructor.url = validateFullProfileUrl(input);
+            validateFullProfileUrl(constructor, input);
             break;
         case 'hashtag':
             constructor.url = `https://www.instagram.com/explore/tags/${input}/`;
@@ -99,8 +105,7 @@ const promiseScraper = async (input: string, type: ScrapeType, options?: Options
             if (!options?.session) {
                 throw 'This method is working only with the active session. Exampe: sessionid=1231231313';
             }
-
-            constructor.url = validateFullProfileUrl(input);
+            validateFullProfileUrl(constructor, input);
             break;
         default:
             break;
@@ -124,10 +129,11 @@ export const getUserMeta = async (input: string, options?: Options): Promise<Use
     if (options && typeof options !== 'object') {
         throw new TypeError('Object is expected');
     }
-    const contructor: Constructor = { ...INIT_OPTIONS, ...{ scrapeType: 'user_meta', input }, ...options };
-    const scraper = new InstaTouch(contructor);
+    const constructor: Constructor = { ...INIT_OPTIONS, ...options, ...{ scrapeType: 'user_meta', input } };
+    const scraper = new InstaTouch(constructor);
 
-    const result = await scraper.getUserMeta(input);
+    validateFullProfileUrl(constructor, input);
+    const result = await scraper.getUserMeta(constructor.url);
     return result;
 };
 
@@ -135,10 +141,11 @@ export const getPostMeta = async (input: string, options?: Options): Promise<Pos
     if (options && typeof options !== 'object') {
         throw new TypeError('Object is expected');
     }
-    const contructor: Constructor = { ...INIT_OPTIONS, ...{ scrapeType: 'post_meta', input }, ...options };
-    const scraper = new InstaTouch(contructor);
+    const constructor: Constructor = { ...INIT_OPTIONS, ...options, ...{ scrapeType: 'post_meta', input } };
+    validatePostUrl(constructor, input);
+    const scraper = new InstaTouch(constructor);
 
-    const result = await scraper.getPostMeta(input);
+    const result = await scraper.getPostMeta(constructor.url);
     return result;
 };
 
@@ -229,8 +236,8 @@ const batchProcessor = (batch: Batcher[], options: Options): Promise<any[]> => {
                         break;
                     case 'location':
                         try {
-                            await location(item.input, { ...{ bulk: true }, ...options });
-                            result.push({ type: item.scrapeType, input: item.input, completed: true });
+                            const output = await location(item.input, { ...{ bulk: true }, ...options });
+                            result.push({ type: item.scrapeType, input: item.input, completed: true, scraped: output.collector.length });
                             console.log(`Scraping completed: ${item.scrapeType} ${item.input}`);
                         } catch (error) {
                             result.push({ type: item.scrapeType, input: item.input, completed: false });
@@ -286,23 +293,23 @@ export const fromfile = async (input: string, options: Options) => {
                     input: item.split('#')[1],
                 };
             }
-            if (item.indexOf('location:') > -1) {
+            if (item.indexOf('location|') > -1) {
                 return {
                     scrapeType: 'location',
-                    input: item.split(':')[1],
+                    input: item.split('|')[1],
                 };
             }
-            if (item.indexOf('comments:') > -1) {
+            if (item.indexOf('comments|') > -1) {
                 return {
                     scrapeType: 'comments',
-                    input: item.split(':')[1],
+                    input: item.split('|')[1],
                     by_user_id: true,
                 };
             }
-            if (item.indexOf('likers:') > -1) {
+            if (item.indexOf('likers|') > -1) {
                 return {
                     scrapeType: 'likers',
-                    input: item.split(':')[1],
+                    input: item.split('|')[1],
                     by_user_id: true,
                 };
             }
@@ -318,6 +325,7 @@ export const fromfile = async (input: string, options: Options) => {
     if (options?.proxyFile) {
         options.proxy = await proxyFromFile(options?.proxyFile);
     }
+
     const result = await batchProcessor(batch, options);
 
     return { table: result };

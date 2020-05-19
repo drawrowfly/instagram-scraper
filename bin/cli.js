@@ -74,10 +74,7 @@ yargs
     .command('history', 'View previous download history', {}, (argv) => {
         startScraper(argv);
     })
-    .command('from-file [file] [async]', 'Scrape users, hashtags, music, videos mentioned in a file. 1 value per 1 lin', {}, (argv) => {
-        startScraper(argv);
-    })
-    .command('history', 'View previous download history', {}, (argv) => {
+    .command('from-file [file] [async]', 'Scrape users, hashtags, music, videos mentioned in a file. 1 value per 1 line', {}, (argv) => {
         startScraper(argv);
     })
     .options({
@@ -87,7 +84,7 @@ yargs
         },
         count: {
             alias: 'c',
-            default: 0,
+            default: 40,
             describe: 'Number of post to scrape',
         },
         mediaType: {
@@ -113,7 +110,7 @@ yargs
             alias: 'd',
             boolean: true,
             default: false,
-            describe: 'Download and archive all scraped posts to a ZIP file',
+            describe: 'Download all scraped posts',
         },
         zip: {
             alias: 'z',
@@ -138,15 +135,16 @@ yargs
         filetype: {
             alias: ['t'],
             default: 'csv',
-            choices: ['csv', 'json', 'all'],
-            describe: "Type of output file where post information will be saved. 'all' - save information about all posts to a 'json' and 'csv' ",
+            choices: ['csv', 'json', 'all', ''],
+            describe:
+                "Type of output file where post information will be saved. 'all' - save information about all posts to a 'json' and 'csv'. '' - do not save data in to files ",
         },
         store: {
             alias: ['s'],
             boolean: true,
             default: false,
             describe:
-                'Scraper will save the progress in the OS TMP or Custom folder and in the future usage will only download new videos avoiding duplicates',
+                'Scraper will save the progress in the OS TMP or Custom folder and in the future usage will only download new posts avoiding duplicates',
         },
         historypath: {
             default: process.env.SCRAPING_FROM_DOCKER ? '' : tmpdir(),
@@ -179,6 +177,9 @@ yargs
             const async = parseInt(argv.async, 10);
             if (!async) {
                 throw new Error('You need to set number of task that should be executed at the same time');
+            }
+            if (!argv.t && !argv.d) {
+                throw new Error('You need to specify file type(-t) where data will be saved AND/OR if posts should be downloaded (-d)');
             }
         }
 

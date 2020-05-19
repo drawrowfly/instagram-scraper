@@ -245,7 +245,11 @@ export class InstaTouch {
                     resolve(response.body);
                 }
             } catch (error) {
-                reject(error);
+                if (error.name === 'StatusCodeError' || error.name === 'RequestError') {
+                    reject(error.message);
+                } else {
+                    reject(error);
+                }
             }
         });
     }
@@ -288,7 +292,6 @@ export class InstaTouch {
                 return this.returnInitError(error.message);
             }
         }
-
         if (!this.scrapeType || CONST.scrapeType.indexOf(this.scrapeType) === -1) {
             return this.returnInitError(`Missing scraping type. Scrape types: ${CONST.scrapeType} `);
         }
@@ -652,10 +655,10 @@ export class InstaTouch {
         return json;
     }
 
-    public async getPostMeta(shortcode: string): Promise<PostMetaFromWebApi> {
+    public async getPostMeta(uri: string): Promise<PostMetaFromWebApi> {
         const options = {
             method: 'GET',
-            uri: `https://www.instagram.com/p/${shortcode}/?__a=1`,
+            uri: `${uri}?__a=1`,
             gzip: true,
             json: true,
         };
@@ -664,10 +667,10 @@ export class InstaTouch {
         return response;
     }
 
-    public async getUserMeta(username: string): Promise<UserMetaFromWebApi> {
+    public async getUserMeta(uri: string): Promise<UserMetaFromWebApi> {
         const options = {
             method: 'GET',
-            uri: `https://www.instagram.com/${username}/?__a=1`,
+            uri: `${uri}?__a=1`,
             gzip: true,
             json: true,
         };
@@ -715,7 +718,7 @@ export class InstaTouch {
                                 };
 
                                 if (item.is_video) {
-                                    this.getPostMeta(item.shortcode!)
+                                    this.getPostMeta(`https://www.instagram.com/p/${item.shortcode}/`)
                                         .then((postMeta) => {
                                             item.video_url = postMeta.graphql.shortcode_media.video_url;
                                             this.cbCollector(cb, item);

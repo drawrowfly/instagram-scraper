@@ -19,27 +19,27 @@ To download video, enter plain video url.
 **File Example:**
 
 ```
-## User feed by username <---- this is just a comment and hence it is not important
+## User <---- this is just a comment that will be ignored by the scraper
 instagram
-charlidamelio
-sam
-bob
+tiktok
+https://www.instagram.com/facebook/
 
-## User feed by user id
-id:12312312312
-
-## Hashtag feed
+## Hashtag
 #love
 #summer
 #story
 
-## Location feed
-location:3242234234
-location:46646
-location:23423424234
+## Location
+location|213385402
+location|259121424
 
-## Single Post
-https://www.instagram.com/p/DASSDADAD
+## People who liked post
+likers|https://www.instagram.com/p/CAVeEm1gDh2/
+likers|https://www.instagram.com/p/CAS6In0AU_K/
+
+## Comments
+comments|https://www.instagram.com/p/CAOL3ySAOyy/
+comments|https://www.instagram.com/p/CAS6In0AU_K/
 ```
 
 **Example 1 without proxy**
