@@ -1,5 +1,5 @@
 import { SocksProxyAgent } from 'socks-proxy-agent';
-import { Edges } from 'types/Ig';
+import { Edges } from './Ig';
 
 export type ScrapeType = 'user' | 'hashtag' | 'location' | 'comments' | 'likers' | 'followers' | 'following' | 'user_meta' | 'post_meta';
 
