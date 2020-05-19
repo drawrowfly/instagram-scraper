@@ -56,6 +56,19 @@ Output:
 CSV path: /{CURRENT_PATH}/B3XPst_A98M_1552945659138.csv
 ```
 
+**Example 6:**
+Download(-d) 20 newest post from the user {USERNAME} and save the progress to avoid downloading the same posts in the future(-s)
+
+-   When executing same command next time scraper will only download new posts that weren't downloaded before
+
+```sh
+instatouch user USERNAME -c 20 -d -s
+
+
+Output:
+Folder Path: /User/Bob/Downloads/USERNAME
+```
+
 **To make it look better, when downloading posts the progress will be shown in terminal**
 
 ```

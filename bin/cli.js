@@ -32,6 +32,7 @@ const startScraper = async (argv) => {
         if (argv.async) {
             argv.asyncBulk = argv.async;
         }
+
         const scraper = await IGScraper[argv.scrapeType](argv.input, argv);
 
         if (scraper.zip) {
@@ -167,11 +168,11 @@ yargs
             }
         }
 
-        if (argv.store) {
-            if (!argv.download) {
-                throw new Error('--store, -s flag is only working in combination with the download flag. Add -d to your command');
-            }
-        }
+        // if (argv.store) {
+        //     if (!argv.download) {
+        //         throw new Error('--store, -s flag is only working in combination with the download flag. Add -d to your command');
+        //     }
+        // }
 
         if (argv._[0] === 'from-file') {
             const async = parseInt(argv.async, 10);

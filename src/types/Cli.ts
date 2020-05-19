@@ -3,7 +3,7 @@ import { ScrapeType } from '.';
 export interface HistoryItem {
     type: ScrapeType;
     input: string;
-    downloaded_posts: number;
+    collected_items: number;
     last_change: Date;
     file_location: string;
 }

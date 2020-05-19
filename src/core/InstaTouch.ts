@@ -138,7 +138,7 @@ export class InstaTouch {
         this.filetype = filetype;
         this.storeValue = `${scrapeType}_${input}`;
         this.input = input;
-        this.storeHistory = cli && download && store_history;
+        this.storeHistory = cli && store_history;
         this.toCollect = count;
         this.proxy = proxy;
         this.session = session;
@@ -795,6 +795,7 @@ export class InstaTouch {
      */
     private async storeDownlodProgress() {
         const historyType = `${this.scrapeType}_${this.input}`;
+        console.log(historyType);
         if (this.storeValue) {
             let history = {} as History;
 
@@ -807,7 +808,7 @@ export class InstaTouch {
                 history[historyType] = {
                     type: this.scrapeType,
                     input: this.input,
-                    downloaded_posts: 0,
+                    collected_items: 0,
                     last_change: new Date(),
                     file_location: `${this.historyPath}/ig_${this.storeValue}.json`,
                 };
@@ -817,7 +818,7 @@ export class InstaTouch {
                 history[historyType] = {
                     type: this.scrapeType,
                     input: this.input,
-                    downloaded_posts: 0,
+                    collected_items: 0,
                     last_change: new Date(),
                     file_location: `${this.historyPath}/ig_${this.storeValue}.json`,
                 };
@@ -846,7 +847,7 @@ export class InstaTouch {
             history[historyType] = {
                 type: this.scrapeType,
                 input: this.input,
-                downloaded_posts: history[historyType].downloaded_posts + this.collector.length,
+                collected_items: history[historyType].collected_items + this.collector.length,
                 last_change: new Date(),
                 file_location: `${this.historyPath}/ig_${this.storeValue}.json`,
             };

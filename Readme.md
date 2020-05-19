@@ -15,8 +15,8 @@ This is not an official API support and etc. This is just a scraper that is usin
 ---
 
 ## Content
-- [To Do](#to-do)
 - [Demo](#demo)
+- [To Do](#to-do)
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -34,11 +34,6 @@ This is not an official API support and etc. This is just a scraper that is usin
 	        - [comments](#comments)
 	        - [likers](#likers)
 
-## To Do
--   [ ] Improve documentation
--   [ ] Web interface
-
-
 ## Demo
 
 ![Demo](https://i.imgur.com/DDRmH2y.gif)
@@ -53,9 +48,14 @@ This is not an official API support and etc. This is just a scraper that is usin
 -   Download and save media to a ZIP archive
 -   Create JSON/CSV files with a post information
 
+## To Do
+-   [ ] Improve documentation
+-   [ ] More examples
+-   [ ] Web interface
+
 **Possible errors from instagram API**
 
--   Rate Limit - Instagram API temporarily blocked your IP, you can wait a little, try to use a proxy or set a {timeout}
+-   Rate Limit - Instagram API temporarily blocked your IP, you can wait a little, try to use a proxy or set the higher {timeout}
 
 ## Installation
 

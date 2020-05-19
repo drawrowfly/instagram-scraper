@@ -7,6 +7,7 @@ export = {
     notDownloadable: ['comments', 'likers', 'followers', 'following', 'user_meta', 'post_meta'],
     mediaType: ['video', 'image', 'all'],
     fileType: ['json', 'csv', 'all', 'na'],
+    history: ['user', 'hashtag', 'location', 'comments', 'likers'],
     csvFields: [
         'id',
         'ownerId',

@@ -20,7 +20,7 @@ To delete single history record:
 instatouch history -r TYPE:INPUT
 instatouch history -r user:tiktok
 instatouch history -r hashtag:summer
-instatouch history -r trend
+instatouch history -r location:434343
 ```
 
 Set custom path where history files will be stored.
