@@ -1,4 +1,4 @@
-[Go back to the Main Documenation](https://github.com/drawrowfly/instagram-scraper/blob/master/README.md)
+[Go back to the Main Documenation](https://github.com/drawrowfly/instagram-scraper)
 
 ## Promise
 

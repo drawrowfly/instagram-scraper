@@ -15,6 +15,7 @@ This is not an official API support and etc. This is just a scraper that is usin
 ---
 
 ## Content
+- [To Do](#to-do)
 - [Demo](#demo)
 - [Features](#features)
 - [Installation](#installation)
@@ -32,6 +33,12 @@ This is not an official API support and etc. This is just a scraper that is usin
 	        - [User, Hashtag, Location Feeds](#feed)
 	        - [comments](#comments)
 	        - [likers](#likers)
+
+## To Do
+-   [ ] Improve documentation
+-   [ ] Web interface
+
+
 ## Demo
 
 ![Demo](https://i.imgur.com/DDRmH2y.gif)
