@@ -547,7 +547,6 @@ export class InstaTouch {
         switch (this.scrapeType) {
             case 'user': {
                 const result = await this.extractJson<'ProfilePage', User>();
-
                 try {
                     const { edges, count } = result.entry_data.ProfilePage[0].graphql.user.edge_owner_to_timeline_media;
                     this.id = result.entry_data.ProfilePage[0].graphql.user.id;
@@ -623,8 +622,8 @@ export class InstaTouch {
         };
 
         let response = await this.request<string>(options);
-        response = response.replace(/\s/g, '');
-        const result = response.split('window._sharedData=')[1].split('};');
+        response = response.replace(/\n/g, '');
+        const result = response.split('window._sharedData = ')[1].split('};');
         const json: Main<I, T> = JSON.parse(`${result[0]}}`);
 
         this.csrftoken = json.config.csrf_token;
