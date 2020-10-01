@@ -2,7 +2,7 @@ export interface Main<Key extends string, I> {
     config: {
         csrf_token: string;
     };
-    entry_data: {
+    graphql: {
         [key in Key]: GraphQl<I>[];
     };
 }

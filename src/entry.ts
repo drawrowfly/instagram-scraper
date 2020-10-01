@@ -12,7 +12,7 @@ import CONST from './constant';
 
 const INIT_OPTIONS = {
     id: '',
-    count: 40,
+    count: 10,
     download: false,
     asyncDownload: 5,
     mediaType: 'all',
@@ -28,6 +28,7 @@ const INIT_OPTIONS = {
     timeout: 0,
     endCursor: '',
     zip: false,
+    bulk: true,
 };
 
 /**
@@ -50,12 +51,12 @@ const proxyFromFile = async (file: string) => {
 const validateFullProfileUrl = (constructor: Constructor, input: string) => {
     if (!/^https:\/\/www.instagram.com\/[\w.+]+\/?$/.test(input)) {
         if (input.indexOf('instagram.com/p/') > -1) {
-            constructor.url = `https://www.instagram.com/${input.split('instagram.com/')[1].split('/')[1]}/`;
+            constructor.url = `https://www.instagram.com/${input.split('instagram.com/')[1].split('/')[1]}/?__a=1`;
         } else {
-            constructor.url = `https://www.instagram.com/${input}/`;
+            constructor.url = `https://www.instagram.com/${input}/?__a=1`;
         }
     } else {
-        constructor.url = input;
+        constructor.url = `${input}?__a=1`;
         constructor.input = input.split('instagram.com/')[1].split('/')[0];
     }
 };
@@ -63,12 +64,12 @@ const validateFullProfileUrl = (constructor: Constructor, input: string) => {
 const validatePostUrl = (constructor: Constructor, input: string) => {
     if (!/(https?:\/\/(www\.)?)?instagram\.com(\/p\/\w+\/?)/.test(input)) {
         if (input.indexOf('instagram.com/p/') > -1) {
-            constructor.url = `https://www.instagram.com/p/${input.split('instagram.com/p/')[1].split('/')[1]}/`;
+            constructor.url = `https://www.instagram.com/p/${input.split('instagram.com/p/')[1].split('/')[1]}/?__a=1`;
         } else {
-            constructor.url = `https://www.instagram.com/p/${input}/`;
+            constructor.url = `https://www.instagram.com/p/${input}/?__a=1`;
         }
     } else {
-        constructor.url = input;
+        constructor.url = `${input}?__a=1`;
         constructor.input = input.split('instagram.com/p/')[1].split('/')[0];
     }
 };
@@ -83,10 +84,10 @@ const promiseScraper = async (input: string, type: ScrapeType, options?: Options
             validateFullProfileUrl(constructor, input);
             break;
         case 'hashtag':
-            constructor.url = `https://www.instagram.com/explore/tags/${input}/`;
+            constructor.url = `https://www.instagram.com/explore/tags/${input}/?__a=1`;
             break;
         case 'location':
-            constructor.url = `https://www.instagram.com/explore/locations/${input}/`;
+            constructor.url = `https://www.instagram.com/explore/locations/${input}/?__a=1`;
             break;
         case 'comments':
         case 'likers':

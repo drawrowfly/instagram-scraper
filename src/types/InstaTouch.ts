@@ -108,6 +108,9 @@ export interface CommentCollector {
     comments: number;
 }
 export interface Result {
+    has_more: boolean;
+    count: number;
+    end_cursor: string;
     collector: PostCollector[];
     original: Edges;
     zip?: string;

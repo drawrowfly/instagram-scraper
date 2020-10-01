@@ -32,7 +32,7 @@ const startScraper = async (argv) => {
         if (argv.async) {
             argv.asyncBulk = argv.async;
         }
-
+        argv.bulk = false;
         const scraper = await IGScraper[argv.scrapeType](argv.input, argv);
 
         if (scraper.zip) {
@@ -103,6 +103,10 @@ yargs
             default: '',
             describe: 'Use proxies from a file. Scraper will use random proxies from the file per each request. 1 line 1 proxy.',
         },
+        session: {
+            default: '',
+            describe: 'Set session. For example: sessionid=BLBLBLBLLBL',
+        },
         timeout: {
             default: 0,
             describe: "If you will receive error saying 'rate limit', you can try to set timeout. Timeout is in mls: 1000 mls = 1 second",
@@ -167,12 +171,6 @@ yargs
                 throw new Error(`Pointless commands. Try again but with the correct set of commands`);
             }
         }
-
-        // if (argv.store) {
-        //     if (!argv.download) {
-        //         throw new Error('--store, -s flag is only working in combination with the download flag. Add -d to your command');
-        //     }
-        // }
 
         if (argv._[0] === 'from-file') {
             const async = parseInt(argv.async, 10);

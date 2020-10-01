@@ -1,3 +1,4 @@
+/* eslint-disable prefer-promise-reject-errors */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-throw-literal */
 /* eslint-disable no-underscore-dangle */
@@ -26,7 +27,6 @@ import CONST from '../constant';
  */
 import {
     Constructor,
-    Main,
     User,
     Post,
     Hashtag,
@@ -42,6 +42,7 @@ import {
     History,
     ScrapeType,
     Edges,
+    GraphQl,
 } from '../types';
 
 export class InstaTouch {
@@ -88,8 +89,6 @@ export class InstaTouch {
     private hasNextPage: boolean;
 
     private endCursor: string;
-
-    private csrftoken: string;
 
     private id: string;
 
@@ -161,7 +160,6 @@ export class InstaTouch {
         this.id = '';
         this.hasNextPage = false;
         this.endCursor = endCursor as string;
-        this.csrftoken = '';
     }
 
     /**
@@ -230,7 +228,6 @@ export class InstaTouch {
                 ...(proxy.proxy && proxy.socks ? { agent: proxy.proxy } : {}),
                 ...(proxy.proxy && !proxy.socks ? { proxy: `http://${proxy.proxy}/` } : {}),
             } as OptionsWithUri;
-
             try {
                 const response = await rp(options);
                 if (this.timeout) {
@@ -241,8 +238,10 @@ export class InstaTouch {
                     resolve(response.body);
                 }
             } catch (error) {
-                if (error.name === 'StatusCodeError' || error.name === 'RequestError') {
-                    reject(error.message);
+                if (error.name === 'StatusCodeError') {
+                    reject(`Can't find requested data`);
+                } else if (error.name === 'RequestError') {
+                    reject(`Request error`);
                 } else {
                     reject(error);
                 }
@@ -398,6 +397,9 @@ export class InstaTouch {
         while (true) {
             try {
                 await this.graphQlRequest();
+                if (!this.bulk) {
+                    break;
+                }
             } catch (error) {
                 break;
             }
@@ -417,7 +419,6 @@ export class InstaTouch {
             headers: {
                 Accept: '*/*',
                 'X-IG-App-ID': '936619743392459',
-                'x-csrftoken': this.csrftoken,
                 'X-Requested-With': 'XMLHttpRequest',
             },
             timeout: 5000,
@@ -546,54 +547,51 @@ export class InstaTouch {
     private async extractData(): Promise<any> {
         switch (this.scrapeType) {
             case 'user': {
-                const result = await this.extractJson<'ProfilePage', User>();
+                const result = await this.extractJson<User>();
                 try {
-                    const { edges, count } = result.entry_data.ProfilePage[0].graphql.user.edge_owner_to_timeline_media;
-                    this.id = result.entry_data.ProfilePage[0].graphql.user.id;
-                    this.hasNextPage = result.entry_data.ProfilePage[0].graphql.user.edge_owner_to_timeline_media.page_info.has_next_page;
+                    const { edges, count } = result.graphql.user.edge_owner_to_timeline_media;
+                    this.id = result.graphql.user.id;
+                    this.hasNextPage = result.graphql.user.edge_owner_to_timeline_media.page_info.has_next_page;
                     await this.extractDataHelper(edges, count);
-                    this.endCursor =
-                        this.endCursor || result.entry_data.ProfilePage[0].graphql.user.edge_owner_to_timeline_media.page_info.end_cursor;
+                    this.endCursor = this.endCursor || result.graphql.user.edge_owner_to_timeline_media.page_info.end_cursor;
                 } catch (error) {
                     throw new Error(`Can't scrape date. Please try again or submit issue to the github`);
                 }
                 break;
             }
             case 'hashtag': {
-                const result = await this.extractJson<'TagPage', Hashtag>();
+                const result = await this.extractJson<Hashtag>();
                 try {
-                    const { edges, count } = result.entry_data.TagPage[0].graphql.hashtag.edge_hashtag_to_media;
-                    this.id = result.entry_data.TagPage[0].graphql.hashtag.name;
-                    this.hasNextPage = result.entry_data.TagPage[0].graphql.hashtag.edge_hashtag_to_media.page_info.has_next_page;
+                    const { edges, count } = result.graphql.hashtag.edge_hashtag_to_media;
+                    this.id = result.graphql.hashtag.name;
+                    this.hasNextPage = result.graphql.hashtag.edge_hashtag_to_media.page_info.has_next_page;
                     await this.extractDataHelper(edges, count);
-                    this.endCursor = this.endCursor || result.entry_data.TagPage[0].graphql.hashtag.edge_hashtag_to_media.page_info.end_cursor;
+                    this.endCursor = this.endCursor || result.graphql.hashtag.edge_hashtag_to_media.page_info.end_cursor;
                 } catch (error) {
                     throw new Error(`Can't scrape date. Please try again or submit issue to the github`);
                 }
                 break;
             }
             case 'location': {
-                const result = await this.extractJson<'LocationsPage', Location>();
+                const result = await this.extractJson<Location>();
                 try {
-                    const { edges, count } = result.entry_data.LocationsPage[0].graphql.location.edge_location_to_media;
-                    this.hasNextPage = result.entry_data.LocationsPage[0].graphql.location.edge_location_to_media.page_info.has_next_page;
+                    const { edges, count } = result.graphql.location.edge_location_to_media;
+                    this.hasNextPage = result.graphql.location.edge_location_to_media.page_info.has_next_page;
                     await this.extractDataHelper(edges, count);
-                    this.endCursor =
-                        this.endCursor || result.entry_data.LocationsPage[0].graphql.location.edge_location_to_media.page_info.end_cursor;
+                    this.endCursor = this.endCursor || result.graphql.location.edge_location_to_media.page_info.end_cursor;
                 } catch (error) {
                     throw new Error(`Can't scrape date. Please try again or submit issue to the github`);
                 }
                 break;
             }
             case 'comments': {
-                const result = await this.extractJson<'PostPage', Comments>();
+                const result = await this.extractJson<Comments>();
                 try {
-                    const { edges, count } = result.entry_data.PostPage[0].graphql.shortcode_media.edge_media_to_parent_comment;
-                    this.id = result.entry_data.PostPage[0].graphql.shortcode_media.shortcode;
-                    this.hasNextPage = result.entry_data.PostPage[0].graphql.shortcode_media.edge_media_to_parent_comment.page_info.has_next_page;
+                    const { edges, count } = result.graphql.shortcode_media.edge_media_to_parent_comment;
+                    this.id = result.graphql.shortcode_media.shortcode;
+                    this.hasNextPage = result.graphql.shortcode_media.edge_media_to_parent_comment.page_info.has_next_page;
                     await this.extractDataHelper(edges, count);
-                    this.endCursor =
-                        this.endCursor || result.entry_data.PostPage[0].graphql.shortcode_media.edge_media_to_parent_comment.page_info.end_cursor;
+                    this.endCursor = this.endCursor || result.graphql.shortcode_media.edge_media_to_parent_comment.page_info.end_cursor;
                 } catch (error) {
                     throw new Error(`Can't scrape date. Please try again or submit issue to the github`);
                 }
@@ -607,7 +605,7 @@ export class InstaTouch {
     /**
      * Extract csrf token
      */
-    private async extractJson<I extends string, T>(): Promise<Main<I, T>> {
+    private async extractJson<T>(): Promise<GraphQl<T>> {
         const options = {
             method: 'GET',
             gzip: true,
@@ -619,22 +617,18 @@ export class InstaTouch {
                 'Accept-Language': 'en-US,en;q=0.5',
                 'Upgrade-Insecure-Requests': 1,
             },
+            json: true,
         };
 
-        let response = await this.request<string>(options);
-        response = response.replace(/\n/g, '');
-        const result = response.split('window._sharedData = ')[1].split('};');
-        const json: Main<I, T> = JSON.parse(`${result[0]}}`);
+        const response = await this.request<GraphQl<T>>(options);
 
-        this.csrftoken = json.config.csrf_token;
-
-        return json;
+        return response;
     }
 
     public async getPostMeta(uri: string): Promise<PostMetaFromWebApi> {
         const options = {
             method: 'GET',
-            uri: `${uri}?__a=1`,
+            uri: `${uri}`,
             gzip: true,
             json: true,
         };
@@ -646,7 +640,7 @@ export class InstaTouch {
     public async getUserMeta(uri: string): Promise<UserMetaFromWebApi> {
         const options = {
             method: 'GET',
-            uri: `${uri}?__a=1`,
+            uri: `${uri}`,
             gzip: true,
             json: true,
         };
