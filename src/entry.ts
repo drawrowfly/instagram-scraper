@@ -12,7 +12,7 @@ import CONST from './constant';
 
 const INIT_OPTIONS = {
     id: '',
-    count: 10,
+    count: 50,
     download: false,
     asyncDownload: 5,
     mediaType: 'all',
@@ -29,6 +29,7 @@ const INIT_OPTIONS = {
     endCursor: '',
     zip: false,
     bulk: true,
+    extractVideoUrl: true,
 };
 
 /**

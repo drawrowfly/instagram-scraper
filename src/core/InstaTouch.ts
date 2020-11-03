@@ -102,6 +102,8 @@ export class InstaTouch {
 
     private itemCount: number;
 
+    private extractVideoUrl: boolean;
+
     constructor({
         url,
         download = false,
@@ -124,6 +126,7 @@ export class InstaTouch {
         bulk = false,
         historyPath,
         zip = false,
+        extractVideoUrl = true,
     }: Constructor) {
         this.zip = zip;
         this.url = url;
@@ -143,6 +146,7 @@ export class InstaTouch {
         this.asyncDownload = asyncDownload;
         this.collector = [];
         this.itemCount = 0;
+        this.extractVideoUrl = extractVideoUrl;
         this.spinner = ora('InstaTouch Scraper Started');
         this.historyPath = process.env.SCRAPING_FROM_DOCKER ? '/usr/app/files' : historyPath || tmpdir();
         this.bulk = bulk;
@@ -228,6 +232,7 @@ export class InstaTouch {
                 ...(proxy.proxy && proxy.socks ? { agent: proxy.proxy } : {}),
                 ...(proxy.proxy && !proxy.socks ? { proxy: `http://${proxy.proxy}/` } : {}),
             } as OptionsWithUri;
+
             try {
                 const response = await rp(options);
                 if (this.timeout) {
@@ -396,6 +401,13 @@ export class InstaTouch {
     private async mainLoop(): Promise<any> {
         while (true) {
             try {
+                /**
+                 * If {bulk} === false and {collector} already has items in it
+                 * then we need to end the process
+                 */
+                if (!this.bulk && this.collector.length) {
+                    break;
+                }
                 await this.graphQlRequest();
                 if (!this.bulk) {
                     break;
@@ -498,18 +510,18 @@ export class InstaTouch {
     private get grapQlQuery() {
         switch (this.scrapeType) {
             case 'user':
-                return JSON.stringify({ id: this.id, first: 40, after: this.endCursor });
+                return JSON.stringify({ id: this.id, first: 50, after: this.endCursor });
             case 'hashtag':
-                return JSON.stringify({ tag_name: this.id, show_ranked: false, first: 40, after: this.endCursor });
+                return JSON.stringify({ tag_name: this.input, show_ranked: false, first: 50, after: this.endCursor });
             case 'location':
-                return JSON.stringify({ id: this.input, first: 40, after: this.endCursor });
+                return JSON.stringify({ id: this.input, first: 50, after: this.endCursor });
             case 'comments':
-                return JSON.stringify({ shortcode: this.input, first: 40, after: this.endCursor });
+                return JSON.stringify({ shortcode: this.input, first: 50, after: this.endCursor });
             case 'likers':
                 return JSON.stringify({
                     shortcode: this.input,
                     include_reel: true,
-                    first: 40,
+                    first: 50,
                     after: this.endCursor,
                 });
             case 'followers':
@@ -518,7 +530,7 @@ export class InstaTouch {
                     id: this.id,
                     include_reel: true,
                     fetch_mutual: false,
-                    first: 40,
+                    first: 50,
                     after: this.endCursor,
                 });
             default:
@@ -549,39 +561,28 @@ export class InstaTouch {
             case 'user': {
                 const result = await this.extractJson<User>();
                 try {
-                    const { edges, count } = result.graphql.user.edge_owner_to_timeline_media;
                     this.id = result.graphql.user.id;
-                    this.hasNextPage = result.graphql.user.edge_owner_to_timeline_media.page_info.has_next_page;
-                    await this.extractDataHelper(edges, count);
-                    this.endCursor = this.endCursor || result.graphql.user.edge_owner_to_timeline_media.page_info.end_cursor;
                 } catch (error) {
                     throw new Error(`Can't scrape date. Please try again or submit issue to the github`);
                 }
                 break;
             }
             case 'hashtag': {
-                const result = await this.extractJson<Hashtag>();
-                try {
-                    const { edges, count } = result.graphql.hashtag.edge_hashtag_to_media;
-                    this.id = result.graphql.hashtag.name;
-                    this.hasNextPage = result.graphql.hashtag.edge_hashtag_to_media.page_info.has_next_page;
-                    await this.extractDataHelper(edges, count);
-                    this.endCursor = this.endCursor || result.graphql.hashtag.edge_hashtag_to_media.page_info.end_cursor;
-                } catch (error) {
-                    throw new Error(`Can't scrape date. Please try again or submit issue to the github`);
+                if (!this.endCursor) {
+                    const result = await this.extractJson<Hashtag>();
+                    try {
+                        const { edges, count } = result.graphql.hashtag.edge_hashtag_to_media;
+                        this.id = result.graphql.hashtag.name;
+                        this.hasNextPage = result.graphql.hashtag.edge_hashtag_to_media.page_info.has_next_page;
+                        await this.extractDataHelper(edges, count);
+                        this.endCursor = this.endCursor || result.graphql.hashtag.edge_hashtag_to_media.page_info.end_cursor;
+                    } catch (error) {
+                        throw new Error(`Can't scrape date. Please try again or submit issue to the github`);
+                    }
                 }
                 break;
             }
             case 'location': {
-                const result = await this.extractJson<Location>();
-                try {
-                    const { edges, count } = result.graphql.location.edge_location_to_media;
-                    this.hasNextPage = result.graphql.location.edge_location_to_media.page_info.has_next_page;
-                    await this.extractDataHelper(edges, count);
-                    this.endCursor = this.endCursor || result.graphql.location.edge_location_to_media.page_info.end_cursor;
-                } catch (error) {
-                    throw new Error(`Can't scrape date. Please try again or submit issue to the github`);
-                }
                 break;
             }
             case 'comments': {
@@ -687,7 +688,7 @@ export class InstaTouch {
                                     mentions: mentions || [],
                                 };
 
-                                if (item.is_video) {
+                                if (item.is_video && this.extractVideoUrl) {
                                     this.getPostMeta(`https://www.instagram.com/p/${item.shortcode}/`)
                                         .then((postMeta) => {
                                             item.video_url = postMeta.graphql.shortcode_media.video_url;

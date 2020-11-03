@@ -15,7 +15,7 @@ tsconfig.json
 *.csv
 *.zip
 .eslintrc.js
-ex.js
-ex.ts
+test.js
+test.ts
 proxy
 bulk
