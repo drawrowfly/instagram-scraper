@@ -689,7 +689,7 @@ export class InstaTouch {
                                 };
 
                                 if (item.is_video && this.extractVideoUrl) {
-                                    this.getPostMeta(`https://www.instagram.com/p/${item.shortcode}/`)
+                                    this.getPostMeta(`https://www.instagram.com/p/${item.shortcode}/?__a=1`)
                                         .then((postMeta) => {
                                             item.video_url = postMeta.graphql.shortcode_media.video_url;
                                             this.cbCollector(cb, item);
