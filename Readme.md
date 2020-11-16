@@ -25,6 +25,7 @@ This is not an official API support and etc. This is just a scraper that is usin
 	    - [Manage Download History](https://github.com/drawrowfly/instagram-scraper/tree/master/examples/CLI/DownloadHistory.md)
 	    - [Scrape and Download in Batch](https://github.com/drawrowfly/instagram-scraper/tree/master/examples/CLI/BatchDownload.md)
 	    - [Output File Example](#output-file-example)
+	- [Session ID ???](#get-session-id)
 	- [Module](#docker)
 	    - [Methods](#methods)
 	    - [Options](#options)
@@ -40,9 +41,9 @@ This is not an official API support and etc. This is just a scraper that is usin
 
 ## Features
 
--   Scrape media posts from username, hashtag or location
+-   Scrape media posts from username, hashtag or location **`REQUIRES AN ACTIVE SESSION`**
 -   Scrape comments from a specific instagram post
--   Scrape users who liked specific post
+-   Scrape users who liked specific post **`REQUIRES AN ACTIVE SESSION`**
 -   Scrape followers **`REQUIRES AN ACTIVE SESSION`**
 -   Scrape following **`REQUIRES AN ACTIVE SESSION`**
 -   Download and save media to a ZIP archive
@@ -98,12 +99,14 @@ Commands:
 
 Options:
   --version            Show version number                             [boolean]
-  --count, -c          Number of post to scrape                     [default: 0]
+  --count, -c          Number of post to scrape                    [default: 40]
   --mediaType, -m      Media type to scrape
                              [choices: "image", "video", "all"] [default: "all"]
   --proxy, -p          Set single proxy                            [default: ""]
   --proxy-file         Use proxies from a file. Scraper will use random proxies
                        from the file per each request. 1 line 1 proxy.
+                                                                   [default: ""]
+  --session            Set session. For example: sessionid=BLBLBLBLLBL
                                                                    [default: ""]
   --timeout            If you will receive error saying 'rate limit', you can
                        try to set timeout. Timeout is in mls: 1000 mls = 1
@@ -114,14 +117,14 @@ Options:
                        Try not to set more then 5                   [default: 5]
   --filename, -f       Set custom filename for the output files    [default: ""]
   --filepath           Directory to save all output files.
-   [default: "/Users/blah/blah"]
+                                                   [default: "/Users/karl.wint"]
   --filetype, -t       Type of output file where post information will be
                        saved. 'all' - save information about all posts to a
-                       'json' and 'csv'
-                                [choices: "csv", "json", "all"] [default: "csv"]
+                       'json' and 'csv'. '' - do not save data in to files
+                            [choices: "csv", "json", "all", ""] [default: "csv"]
   --store, -s          Scraper will save the progress in the OS TMP or Custom
                        folder and in the future usage will only download new
-                       posts avoiding duplicates     [boolean] [default: false]
+                       posts avoiding duplicates      [boolean] [default: false]
   --historypath        Set custom path where history file/files will be stored
                    [default: "/var/folders/d5/fyh1_f2926q7c65g7skc0qh80000gn/T"]
   --remove, -r         Delete the history record by entering "TYPE:INPUT" or
@@ -136,6 +139,13 @@ Options:
 ### Output File Example
 
 ![Demo](https://i.imgur.com/D9sH95B.png)
+## Get Session Id
+In order to access user,hashtag,location,likers,comments data you need an active session cookie value! This value can be taken from the instagram web(you need to be authorized in the web version)
+
+-   Open inspector for example in Google Chrome browser then **right click on the web page -> inspector -> Network**
+-   Refresh the page 
+-   In the "Network" section you will see the request, select it, scroll down to the "Request Headers" section and look for the "cookie:" section, there you will find this value "sessionid=BLAHLBAH"
+-   Use it 
 
 ## Module
 
@@ -196,6 +206,14 @@ const options = {
 
     // Timeout between requests. If error 'rate limit' received then this option can be useful: {int default: 0}
     timeout: 0,
+    
+    // Some endpoints do require a valid session cookie value
+    // This value can be taken from the instagram web(you need to be authorized in the web version)
+    // Open inspector(google chrome -> right click on the web page -> inspector->Network)
+    // refresh page and in the "Network" section you will see the request, select it
+    // scroll down to the "Request Headers" section and look for "cookie:" section
+    // and there you will find this value "sessionid=BLAHLBAH"
+    session: "sessionid=BLAHLBAH"
 };
 ```
 

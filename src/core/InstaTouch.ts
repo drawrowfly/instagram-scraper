@@ -437,7 +437,6 @@ export class InstaTouch {
         };
 
         let graphData = {} as Edges;
-
         try {
             switch (this.scrapeType) {
                 case 'user': {
