@@ -140,6 +140,18 @@ export const getUserMeta = async (input: string, options?: Options): Promise<Use
     return result;
 };
 
+export const getPostMeta = async (input: string, options?: Options): Promise<PostMetaFromWebApi> => {
+    if (options && typeof options !== 'object') {
+        throw new TypeError('Object is expected');
+    }
+    const constructor: Constructor = { ...INIT_OPTIONS, ...options, ...{ scrapeType: 'post_meta', input } };
+    validatePostUrl(constructor, input);
+    const scraper = new InstaTouch(constructor);
+
+    const result = await scraper.getPostMeta(constructor.url);
+    return result;
+};
+
 export const getStories = async (input: string, options?: Options): Promise<PostMetaFromWebApi> => {
     if (options && typeof options !== 'object') {
         throw new TypeError('Object is expected');
@@ -150,18 +162,6 @@ export const getStories = async (input: string, options?: Options): Promise<Post
 
     const userMeta = await scraper.getUserMeta(constructor.url);
     const result = await scraper.getStories(userMeta.graphql.user.id);
-    return result;
-};
-
-export const stories = async (input: string, options?: Options): Promise<PostMetaFromWebApi> => {
-    if (options && typeof options !== 'object') {
-        throw new TypeError('Object is expected');
-    }
-    const constructor: Constructor = { ...INIT_OPTIONS, ...options, ...{ scrapeType: 'post_meta', input } };
-    validatePostUrl(constructor, input);
-    const scraper = new InstaTouch(constructor);
-
-    const result = await scraper.getPostMeta(constructor.url);
     return result;
 };
 
