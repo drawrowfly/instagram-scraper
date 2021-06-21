@@ -7,7 +7,7 @@ import { readFile, writeFile, unlink } from 'fs';
 import { fromCallback } from 'bluebird';
 import { forEachLimit } from 'async';
 import { InstaTouch } from './core';
-import { Constructor, ScrapeType, Options, Result, UserMetaFromWebApi, PostMetaFromWebApi, History, HistoryItem } from './types';
+import { Constructor, ScrapeType, Options, Result, UserMetaFromWebApi, PostMetaFromWebApi, History, HistoryItem, UserStories } from './types';
 import CONST from './constant';
 
 const INIT_OPTIONS = {
@@ -152,7 +152,7 @@ export const getPostMeta = async (input: string, options?: Options): Promise<Pos
     return result;
 };
 
-export const getStories = async (input: string, options?: Options): Promise<PostMetaFromWebApi> => {
+export const getStories = async (input: string, options?: Options): Promise<UserStories> => {
     if (options && typeof options !== 'object') {
         throw new TypeError('Object is expected');
     }

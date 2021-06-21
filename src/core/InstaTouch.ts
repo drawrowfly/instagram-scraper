@@ -43,6 +43,7 @@ import {
     ScrapeType,
     Edges,
     GraphQl,
+    UserStories,
 } from '../types';
 
 export class InstaTouch {
@@ -637,7 +638,7 @@ export class InstaTouch {
         return response;
     }
 
-    public async getStories(id: string): Promise<PostMetaFromWebApi> {
+    public async getStories(id: string): Promise<UserStories> {
         const options = {
             method: 'GET',
             uri: `https://i.instagram.com/api/v1/feed/reels_media/?reel_ids=${id}`,
@@ -648,7 +649,7 @@ export class InstaTouch {
             json: true,
         };
 
-        const response = await this.request<PostMetaFromWebApi>(options);
+        const response = await this.request<UserStories>(options);
         return response;
     }
 
