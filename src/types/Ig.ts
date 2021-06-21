@@ -25,6 +25,23 @@ export interface PostMetaFromWebApi {
     };
 }
 
+export interface UserReelsFeed {
+    items: {
+        media: {
+            taken_at: number;
+            pk: string;
+            id: string;
+            device_timestamp: number;
+            media_type: number;
+        };
+    }[];
+    paging_info: {
+        max_id: string;
+        more_available: boolean;
+    };
+    status: string;
+}
+
 export interface UserStories {
     reels_media: {
         id: number;

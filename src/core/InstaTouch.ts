@@ -17,6 +17,8 @@ import { writeFile, readFile, mkdir } from 'fs';
  */
 import { Downloader } from '.';
 
+import { randomString } from '../helpers';
+
 /**
  * Constant
  */
@@ -44,6 +46,7 @@ import {
     Edges,
     GraphQl,
     UserStories,
+    UserReelsFeed,
 } from '../types';
 
 export class InstaTouch {
@@ -103,7 +106,7 @@ export class InstaTouch {
 
     private itemCount: number;
 
-    // private extractVideoUrl: boolean;
+    private csrfToken: string;
 
     constructor({
         url,
@@ -147,10 +150,10 @@ export class InstaTouch {
         this.asyncDownload = asyncDownload;
         this.collector = [];
         this.itemCount = 0;
-        // this.extractVideoUrl = extractVideoUrl;
         this.spinner = ora('InstaTouch Scraper Started');
         this.historyPath = process.env.SCRAPING_FROM_DOCKER ? '/usr/app/files' : historyPath || tmpdir();
         this.bulk = bulk;
+        this.csrfToken = randomString(29);
         this.Downloader = new Downloader({
             progress,
             proxy,
@@ -626,10 +629,43 @@ export class InstaTouch {
         return response;
     }
 
+    /**
+     * Get user reels feed
+     * @param target_user_id
+     * @param page_size
+     * @param max_id
+     * @returns
+     */
+    public async getUserReels(target_user_id: string, page_size: number, max_id: string): Promise<UserReelsFeed> {
+        const options = {
+            method: 'POST',
+            uri: `https://i.instagram.com/api/v1/clips/user/`,
+            form: {
+                target_user_id,
+                page_size,
+                max_id,
+            },
+            headers: {
+                'X-CSRFToken': this.csrfToken,
+                'X-IG-App-ID': '936619743392459',
+            },
+            gzip: true,
+            json: true,
+        };
+
+        const response = await this.request<UserReelsFeed>(options);
+        return response;
+    }
+
+    /**
+     * Get post metadata
+     * @param uri
+     * @returns
+     */
     public async getPostMeta(uri: string): Promise<PostMetaFromWebApi> {
         const options = {
             method: 'GET',
-            uri: `${uri}`,
+            uri,
             gzip: true,
             json: true,
         };
@@ -638,12 +674,17 @@ export class InstaTouch {
         return response;
     }
 
+    /**
+     * Get user stories
+     * @param id
+     * @returns
+     */
     public async getStories(id: string): Promise<UserStories> {
         const options = {
             method: 'GET',
             uri: `https://i.instagram.com/api/v1/feed/reels_media/?reel_ids=${id}`,
             headers: {
-                'X-IG-App-ID': 936619743392459,
+                'X-IG-App-ID': '936619743392459',
             },
             gzip: true,
             json: true,
@@ -653,10 +694,15 @@ export class InstaTouch {
         return response;
     }
 
+    /**
+     * Get user metadata
+     * @param uri
+     * @returns
+     */
     public async getUserMeta(uri: string): Promise<UserMetaFromWebApi> {
         const options = {
             method: 'GET',
-            uri: `${uri}`,
+            uri,
             gzip: true,
             json: true,
         };

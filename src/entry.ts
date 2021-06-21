@@ -7,7 +7,18 @@ import { readFile, writeFile, unlink } from 'fs';
 import { fromCallback } from 'bluebird';
 import { forEachLimit } from 'async';
 import { InstaTouch } from './core';
-import { Constructor, ScrapeType, Options, Result, UserMetaFromWebApi, PostMetaFromWebApi, History, HistoryItem, UserStories } from './types';
+import {
+    Constructor,
+    ScrapeType,
+    Options,
+    Result,
+    UserMetaFromWebApi,
+    PostMetaFromWebApi,
+    History,
+    HistoryItem,
+    UserStories,
+    UserReelsFeed,
+} from './types';
 import CONST from './constant';
 
 const INIT_OPTIONS = {
@@ -29,7 +40,6 @@ const INIT_OPTIONS = {
     endCursor: '',
     zip: false,
     bulk: true,
-    // extractVideoUrl: true,
 };
 
 /**
@@ -162,6 +172,25 @@ export const getStories = async (input: string, options?: Options): Promise<User
 
     const userMeta = await scraper.getUserMeta(constructor.url);
     const result = await scraper.getStories(userMeta.graphql.user.id);
+    return result;
+};
+
+/**
+ * Get user reels feed
+ * @param input
+ * @param options
+ * @returns
+ */
+export const getUserReels = async (input: string, options?: Options): Promise<UserReelsFeed> => {
+    if (options && typeof options !== 'object') {
+        throw new TypeError('Object is expected');
+    }
+    const constructor: Constructor = { ...INIT_OPTIONS, ...options, ...{ scrapeType: 'post_meta', input } };
+    validateFullProfileUrl(constructor, input);
+    const scraper = new InstaTouch(constructor);
+
+    const userMeta = await scraper.getUserMeta(constructor.url);
+    const result = await scraper.getUserReels(userMeta.graphql.user.id, constructor.count, constructor.endCursor!);
     return result;
 };
 
