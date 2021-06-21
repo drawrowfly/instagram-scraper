@@ -102,7 +102,7 @@ export class InstaTouch {
 
     private itemCount: number;
 
-    private extractVideoUrl: boolean;
+    // private extractVideoUrl: boolean;
 
     constructor({
         url,
@@ -126,8 +126,8 @@ export class InstaTouch {
         bulk = false,
         historyPath,
         zip = false,
-        extractVideoUrl = true,
-    }: Constructor) {
+    }: // extractVideoUrl = true,
+    Constructor) {
         this.zip = zip;
         this.url = url;
         this.download = download;
@@ -146,7 +146,7 @@ export class InstaTouch {
         this.asyncDownload = asyncDownload;
         this.collector = [];
         this.itemCount = 0;
-        this.extractVideoUrl = extractVideoUrl;
+        // this.extractVideoUrl = extractVideoUrl;
         this.spinner = ora('InstaTouch Scraper Started');
         this.historyPath = process.env.SCRAPING_FROM_DOCKER ? '/usr/app/files' : historyPath || tmpdir();
         this.bulk = bulk;
@@ -637,6 +637,21 @@ export class InstaTouch {
         return response;
     }
 
+    public async getStories(id: string): Promise<PostMetaFromWebApi> {
+        const options = {
+            method: 'GET',
+            uri: `https://i.instagram.com/api/v1/feed/reels_media/?reel_ids=${id}`,
+            headers: {
+                'X-IG-App-ID': 936619743392459,
+            },
+            gzip: true,
+            json: true,
+        };
+
+        const response = await this.request<PostMetaFromWebApi>(options);
+        return response;
+    }
+
     public async getUserMeta(uri: string): Promise<UserMetaFromWebApi> {
         const options = {
             method: 'GET',
@@ -672,6 +687,7 @@ export class InstaTouch {
                                     shortcode: post.node.shortcode,
                                     type: post.node.__typename,
                                     is_video: post.node.is_video,
+                                    ...(post.node.is_video ? { video_url: post.node.video_url } : {}),
                                     dimension: post.node.dimensions,
                                     display_url: post.node.display_url,
                                     thumbnail_src: post.node.thumbnail_src,
@@ -685,20 +701,24 @@ export class InstaTouch {
                                     location: post.node.location,
                                     hashtags: hashtags || [],
                                     mentions: mentions || [],
+                                    tagged_users: post.node.edge_media_to_tagged_user.edges.length
+                                        ? post.node.edge_media_to_tagged_user.edges.map((taggedUser) => {
+                                              return {
+                                                  user: {
+                                                      full_name: taggedUser.node.user.full_name,
+                                                      id: taggedUser.node.user.id,
+                                                      is_verified: taggedUser.node.user.is_verified,
+                                                      profile_pic_url: taggedUser.node.user.profile_pic_url,
+                                                      username: taggedUser.node.user.username,
+                                                  },
+                                                  x: taggedUser.node.x,
+                                                  y: taggedUser.node.y,
+                                              };
+                                          })
+                                        : [],
                                 };
 
-                                if (item.is_video && this.extractVideoUrl) {
-                                    this.getPostMeta(`https://www.instagram.com/p/${item.shortcode}/?__a=1`)
-                                        .then((postMeta) => {
-                                            item.video_url = postMeta.graphql.shortcode_media.video_url;
-                                            this.cbCollector(cb, item);
-                                        })
-                                        .catch(() => {
-                                            this.cbCollector(cb, item);
-                                        });
-                                } else {
-                                    this.cbCollector(cb, item);
-                                }
+                                this.cbCollector(cb, item);
 
                                 break;
                             }
@@ -737,7 +757,7 @@ export class InstaTouch {
                     }
                 },
                 () => {
-                    resolve();
+                    resolve('');
                 },
             );
         });

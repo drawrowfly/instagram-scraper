@@ -25,6 +25,19 @@ export interface PostMetaFromWebApi {
     };
 }
 
+export interface UserStories {
+    reels_media: {
+        id: number;
+        latest_reel_media: number;
+        expiring_at: number;
+        items: {
+            taken_at: number;
+            media_type: number;
+        }[];
+    }[];
+    status: string;
+}
+
 export interface User {
     user: {
         biography: string;

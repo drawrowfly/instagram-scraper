@@ -1,7 +1,7 @@
 import { SocksProxyAgent } from 'socks-proxy-agent';
 import { Edges } from './Ig';
 
-export type ScrapeType = 'user' | 'hashtag' | 'location' | 'comments' | 'likers' | 'followers' | 'following' | 'user_meta' | 'post_meta';
+export type ScrapeType = 'user' | 'hashtag' | 'location' | 'comments' | 'likers' | 'followers' | 'following' | 'user_meta' | 'post_meta' | 'stories';
 
 export type MediaType = 'image' | 'video' | 'all';
 
@@ -80,6 +80,17 @@ export interface PostCollector {
     views?: number;
     comments_disabled?: boolean;
     taken_at_timestamp?: number;
+    tagged_users?: {
+        user: {
+            full_name: string;
+            id: number;
+            is_verified: boolean;
+            profile_pic_url: string;
+            username: string;
+        };
+        x: number;
+        y: number;
+    }[];
     location?: { id: string; has_public_page: boolean; name: string; slug: string };
     hashtags?: string[];
     mentions?: string[];

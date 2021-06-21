@@ -29,7 +29,7 @@ const INIT_OPTIONS = {
     endCursor: '',
     zip: false,
     bulk: true,
-    extractVideoUrl: true,
+    // extractVideoUrl: true,
 };
 
 /**
@@ -51,8 +51,8 @@ const proxyFromFile = async (file: string) => {
 
 const validateFullProfileUrl = (constructor: Constructor, input: string) => {
     if (!/^https:\/\/www.instagram.com\/[\w.+]+\/?$/.test(input)) {
-        if (input.indexOf('instagram.com/p/') > -1) {
-            constructor.url = `https://www.instagram.com/${input.split('instagram.com/')[1].split('/')[1]}/?__a=1`;
+        if (/instagram.com\/(p|reel)\//.test(input)) {
+            constructor.url = `https://www.instagram.com/${input.split(/instagram.com\/(p|reel)\//)[1].split('/')[1]}/?__a=1`;
         } else {
             constructor.url = `https://www.instagram.com/${input}/?__a=1`;
         }
@@ -63,15 +63,15 @@ const validateFullProfileUrl = (constructor: Constructor, input: string) => {
 };
 
 const validatePostUrl = (constructor: Constructor, input: string) => {
-    if (!/(https?:\/\/(www\.)?)?instagram\.com(\/p\/\w+\/?)/.test(input)) {
-        if (input.indexOf('instagram.com/p/') > -1) {
-            constructor.url = `https://www.instagram.com/p/${input.split('instagram.com/p/')[1].split('/')[1]}/?__a=1`;
+    if (!/(https?:\/\/(www\.)?)?instagram\.com(\/(p|reel)\/[\w-]+\/?)/.test(input)) {
+        if (/instagram.com\/(p|reel)\//.test(input)) {
+            constructor.url = `https://www.instagram.com/p/${input.split(/instagram.com\/(p|reel)\//)[1].split('/')[1]}/?__a=1`;
         } else {
             constructor.url = `https://www.instagram.com/p/${input}/?__a=1`;
         }
     } else {
         constructor.url = `${input}?__a=1`;
-        constructor.input = input.split('instagram.com/p/')[1].split('/')[0];
+        constructor.input = input.split(/instagram.com\/(p|reel)\//)[1].split('/')[0];
     }
 };
 
@@ -82,6 +82,7 @@ const promiseScraper = async (input: string, type: ScrapeType, options?: Options
     const constructor: Constructor = { ...INIT_OPTIONS, ...options, ...{ scrapeType: type, input } };
     switch (type) {
         case 'user':
+        case 'stories':
             validateFullProfileUrl(constructor, input);
             break;
         case 'hashtag':
@@ -139,7 +140,20 @@ export const getUserMeta = async (input: string, options?: Options): Promise<Use
     return result;
 };
 
-export const getPostMeta = async (input: string, options?: Options): Promise<PostMetaFromWebApi> => {
+export const getStories = async (input: string, options?: Options): Promise<PostMetaFromWebApi> => {
+    if (options && typeof options !== 'object') {
+        throw new TypeError('Object is expected');
+    }
+    const constructor: Constructor = { ...INIT_OPTIONS, ...options, ...{ scrapeType: 'post_meta', input } };
+    validateFullProfileUrl(constructor, input);
+    const scraper = new InstaTouch(constructor);
+
+    const userMeta = await scraper.getUserMeta(constructor.url);
+    const result = await scraper.getStories(userMeta.graphql.user.id);
+    return result;
+};
+
+export const stories = async (input: string, options?: Options): Promise<PostMetaFromWebApi> => {
     if (options && typeof options !== 'object') {
         throw new TypeError('Object is expected');
     }
