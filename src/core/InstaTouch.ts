@@ -748,21 +748,25 @@ export class InstaTouch {
                                     location: post.node.location,
                                     hashtags: hashtags || [],
                                     mentions: mentions || [],
-                                    tagged_users: post.node.edge_media_to_tagged_user.edges.length
-                                        ? post.node.edge_media_to_tagged_user.edges.map((taggedUser) => {
-                                              return {
-                                                  user: {
-                                                      full_name: taggedUser.node.user.full_name,
-                                                      id: taggedUser.node.user.id,
-                                                      is_verified: taggedUser.node.user.is_verified,
-                                                      profile_pic_url: taggedUser.node.user.profile_pic_url,
-                                                      username: taggedUser.node.user.username,
-                                                  },
-                                                  x: taggedUser.node.x,
-                                                  y: taggedUser.node.y,
-                                              };
-                                          })
-                                        : [],
+                                    ...(this.scrapeType === 'user'
+                                        ? {
+                                              tagged_users: post.node.edge_media_to_tagged_user.edges.length
+                                                  ? post.node.edge_media_to_tagged_user.edges.map((taggedUser) => {
+                                                        return {
+                                                            user: {
+                                                                full_name: taggedUser.node.user.full_name,
+                                                                id: taggedUser.node.user.id,
+                                                                is_verified: taggedUser.node.user.is_verified,
+                                                                profile_pic_url: taggedUser.node.user.profile_pic_url,
+                                                                username: taggedUser.node.user.username,
+                                                            },
+                                                            x: taggedUser.node.x,
+                                                            y: taggedUser.node.y,
+                                                        };
+                                                    })
+                                                  : [],
+                                          }
+                                        : {}),
                                 };
 
                                 this.cbCollector(cb, item);
