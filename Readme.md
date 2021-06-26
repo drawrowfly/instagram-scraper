@@ -157,7 +157,8 @@ In order to access user,hashtag,location,likers,comments data you need an active
 .location('', options) // Location feed
 .comments('https://www.instagram.com/p/CATMghXnGrg/', options) // Post comments
 .likers('https://www.instagram.com/p/CATMghXnGrg/', options) // People who liked post
-
+.followers('instagram', options) // Get followers
+.following('instagram', options) // Get followings
 .getUserMeta('USERNAME', options) // Get user metadata
 .getPostMeta('https://www.instagram.com/p/CATMghXnGrg/', options) // Get post metadata
 ```
