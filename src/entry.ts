@@ -81,7 +81,7 @@ const validatePostUrl = (constructor: Constructor, input: string) => {
         }
     } else {
         constructor.url = `${input}?__a=1`;
-        constructor.input = input.split(/instagram.com\/(p|reel)\//)[1].split('/')[0];
+        constructor.input = input.split(/instagram.com\/(p|reel)\//)[2].split('/')[0];
     }
 };
 
@@ -104,6 +104,7 @@ const promiseScraper = async (input: string, type: ScrapeType, options?: Options
         case 'comments':
         case 'likers':
             validatePostUrl(constructor, input);
+            console.log(constructor);
             break;
         case 'followers':
         case 'following':
