@@ -54,5 +54,5 @@ export = {
         followers: 'c76146de99bb02f6415203be841dd25a',
         following: 'd04b0a864b4b54837c0d870b0e77e076',
     },
-    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36',
+    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.71 Safari/537.36',
 };

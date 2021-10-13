@@ -25,6 +25,13 @@ export interface PostMetaFromWebApi {
     };
 }
 
+export interface ApiV2Response<T> {
+    data: T;
+    num_results: number;
+    more_available: boolean;
+    next_max_id: string;
+}
+
 export interface UserReelsFeed {
     items: {
         media: {

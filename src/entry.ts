@@ -104,7 +104,6 @@ const promiseScraper = async (input: string, type: ScrapeType, options?: Options
         case 'comments':
         case 'likers':
             validatePostUrl(constructor, input);
-            console.log(constructor);
             break;
         case 'followers':
         case 'following':

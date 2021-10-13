@@ -164,7 +164,7 @@ export class InstaTouch {
         this.timeout = timeout;
         this.cli = cli;
         // Important!!! If you change user agents, hash keys will be invalid
-        this.userAgent = CONST.userAgent;
+        this.userAgent = userAgent || CONST.userAgent;
         this.id = '';
         this.hasNextPage = false;
         this.endCursor = endCursor as string;
