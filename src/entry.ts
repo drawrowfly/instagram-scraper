@@ -172,7 +172,7 @@ export const getStories = async (input: string, options?: Options): Promise<User
 
     const userMeta = await scraper.getUserMeta(constructor.url);
     const result = await scraper.getStories(userMeta.graphql.user.id);
-    return result;
+    return { ...result, id: userMeta.graphql.user.id };
 };
 
 /**

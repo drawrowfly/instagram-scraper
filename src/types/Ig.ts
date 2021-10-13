@@ -50,7 +50,17 @@ export interface UserReelsFeed {
 }
 
 export interface UserStories {
+    id: string;
     reels_media: {
+        id: number;
+        latest_reel_media: number;
+        expiring_at: number;
+        items: {
+            taken_at: number;
+            media_type: number;
+        }[];
+    }[];
+    reels: {
         id: number;
         latest_reel_media: number;
         expiring_at: number;
