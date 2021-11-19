@@ -1,6 +1,6 @@
 {
     "name": "instatouch",
-    "version": "2.3.11",
+    "version": "2.3.12",
     "description": "Scrape instagram posts from Username, Hashtag or Location pages. Download media and save them to a ZIP archive. Create JSON/CSV files with a post information. No login required",
     "main": "./build/index.js",
     "types": "./build/index.d.ts",
