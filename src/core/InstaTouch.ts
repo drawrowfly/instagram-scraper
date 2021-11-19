@@ -717,94 +717,90 @@ export class InstaTouch {
                 edges,
                 5,
                 (post, cb) => {
-                    if (this.collector.length >= this.toCollect) {
-                        cb(new Error('Done'));
-                    } else {
-                        switch (this.scrapeType) {
-                            case 'user':
-                            case 'hashtag':
-                            case 'location': {
-                                const description = post.node.edge_media_to_caption.edges.length
-                                    ? post.node.edge_media_to_caption.edges[0].node.text
-                                    : '';
-                                const hashtags = description.match(/(#\w+)/g);
-                                const mentions = description.match(/(@\w+)/g);
-                                const item: PostCollector = {
-                                    id: post.node.id,
-                                    shortcode: post.node.shortcode,
-                                    type: post.node.__typename,
-                                    is_video: post.node.is_video,
-                                    ...(post.node.is_video ? { video_url: post.node.video_url } : {}),
-                                    dimension: post.node.dimensions,
-                                    display_url: post.node.display_url,
-                                    thumbnail_src: post.node.thumbnail_src,
-                                    owner: post.node.owner,
-                                    description,
-                                    comments: post.node.edge_media_to_comment.count,
-                                    likes: post.node.edge_media_preview_like.count,
-                                    ...(post.node.is_video ? { views: post.node.video_view_count } : {}),
-                                    comments_disabled: post.node.comments_disabled,
-                                    taken_at_timestamp: post.node.taken_at_timestamp,
-                                    location: post.node.location,
-                                    hashtags: hashtags || [],
-                                    mentions: mentions || [],
-                                    ...(this.scrapeType === 'user'
-                                        ? {
-                                              tagged_users: post.node.edge_media_to_tagged_user.edges.length
-                                                  ? post.node.edge_media_to_tagged_user.edges.map((taggedUser) => {
-                                                        return {
-                                                            user: {
-                                                                full_name: taggedUser.node.user.full_name,
-                                                                id: taggedUser.node.user.id,
-                                                                is_verified: taggedUser.node.user.is_verified,
-                                                                profile_pic_url: taggedUser.node.user.profile_pic_url,
-                                                                username: taggedUser.node.user.username,
-                                                            },
-                                                            x: taggedUser.node.x,
-                                                            y: taggedUser.node.y,
-                                                        };
-                                                    })
-                                                  : [],
-                                          }
-                                        : {}),
-                                };
+                    switch (this.scrapeType) {
+                        case 'user':
+                        case 'hashtag':
+                        case 'location': {
+                            const description = post.node.edge_media_to_caption.edges.length
+                                ? post.node.edge_media_to_caption.edges[0].node.text
+                                : '';
+                            const hashtags = description.match(/(#\w+)/g);
+                            const mentions = description.match(/(@\w+)/g);
+                            const item: PostCollector = {
+                                id: post.node.id,
+                                shortcode: post.node.shortcode,
+                                type: post.node.__typename,
+                                is_video: post.node.is_video,
+                                ...(post.node.is_video ? { video_url: post.node.video_url } : {}),
+                                dimension: post.node.dimensions,
+                                display_url: post.node.display_url,
+                                thumbnail_src: post.node.thumbnail_src,
+                                owner: post.node.owner,
+                                description,
+                                comments: post.node.edge_media_to_comment.count,
+                                likes: post.node.edge_media_preview_like.count,
+                                ...(post.node.is_video ? { views: post.node.video_view_count } : {}),
+                                comments_disabled: post.node.comments_disabled,
+                                taken_at_timestamp: post.node.taken_at_timestamp,
+                                location: post.node.location,
+                                hashtags: hashtags || [],
+                                mentions: mentions || [],
+                                ...(this.scrapeType === 'user'
+                                    ? {
+                                          tagged_users: post.node.edge_media_to_tagged_user.edges.length
+                                              ? post.node.edge_media_to_tagged_user.edges.map((taggedUser) => {
+                                                    return {
+                                                        user: {
+                                                            full_name: taggedUser.node.user.full_name,
+                                                            id: taggedUser.node.user.id,
+                                                            is_verified: taggedUser.node.user.is_verified,
+                                                            profile_pic_url: taggedUser.node.user.profile_pic_url,
+                                                            username: taggedUser.node.user.username,
+                                                        },
+                                                        x: taggedUser.node.x,
+                                                        y: taggedUser.node.y,
+                                                    };
+                                                })
+                                              : [],
+                                      }
+                                    : {}),
+                            };
 
-                                this.cbCollector(cb, item);
+                            this.cbCollector(cb, item);
 
-                                break;
-                            }
-                            case 'comments': {
-                                const item: PostCollector = {
-                                    id: post.node.id,
-                                    text: post.node.text,
-                                    created_at: post.node.created_at,
-                                    did_report_as_spam: post.node.did_report_as_spam,
-                                    owner: post.node.owner,
-                                    likes: post.node.edge_liked_by.count,
-                                    comments: post.node.edge_threaded_comments.count,
-                                };
-
-                                this.cbCollector(cb, item);
-                                break;
-                            }
-                            case 'likers':
-                            case 'followers':
-                            case 'following': {
-                                const item: PostCollector = {
-                                    id: post.node.id,
-                                    username: post.node.username,
-                                    full_name: post.node.full_name,
-                                    profile_pic_url: post.node.profile_pic_url,
-                                    is_private: post.node.is_private,
-                                    is_verified: post.node.is_verified,
-                                };
-
-                                this.cbCollector(cb, item);
-                                break;
-                            }
-                            default:
-                                break;
+                            break;
                         }
+                        case 'comments': {
+                            const item: PostCollector = {
+                                id: post.node.id,
+                                text: post.node.text,
+                                created_at: post.node.created_at,
+                                did_report_as_spam: post.node.did_report_as_spam,
+                                owner: post.node.owner,
+                                likes: post.node.edge_liked_by.count,
+                                comments: post.node.edge_threaded_comments.count,
+                            };
+
+                            this.cbCollector(cb, item);
+                            break;
+                        }
+                        case 'likers':
+                        case 'followers':
+                        case 'following': {
+                            const item: PostCollector = {
+                                id: post.node.id,
+                                username: post.node.username,
+                                full_name: post.node.full_name,
+                                profile_pic_url: post.node.profile_pic_url,
+                                is_private: post.node.is_private,
+                                is_verified: post.node.is_verified,
+                            };
+
+                            this.cbCollector(cb, item);
+                            break;
+                        }
+                        default:
+                            break;
                     }
                 },
                 () => {
