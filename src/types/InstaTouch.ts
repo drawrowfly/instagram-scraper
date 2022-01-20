@@ -129,4 +129,5 @@ export interface Result {
     zip?: string;
     json?: string;
     csv?: string;
+    auth_error?: boolean;
 }

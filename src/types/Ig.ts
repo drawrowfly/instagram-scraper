@@ -20,9 +20,9 @@ export interface UserMetaFromWebApi {
 }
 
 export interface PostMetaFromWebApi {
-    graphql: {
+    items: {
         shortcode_media: PostMeta;
-    };
+    }[];
 }
 
 export interface ApiV2Response<T> {

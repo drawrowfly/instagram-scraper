@@ -108,6 +108,8 @@ export class InstaTouch {
 
     private csrfToken: string;
 
+    private auth_error: boolean;
+
     constructor({
         url,
         download = false,
@@ -168,6 +170,7 @@ export class InstaTouch {
         this.id = '';
         this.hasNextPage = false;
         this.endCursor = endCursor as string;
+        this.auth_error = false;
     }
 
     /**
@@ -239,6 +242,13 @@ export class InstaTouch {
 
             try {
                 const response = await rp(options);
+                if (response.headers['content-type'].indexOf('text/html') > -1) {
+                    if (response.body.indexOf('AuthLogin') > -1) {
+                        this.auth_error = true;
+                    }
+                    throw new Error(`Wrong response content type! Received: ${response.headers['content-type']} Expected: application/json`);
+                }
+
                 if (this.timeout) {
                     setTimeout(() => {
                         resolve(response.body);
@@ -304,20 +314,30 @@ export class InstaTouch {
         }
 
         if (CONST.startFromWebPage.indexOf(this.scrapeType) > -1) {
-            await this.extractData();
+            try {
+                await this.extractData();
+            } catch {
+                //
+            }
         }
 
         if (CONST.startFromWebApi.indexOf(this.scrapeType) > -1) {
-            const user = await this.getUserMeta(this.url);
-            this.id = user.graphql.user.id;
+            try {
+                const user = await this.getUserMeta(this.url);
+                this.id = user.graphql.user.id;
+            } catch {
+                //
+            }
         }
 
-        if (this.collector.length < this.toCollect) {
-            await this.mainLoop();
-        }
+        if (!this.auth_error) {
+            if (this.collector.length < this.toCollect) {
+                await this.mainLoop();
+            }
 
-        if (this.storeHistory) {
-            await this.storeDownlodProgress();
+            if (this.storeHistory) {
+                await this.storeDownlodProgress();
+            }
         }
         const [json, csv] = await this.saveCollectorData();
 
@@ -329,6 +349,7 @@ export class InstaTouch {
             ...(this.filetype === 'all' ? { json, csv } : {}),
             ...(this.filetype === 'json' ? { json } : {}),
             ...(this.filetype === 'csv' ? { csv } : {}),
+            auth_error: this.auth_error,
         };
     }
 
