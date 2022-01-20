@@ -258,6 +258,11 @@ export class InstaTouch {
                 }
             } catch (error) {
                 if (error.name === 'StatusCodeError') {
+                    if (error.response.headers['content-type'].indexOf('application/json') > -1) {
+                        if (error.response.body.status === 'fail') {
+                            this.auth_error = true;
+                        }
+                    }
                     reject(`Can't find requested data`);
                 } else if (error.name === 'RequestError') {
                     reject(`Request error`);
