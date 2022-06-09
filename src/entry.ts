@@ -40,6 +40,7 @@ const INIT_OPTIONS = {
     endCursor: '',
     zip: false,
     bulk: true,
+    headers: {},
 };
 
 /**

@@ -110,6 +110,8 @@ export class InstaTouch {
 
     private auth_error: boolean;
 
+    private headers: {};
+
     constructor({
         url,
         download = false,
@@ -132,6 +134,7 @@ export class InstaTouch {
         bulk = false,
         historyPath,
         zip = false,
+        headers = {},
     }: // extractVideoUrl = true,
     Constructor) {
         this.zip = zip;
@@ -145,6 +148,7 @@ export class InstaTouch {
         this.storeHistory = cli && store_history;
         this.toCollect = count;
         this.proxy = proxy;
+        this.headers = headers;
         this.session = session;
         this.json2csvParser = new Parser({ flatten: true });
         this.mediaType = mediaType;
@@ -232,6 +236,7 @@ export class InstaTouch {
                     'Upgrade-Insecure-Requests': 1,
                     ...(session ? { cookie: session } : {}),
                     ...headers,
+                    ...this.headers,
                 },
                 ...(json ? { json: true } : {}),
                 ...(gzip ? { gzip: true } : {}),
@@ -240,6 +245,7 @@ export class InstaTouch {
                 ...(proxy.proxy && !proxy.socks ? { proxy: `http://${proxy.proxy}/` } : {}),
             } as OptionsWithUri;
 
+            console.log(options);
             try {
                 const response = await rp(options);
                 if (response.headers['content-type'].indexOf('text/html') > -1) {

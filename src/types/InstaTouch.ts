@@ -26,6 +26,7 @@ export interface Constructor {
     scrapeType: ScrapeType;
     by_user_id?: boolean;
     store_history?: boolean;
+    headers: {};
     userAgent: string;
     test?: boolean;
     noWaterMark?: boolean;
@@ -51,6 +52,7 @@ export interface Options {
     download?: boolean;
     asyncDownload?: number;
     filepath?: string;
+    headers?: {};
     filetype?: string;
     progress?: boolean;
     count?: number;
