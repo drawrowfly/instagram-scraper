@@ -108,16 +108,7 @@ const promiseScraper = async (input: string, type: ScrapeType, options?: Options
             break;
         case 'followers':
         case 'following':
-            if (Array.isArray(options?.session)) {
-                if (!options?.session.length) {
-                    throw 'This method is working only with the active session. Exampe: sessionid=1231231313';
-                }
-            } else {
-                options!.session = options!.session && [options!.session as string];
-            }
-            if (!options?.session) {
-                throw 'This method is working only with the active session. Exampe: sessionid=1231231313';
-            }
+            options!.session = options!.session && [options!.session as string];
             validateFullProfileUrl(constructor, input);
 
             break;
