@@ -63,12 +63,12 @@ const proxyFromFile = async (file: string) => {
 const validateFullProfileUrl = (constructor: Constructor, input: string) => {
     if (!/^https:\/\/www.instagram.com\/[\w.+]+\/?$/.test(input)) {
         if (/instagram.com\/(p|reel)\//.test(input)) {
-            constructor.url = `https://www.instagram.com/${input.split(/instagram.com\/(p|reel)\//)[1].split('/')[1]}/?__a=1`;
+            constructor.url = `https://www.instagram.com/${input.split(/instagram.com\/(p|reel)\//)[1].split('/')[1]}/?__a=1&__d=dis`;
         } else {
-            constructor.url = `https://www.instagram.com/${input}/?__a=1`;
+            constructor.url = `https://www.instagram.com/${input}/?__a=1&__d=dis`;
         }
     } else {
-        constructor.url = `${input}?__a=1`;
+        constructor.url = `${input}?__a=1&__d=dis`;
         constructor.input = input.split('instagram.com/')[1].split('/')[0];
     }
 };
@@ -76,12 +76,12 @@ const validateFullProfileUrl = (constructor: Constructor, input: string) => {
 const validatePostUrl = (constructor: Constructor, input: string) => {
     if (!/(https?:\/\/(www\.)?)?instagram\.com(\/(p|reel)\/[\w-]+\/?)/.test(input)) {
         if (/instagram.com\/(p|reel)\//.test(input)) {
-            constructor.url = `https://www.instagram.com/p/${input.split(/instagram.com\/(p|reel)\//)[1].split('/')[1]}/?__a=1`;
+            constructor.url = `https://www.instagram.com/p/${input.split(/instagram.com\/(p|reel)\//)[1].split('/')[1]}/?__a=1&__d=dis`;
         } else {
-            constructor.url = `https://www.instagram.com/p/${input}/?__a=1`;
+            constructor.url = `https://www.instagram.com/p/${input}/?__a=1&__d=dis`;
         }
     } else {
-        constructor.url = `${input}?__a=1`;
+        constructor.url = `${input}?__a=1&__d=dis`;
         constructor.input = input.split(/instagram.com\/(p|reel)\//)[2].split('/')[0];
     }
 };
@@ -97,10 +97,10 @@ const promiseScraper = async (input: string, type: ScrapeType, options?: Options
             validateFullProfileUrl(constructor, input);
             break;
         case 'hashtag':
-            constructor.url = `https://www.instagram.com/explore/tags/${input}/?__a=1`;
+            constructor.url = `https://www.instagram.com/explore/tags/${input}/?__a=1&__d=dis`;
             break;
         case 'location':
-            constructor.url = `https://www.instagram.com/explore/locations/${input}/?__a=1`;
+            constructor.url = `https://www.instagram.com/explore/locations/${input}/?__a=1&__d=dis`;
             break;
         case 'comments':
         case 'likers':
