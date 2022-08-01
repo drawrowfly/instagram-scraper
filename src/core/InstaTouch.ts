@@ -245,7 +245,6 @@ export class InstaTouch {
                 ...(proxy.proxy && !proxy.socks ? { proxy: `http://${proxy.proxy}/` } : {}),
             } as OptionsWithUri;
 
-            console.log(options);
             try {
                 const response = await rp(options);
                 if (response.headers['content-type'].indexOf('text/html') > -1) {
