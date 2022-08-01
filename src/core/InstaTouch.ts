@@ -245,6 +245,7 @@ export class InstaTouch {
                 ...(proxy.proxy && !proxy.socks ? { proxy: `http://${proxy.proxy}/` } : {}),
             } as OptionsWithUri;
 
+            console.log(options);
             try {
                 const response = await rp(options);
                 if (response.headers['content-type'].indexOf('text/html') > -1) {
@@ -544,18 +545,18 @@ export class InstaTouch {
     private get grapQlQuery() {
         switch (this.scrapeType) {
             case 'user':
-                return JSON.stringify({ id: this.id, first: 50, after: this.endCursor });
+                return JSON.stringify({ id: this.id, first: this.bulk ? 50 : this.toCollect, after: this.endCursor });
             case 'hashtag':
-                return JSON.stringify({ tag_name: this.input, show_ranked: false, first: 50, after: this.endCursor });
+                return JSON.stringify({ tag_name: this.input, show_ranked: false, first: this.bulk ? 50 : this.toCollect, after: this.endCursor });
             case 'location':
-                return JSON.stringify({ id: this.input, first: 50, after: this.endCursor });
+                return JSON.stringify({ id: this.input, first: this.bulk ? 50 : this.toCollect, after: this.endCursor });
             case 'comments':
-                return JSON.stringify({ shortcode: this.input, first: 50, after: this.endCursor });
+                return JSON.stringify({ shortcode: this.input, first: this.bulk ? 50 : this.toCollect, after: this.endCursor });
             case 'likers':
                 return JSON.stringify({
                     shortcode: this.input,
                     include_reel: true,
-                    first: 50,
+                    first: this.bulk ? 50 : this.toCollect,
                     after: this.endCursor,
                 });
             case 'followers':
@@ -564,7 +565,7 @@ export class InstaTouch {
                     id: this.id,
                     include_reel: true,
                     fetch_mutual: false,
-                    first: 50,
+                    first: this.bulk ? 50 : this.toCollect,
                     after: this.endCursor,
                 });
             default:
