@@ -135,10 +135,11 @@ export class InstaTouch {
         historyPath,
         zip = false,
         headers = {},
-    }: // extractVideoUrl = true,
-    Constructor) {
+        user_id = false,
+    }: Constructor) {
         this.zip = zip;
         this.url = url;
+        this.id = user_id ? input : '';
         this.download = download;
         this.filepath = process.env.SCRAPING_FROM_DOCKER ? '/usr/app/files' : filepath || '';
         this.fileName = filename;
@@ -171,7 +172,6 @@ export class InstaTouch {
         this.cli = cli;
         // Important!!! If you change user agents, hash keys will be invalid
         this.userAgent = userAgent || CONST.userAgent;
-        this.id = '';
         this.hasNextPage = false;
         this.endCursor = endCursor as string;
         this.auth_error = false;
@@ -333,8 +333,10 @@ export class InstaTouch {
 
         if (CONST.startFromWebApi.indexOf(this.scrapeType) > -1) {
             try {
-                const user = await this.getUserMeta(this.url);
-                this.id = user.graphql.user.id;
+                if (!this.id) {
+                    const user = await this.getUserMeta(this.url);
+                    this.id = user.graphql.user.id;
+                }
             } catch {
                 //
             }
@@ -593,11 +595,13 @@ export class InstaTouch {
     private async extractData(): Promise<any> {
         switch (this.scrapeType) {
             case 'user': {
-                const result = await this.extractJson<User>();
-                try {
-                    this.id = result.graphql.user.id;
-                } catch (error) {
-                    throw new Error(`Can't scrape date. Please try again or submit issue to the github`);
+                if (!this.id) {
+                    const result = await this.extractJson<User>();
+                    try {
+                        this.id = result.graphql.user.id;
+                    } catch (error) {
+                        throw new Error(`Can't scrape date. Please try again or submit issue to the github`);
+                    }
                 }
                 break;
             }

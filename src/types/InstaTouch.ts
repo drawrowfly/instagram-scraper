@@ -41,6 +41,7 @@ export interface Constructor {
     endCursor?: string;
     historyPath?: string;
     extractVideoUrl?: boolean;
+    user_id?: boolean;
 }
 
 export interface Options {
@@ -64,6 +65,7 @@ export interface Options {
     asyncBulk?: number;
     bulk?: boolean;
     extractVideoUrl?: boolean;
+    user_id?: boolean;
 }
 
 export interface PostCollector {
