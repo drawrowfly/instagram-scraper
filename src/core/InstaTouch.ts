@@ -357,6 +357,7 @@ export class InstaTouch {
             count: this.itemCount,
             has_more: this.hasNextPage,
             end_cursor: this.endCursor,
+            id: this.id,
             collector: this.collector,
             ...(this.filetype === 'all' ? { json, csv } : {}),
             ...(this.filetype === 'json' ? { json } : {}),

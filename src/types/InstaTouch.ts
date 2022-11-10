@@ -131,6 +131,7 @@ export interface Result {
     collector: PostCollector[];
     original: Edges;
     zip?: string;
+    id?: string;
     json?: string;
     csv?: string;
     auth_error?: boolean;
