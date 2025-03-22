@@ -32,7 +32,8 @@ const startScraper = async (argv) => {
         if (argv.async) {
             argv.asyncBulk = argv.async;
         }
-        argv.bulk = false;
+        // argv.bulk is set by yargs from the CLI --bulk flag
+        // we don't need to set it here as it's already available
         const scraper = await IGScraper[argv.scrapeType](argv.input, argv);
 
         if (scraper.zip) {
@@ -87,6 +88,12 @@ yargs
             alias: 'c',
             default: 40,
             describe: 'Number of post to scrape',
+        },
+        bulk: {
+            alias: 'b',
+            boolean: true,
+            default: false,
+            describe: 'Enable bulk mode to retrieve more than 50 posts (needed for large counts)',
         },
         mediaType: {
             alias: 'm',
